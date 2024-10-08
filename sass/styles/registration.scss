@@ -1,0 +1,16 @@
+@import "../global.scss";
+
+main {
+    position: relative;
+    height: 100vh;
+
+    .main-section {
+        .patient {
+            background-color: tint-color(rgb(235, 158, 136), 25%);
+        }
+
+        .therapist {
+            background-color: tint-color(rgb(249, 219, 195), 25%);
+        }
+    }
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html data-bs-theme="light">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>TheraAid | Register As</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/registration.css'>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md bg-primary-subtle">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
+                </a>
+                <button class="navbar-toggler rounded-pill shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-start bg-primary-subtle" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
+                        </h5>
+                        <button type="button" class="btn-close shadow" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-md-3">
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold" href="./index.html">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold" aria-current="page" href="#">Conditions and Treatment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold" href="#">About Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="main-section h-100">
+            <div class="row h-100">
+                <div class="col-md patient d-flex justify-content-center align-items-center gap-5 flex-column p-4">
+                    <img src="./assets/img/Patient.png" alt="Patient.png" class="img-fluid">
+                    <a class="btn btn-primary fw-semibold shadow rounded-5 px-5" href="./PatientRegistration.php">Register as Patient</a>
+                </div>
+                <div class="col-md therapist d-flex justify-content-center align-items-center gap-5 flex-column p-4">
+                    <img src="./assets/img/Therapist.png" alt="Therapist.png" class="img-fluid">
+                    <a class="btn btn-primary fw-semibold shadow rounded-5 px-5" href="./TherapistRegistration2.php">Register as Therapist</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src='./node_modules/bootstrap/dist/js/bootstrap.bundle.js'></script>
+</body>
+</html>

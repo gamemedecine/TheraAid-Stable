@@ -1,0 +1,74 @@
+@use "sass:map";
+
+@import "../global.scss";
+
+html, body {
+    overflow-y: auto;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+
+        background-image: url("../img/background.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        filter: brightness(.65);
+        z-index: -1;
+    }
+}
+
+main {
+    position: relative;
+
+    .main-section {
+        height: auto;
+        border-radius: $border-radius-xxl;
+        transition: border-radius 0.2s ease-in-out;
+
+        @media screen and (max-width: map.get($grid-breakpoints, lg)) {
+            border-radius: 0;
+            height: 100%;
+        }
+
+        .card {
+            width: 16rem;
+        }
+
+        @media screen and (max-width: map.get($grid-breakpoints, sm)) {
+            .card {
+                width: 100%;
+            }
+        }
+    }
+
+    .patient-view-section {
+        height: auto;
+        border-radius: $border-radius-xxl;
+        transition: border-radius 0.2s ease-in-out;
+
+        @media screen and (max-width: map.get($grid-breakpoints, sm)) {
+            border-radius: 0;
+            height: 100vh;
+        }
+
+        @media screen and (max-width: map.get($grid-breakpoints, sm)) {
+            .schedule-btn {
+                width: 100%;
+            }
+        }
+    }
+
+    .patient-appointment-section {
+        height: auto;
+        border-radius: $border-radius-xxl;
+        transition: border-radius 0.2s ease-in-out;
+
+        @media screen and (max-width: map.get($grid-breakpoints, sm)) {
+            border-radius: 0;
+            height: 100vh;
+        }
+    }
+}
