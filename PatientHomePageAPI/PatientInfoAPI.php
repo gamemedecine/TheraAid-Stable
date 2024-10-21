@@ -42,7 +42,7 @@ if (isset($DcodeJSON["PID"])) {
             "barangay" => $var_rec["barangay"],
             "asstment" => $var_rec["assement_photo"],
             "medHstry" => $var_rec["mid_hisotry_photo"],
-            "PtntID" => $var_rec["patient_id"]
+            "PtntID" => $var_rec["patient_id"],
 
         ]);
     } else {

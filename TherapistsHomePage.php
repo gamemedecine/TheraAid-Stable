@@ -50,7 +50,7 @@ $var_Etime = "";
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./TherapistsHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
@@ -68,7 +68,7 @@ $var_Etime = "";
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
@@ -86,13 +86,13 @@ $var_Etime = "";
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
-                                    <small>Chat </small>
+                                    <small>Chat</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>
@@ -148,22 +148,6 @@ $var_Etime = "";
                                 <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Sat" id="saturday">
                                 <label class="form-check-label" for="saturday">Saturday</label>
                             </div>
-                            
-                            <!-- <div class="Days">
-                                <input type="checkbox" name="CheckBoxDay[]" value="Mon" id="monday">
-                                <label for="monday">Monday</label>
-                                <input type="checkbox" name="CheckBoxDay[]" value="Tue" id="tuesday">
-                                <label for="tuesday">Tuesday</label>
-                                <input type="checkbox" name="CheckBoxDay[]" value="Wed" id="wednesday">
-                                <label for="wednesday">Wednesday</label>
-                                <input type="checkbox" name="CheckBoxDay[]" value="THU" id="thursday">
-                                <label for="thursday">Thursday</label>
-                                <input type="checkbox" name="CheckBoxDay[]" value="Fri" id="friday">
-                                <label for="friday">Friday</label>
-                                <input type="checkbox" name="CheckBoxDay[]" value="Sat" id="saturday">
-                                <label for="saturday">Saturday</label>
-                            </div> -->
-
                         </div>
 
                         <div class="mb-3">
@@ -244,7 +228,9 @@ $var_Etime = "";
                             <span id="ID"></span>
                         </label>
                     </div>
+                    
                     <hr>
+                    
                     <div class="TherapistScghed">
                         <div id="TimeBTN" class="TimeBTN d-flex justify-content-center align-items-center gap-1 mb-3">
                             <button id="BtnAM" class="btn btn-primary px-5 rounded-5 w-100">AM</button>
@@ -261,58 +247,22 @@ $var_Etime = "";
                             </div>
                         </div>
                         <button type="button" class="btn btn-primary px-5 rounded-5 w-100" data-bs-target="#add-schedule-modal" data-bs-toggle="modal">Add Schedule</button>
-                        <!-- <a style="width: 500px; height:200px;" href="TherapistsSched.php">ADD SCHEDULE</a> -->
                     </div>
 
                 </div>
 
-                <div class="col-lg"></div>
+                <div class="col-lg">
+
+                    <h3>Near Me Patients</h3>
+                    <hr>
+
+                    <div id="patients" class="d-flex justify-content-center justify-content-lg-start align-items-start flex-wrap p-3 gap-3 rounded shadow" style="height: 740px; overflow-y: auto;">
+
+                    </div>
+
+                </div>
             </div>
         </section>
-
-        <!-- <div class="container-fluid">
-            <div class="white-box">
-                <div class="flex-container">
-                    <div class="box">
-                        <div class="Details-box  rounded">
-                            <div class="TherapistInfo rounded">
-                                <img id="ProfPic" class="border rounded-circle" src="" alt="Profile Picture">
-                                <p id="fllname"></p>
-                                <p id="case_handled"></p>
-                                <p id="City"></p>
-                                <p id="Radius"></p>
-                                <p id="ID"></p>
-
-                                <p>Rating: </p>
-                            </div>
-                            <div class="TherapistScghed">
-                                <div id="TimeBTN" class="TimeBTN">
-                                    <button id="BtnAM">AM</button>
-                                    <button id="BtnPM">PM</button>
-                                </div>
-                                <div class="AM" id="AM-schedule">
-                                    <div class="SchedButton">
-                                        <p id="AM"></p>
-                                    </div>
-                                </div>
-                                <div class="PM" id="PM-schedule" style="display: none;">
-                                    <div class="SchedButton"></div>
-                                </div>
-                                <a style="width: 500px; height:200px;" href="TherapistsSched.php">
-                                    ADD SCHEDULE
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="hi">
-                            <select name="Slct_Kilometers">
-                                <option value="">--- Filter Distance ----</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
 
     </main>
 
@@ -453,8 +403,6 @@ $var_Etime = "";
                                         })
                                     });
 
-                                    // console.log(response.text());
-
                                     showToast("Your schedule has been created!");
 
                                     if (button.hasAttribute("data-bs-dismiss")) {
@@ -491,7 +439,7 @@ $var_Etime = "";
 
         async function suway() {
             try {
-                const response = await fetch("./HomePageAPI/TheraPistsAPI.php", {
+                let response = await fetch("./HomePageAPI/TheraPistsAPI.php", {
                     method: "POST",
                     body: JSON.stringify({
                         'ID': "<?php echo $_SESSION["sess_id"]; ?>"
@@ -506,13 +454,45 @@ $var_Etime = "";
                 document.getElementById("fllname").innerText = fullname;
                 document.getElementById("ProfPic").src = `./UserFiles/ProfilePictures/${data.ProfPic}`;
                 document.getElementById("ProfPic").alt = `./UserFiles/ProfilePictures/${data.ProfPic}`;
-                document.getElementById("case_handled").innerText = data.case;
+                document.getElementById("case_handled").innerText = data.case.split(",").map((item) => {
+                    return " " + item;
+                }).toString();
                 document.getElementById("City").innerText = data.city;
                 document.getElementById("ID").innerText = TherapID;
 
                 GetSched(TherapID);
 
-                SessionPTID(TherapID)
+                SessionPTID(TherapID);
+
+                const formData = new FormData();
+                formData.append("city", " Mandaue City");
+                formData.append("barangay", "Banilad");
+                formData.append("case", "Case 1,Case 2,Case 3,Case 4,Case 5,Case 6");
+
+                response = await fetch("./TherapistHomePageAPI/NearMePatients.php", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const results = await response.json();
+
+                const patientsListContainer = document.getElementById("patients");
+
+                for (result of results) {
+                    const patientID = result.patientID;
+                    const userID = result.userID;
+                    const cases = result.cases;
+                    const caseDesc = result.caseDesc;
+                    const city = result.city;
+                    const barangay = result.barangay;
+                    const firstName = result.firstName;
+                    const middleName = result.middleName;
+                    const lastName = result.lastName;
+                    const fullName = `${firstName} ${middleName}, ${lastName}`;
+                    const profilePic = result.profilePic;
+
+                    patientsListContainer.appendChild(createPatientCard(profilePic, fullName, cases, city, barangay));
+                }
 
             } catch (error) {
                 console.error('Error:', error);
@@ -578,6 +558,52 @@ $var_Etime = "";
                 document.getElementById("AM").innerHTML = "An error occurred while fetching schedules.";
                 document.getElementById("PM").innerHTML = "An error occurred while fetching schedules.";
             }
+        }
+
+        function createPatientCard(imageSrc, name, cases, city, barangay) {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'card shadow rounded-5';
+
+            const img = document.createElement('img');
+            img.src = `./UserFiles/ProfilePictures/${imageSrc}`;
+            img.className = 'card-img-top';
+            img.alt = imageSrc;
+            img.style.height = '250px';
+            img.style.width = 'auto';
+            img.style.objectFit = 'cover';
+
+            cardDiv.appendChild(img);
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+
+            const cardTitle = document.createElement('h6');
+            cardTitle.className = 'card-title';
+            cardTitle.textContent = name;
+
+            const caseInfo = document.createElement('small');
+            caseInfo.className = 'mb-1';
+            caseInfo.innerHTML = `<b>Case handled: </b>${cases}`;
+
+            const cityBarangay = document.createElement('small');
+            cityBarangay.className = 'mb-1';
+            cityBarangay.innerHTML = `<b>City & Barangay: </b> ${city}, ${barangay}`;
+
+            const button = document.createElement('a');
+            button.href = '#';
+            button.className = 'btn btn-primary btn-sm px-5 rounded-5 w-100 fw-semibold mt-2';
+            button.textContent = 'View Patient';
+
+            cardBody.appendChild(cardTitle);
+            cardBody.appendChild(caseInfo);
+            cardBody.appendChild(document.createElement('br'));
+            cardBody.appendChild(cityBarangay);
+            cardBody.appendChild(document.createElement('br'));
+            cardBody.appendChild(button);
+
+            cardDiv.appendChild(cardBody);
+
+            return cardDiv;
         }
 
         function SessionPTID(id) {

@@ -18,20 +18,12 @@ $var_day = "";
 
 $isSuccess = false;
 
-// echo $_SESSION["sess_PtntID"];
-
 $var_Apdata = "SELECT * FROM tbl_sched WHERE shed_id=" . $var_SchedID;
 $var_schedqry = mysqli_query($var_conn, $var_Apdata);
 
 if (mysqli_num_rows($var_schedqry) > 0) {
     $var_rec = mysqli_fetch_array($var_schedqry);
     $var_day = $var_rec["day"];
-    // echo "<p>Day Selected: " . $var_rec["day"] . "</p>";
-    // echo "<p>Startinng Time: " . $var_rec["start_time"] . "</p>";
-    // echo "<p>Time Finished: " . $var_rec["end_time"] . "</p>";
-    // echo "<p>Note: " . $var_rec["note"] . "</p>";
-    // echo "Sched_id: " . $var_rec["shed_id"];
-    // echo " Therapists: " . $var_rec["therapists_id"];
     $var_SchedID = $var_rec["shed_id"];
     $var_PTID = $var_rec["therapists_id"];
     $var_PtntID = $_SESSION["sess_PtntID"];
@@ -107,14 +99,14 @@ if (isset($_POST["BtnSubmit"])) {
 
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
-                            <li class="nav-item">
+                        <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PATAppointmentList.php">
                                     <i class="bi bi-calendar-check fs-3"></i><br>
                                     <small>Appointment</small>
                                 </a>
@@ -138,7 +130,7 @@ if (isset($_POST["BtnSubmit"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./ProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>

@@ -32,6 +32,7 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
 
 <!DOCTYPE html>
 <html data-bs-theme="light">
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -39,6 +40,7 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/TherapistHomePage.css'>
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-primary-subtle">
@@ -55,7 +57,8 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
 
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
-                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
+                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64"
+                                height="64">
                         </h5>
                         <button type="button" class="btn-close shadow" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
@@ -82,7 +85,7 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
@@ -100,13 +103,13 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
-                                    <small>Chat </small>
+                                    <small>Chat</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>
@@ -125,34 +128,38 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
     </header>
 
     <main class="py-0 py-sm-3">
-        
+
         <section class="main-section bg-secondary-subtle py-3 py-sm-5 px-3 px-sm-5 shadow container">
             <div class="overflow-x-auto">
                 <form method="POST" action="TherapistsAppointment.php" class="mb-3">
                     <div class="d-flex justify-content-start align-items-center gap-3 mb-2 flex-wrap">
-    
+
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="P" name="response" id="pending" <?php if ($var_filter == "P") echo "checked"; ?> >
+                            <input class="form-check-input" type="radio" value="P" name="response" id="pending" <?php if ($var_filter == "P")
+                                echo "checked"; ?>>
                             <label class="form-check-label" for="pending">
                                 Pending
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="R" name="response" id="responded" <?php if ($var_filter == "R") echo "checked"; ?> >
+                            <input class="form-check-input" type="radio" value="R" name="response" id="responded" <?php if ($var_filter == "R")
+                                echo "checked"; ?>>
                             <label class="form-check-label" for="responded">
                                 Responded
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="O" name="response" id="ongoing" <?php if ($var_filter == "O") echo "checked"; ?> >
+                            <input class="form-check-input" type="radio" value="O" name="response" id="ongoing" <?php if ($var_filter == "O")
+                                echo "checked"; ?>>
                             <label class="form-check-label" for="ongoing">
                                 Ongoing
                             </label>
                         </div>
-                        <input type="submit" name="BtnFilter" value="Filter" class="btn btn-primary px-5 rounded-5 btn-sm">
+                        <input type="submit" name="BtnFilter" value="Filter"
+                            class="btn btn-primary px-5 rounded-5 btn-sm">
                     </div>
                 </form>
-            
+
                 <table class="table table-primary table-striped rounded-5">
                     <tr>
                         <th>Number Of Session</th>
@@ -161,16 +168,16 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
                         <th>Status</th>
                         <th>Date Created</th>
                         <th>Rate</th>
-                        <?php if ($var_filter == "P") : ?>
+                        <?php if ($var_filter == "P"): ?>
                             <th>Patient Profile</th>
                         <?php endif; ?>
-                        <?php if ($var_filter == "R") : ?>
+                        <?php if ($var_filter == "R"): ?>
                             <th>Action</th>
                         <?php endif; ?>
                     </tr>
-                    
+
                     <?php if ($var_qry && mysqli_num_rows($var_qry) > 0): ?>
-                        <?php while ($var_rec = mysqli_fetch_array($var_qry)) : ?>
+                        <?php while ($var_rec = mysqli_fetch_array($var_qry)): ?>
                             <tr>
                                 <td><?php echo $var_rec["num_of_session"]; ?></td>
                                 <td><?php echo $var_rec["payment_type"]; ?></td>
@@ -178,19 +185,24 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
                                 <td><?php echo $var_rec["status"]; ?></td>
                                 <td><?php echo $var_rec["Date_creadted"]; ?></td>
                                 <td><?php echo $var_rec["rate"]; ?></td>
-                                <?php if ($var_filter == "R"){ ?>
+                                <?php if ($var_filter == "R") { ?>
                                     <td>
                                         <form method="POST" action="TherapistsAppointment.php">
-                                            <input type="hidden" name="appointment_id" value="<?php echo $var_rec['appointment_id']; ?>">
-                                            <button type="submit" name="cancelAppointment" class="btn btn-primary px-5 rounded-5 w-100" value="<?php echo $_SESSION["sess_PTID"]; ?>">Cancel</button>
+                                            <input type="hidden" name="appointment_id"
+                                                value="<?php echo $var_rec['appointment_id']; ?>">
+                                            <button type="submit" name="cancelAppointment"
+                                                class="btn btn-primary px-5 rounded-5 w-100 btn-sm"
+                                                value="<?php echo $_SESSION["sess_PTID"]; ?>">Cancel</button>
                                         </form>
                                     </td>
                                 <?php } ?>
-                                <?php if ($var_filter == "P"){ ?>
+                                <?php if ($var_filter == "P") { ?>
                                     <td>
                                         <form method="POST" action="TherapistsAppointment.php">
-                                            <input type="hidden" name="appointment_id" value="<?php echo $var_rec['appointment_id']; ?>">
-                                            <button type="submit" name="PatientProf" class="btn btn-primary px-5 rounded-5 w-100" value="<?php echo $var_rec['patient_id']; ?>">View</button>
+                                            <input type="hidden" name="appointment_id"
+                                                value="<?php echo $var_rec['appointment_id']; ?>">
+                                            <button type="submit" name="PatientProf" class="btn btn-primary px-5 rounded-5 w-100 btn-sm"
+                                                value="<?php echo $var_rec['patient_id']; ?>">View</button>
                                         </form>
                                     </td>
                                 <?php } ?>
@@ -205,8 +217,9 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
             </div>
         </section>
 
-    </main>    
+    </main>
 
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 </body>
+
 </html>

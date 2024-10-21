@@ -1,6 +1,36 @@
 <?php
 
+include "./database.php";
+
 session_start();
+
+$var_rrminder;
+
+$var_remind = "SELECT 
+        TB.reminder_date, 
+        TB.reminder_messsage,
+        TB.reminder_status
+    FROM tbl_reminder TB 
+    JOIN tbl_appointment AP ON AP.appointment_id = TB.appointment_id JOIN tbl_patient P ON P.patient_id = AP.patient_id 
+    JOIN tbl_user U ON U.User_id = P.user_id WHERE P.user_id=" . $_SESSION["sess_id"];
+
+$var_Rqry = mysqli_query($var_conn, $var_remind);
+$var_message = "";
+$var_sampleDate = "2024-10-12"; // EXAMPLE
+$var_currentDate = date($var_sampleDate); //date('Y-m-d');
+
+if (mysqli_num_rows($var_Rqry) > 0) {
+    $var_Rrec = mysqli_fetch_array($var_Rqry);
+    $var_Date = explode(",", $var_Rrec["reminder_date"]);
+
+    if (in_array($var_currentDate, $var_Date)) {
+        $var_message = $var_Rrec["reminder_messsage"];
+    } else {
+        $var_message = "No Session for today";
+    }
+} else {
+    $var_message = "";
+}
 
 ?>
 
@@ -45,7 +75,7 @@ session_start();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PATAppointmentList.php">
                                     <i class="bi bi-calendar-check fs-3"></i><br>
                                     <small>Appointment</small>
                                 </a>
@@ -57,19 +87,19 @@ session_start();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PATnotif.php">
                                     <i class="bi bi-bell fs-3"></i><br>
                                     <small>Notification</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
                                     <small>Chat</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./ProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>
@@ -102,15 +132,15 @@ session_start();
                     <div class="mb-3">
                         <label class="mb-1">
                             <b>Full Name:</b>
-                            <span id="fllname"></span>
+                            <span id="fllname" class="text-capitalize"></span>
                         </label><br>
                         <label class="mb-1">
                             <b>Case:</b>
-                            <span id="case"></span>
+                            <span id="case" class="text-capitalize"></span>
                         </label><br>
                         <label class="mb-1">
-                            <b>Address</b>
-                            <span id="City"></span>
+                            <b>Address:</b>
+                            <span id="City" class="text-capitalize"></span>
                         </label>
                     </div>
                     <hr>
@@ -118,7 +148,7 @@ session_start();
                     <div class="reminder d-flex justify-content-start align-items-center flex-column shadow rounded p-3 gap-2" style="height: 250px; overflow-y: auto;">
     
                     </div>
-    
+                            
                 </div>
 
                 <div class="col-lg mt-3 mt-lg-0">
@@ -129,46 +159,6 @@ session_start();
 
                         <div id="PT" class="d-flex justify-content-center justify-content-lg-start align-items-start flex-wrap p-3 gap-3 rounded shadow" style="height: 625px; overflow-y: auto;">
 
-                            <!-- <div class="card shadow rounded" style="width: 16rem;">
-                                <img src="./UserFiles/ProfilePictures/670026d923b2c.jfif" class="card-img-top" style="height: 250px; width: auto; object-fit: cover;" alt="#">
-                                <div class="card-body">
-                                    <h6 class="card-title">Charles Henry Tinoy</h6>
-                                    <label class="mb-1"><b>Case handled: </b></label><br>
-                                    <label class="mb-1"><b>City: </b></label><br>
-                                    <a href="#" class="btn btn-primary btn-sm px-5 rounded-5 w-100 fw-semibold">View Therapist</a>
-                                </div>
-                            </div>
-
-                            <div class="card shadow rounded" style="width: 16rem;">
-                                <img src="./UserFiles/ProfilePictures/670026d923b2c.jfif" class="card-img-top" style="height: 250px; width: auto; object-fit: cover;" alt="#">
-                                <div class="card-body">
-                                    <h6 class="card-title">Charles Henry Tinoy</h6>
-                                    <label class="mb-1"><b>Case handled: </b></label><br>
-                                    <label class="mb-1"><b>City: </b></label><br>
-                                    <a href="#" class="btn btn-primary btn-sm px-5 rounded-5 w-100 fw-semibold">View Therapist</a>
-                                </div>
-                            </div>
-
-                            <div class="card shadow rounded" style="width: 16rem;">
-                                <img src="./UserFiles/ProfilePictures/670026d923b2c.jfif" class="card-img-top" style="height: 250px; width: auto; object-fit: cover;" alt="#">
-                                <div class="card-body">
-                                    <h6 class="card-title">Charles Henry Tinoy</h6>
-                                    <label class="mb-1"><b>Case handled: </b></label><br>
-                                    <label class="mb-1"><b>City: </b></label><br>
-                                    <a href="#" class="btn btn-primary btn-sm px-5 rounded-5 w-100 fw-semibold">View Therapist</a>
-                                </div>
-                            </div>
-
-                            <div class="card shadow rounded" style="width: 16rem;">
-                                <img src="./UserFiles/ProfilePictures/670026d923b2c.jfif" class="card-img-top" style="height: 250px; width: auto; object-fit: cover;" alt="#">
-                                <div class="card-body">
-                                    <h6 class="card-title">Charles Henry Tinoy</h6>
-                                    <label class="mb-1"><b>Case handled: </b></label><br>
-                                    <label class="mb-1"><b>City: </b></label><br>
-                                    <a href="#" class="btn btn-primary btn-sm px-5 rounded-5 w-100 fw-semibold">View Therapist</a>
-                                </div>
-                            </div> -->
-
                         </div>
 
                     </div>
@@ -176,33 +166,6 @@ session_start();
                 </div>
                 
             </div>
-
-            <!-- <div class="container-fluid full-height">
-                <div class="white-box">
-                    <div class="flex-container">
-                        <div class="box">
-                            <div class="Details-box  rounded">
-                                <div class="TherapistInfo">
-                                    <img id="ProfPic" class="border rounded-circle" style="width: 200px; height: 180px;" src="" alt="profile Picture">
-                                    <br><br>
-                                    <p id="fllname"></p>
-                                    <p id="case"></p>
-                                    <p id="City"></p>
-            
-                                </div>
-                            </div>
-                            <div class="hi">
-                                <div id="Therapists" style="padding-left: 20px; padding-top: 50px;">
-                                    <div id="PT">
-            
-                                    </div>
-            
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
 
         </section>
     </main>
@@ -230,29 +193,36 @@ session_start();
                 });
 
                 const data = await response.json();
-                const fullname = `${data.fname} ${data.mname.charAt(0)}. ${data.lname}`;
+                const fullname = `${data.fname} ${data.mname} ${data.lname}`;
 
                 document.getElementById("fllname").innerText = fullname;
                 document.getElementById("ProfPic").src = `./UserFiles/ProfilePictures/${data.profPic}`;
-                document.getElementById("case").innerText = data.case;
-                document.getElementById("City").innerText = data.city;
 
-                city = data.city;
-                caseDesc = data.case;
-                PtntID = data.PtntID;
+                document.getElementById("case").innerText = data.case.split(",").map((item) => {
+                    return " " + item;
+                });
 
-                GETtherapists(city, caseDesc);
+                document.getElementById("City").innerText = `${data.city}, ${data.barangay}`;
+
+                const city = data.city;
+                const barangay = data.barangay;
+                const caseDesc = data.case;
+                const PtntID = data.PtntID;
+
+                SessionPNTID(PtntID);
+                GETtherapists(city, barangay, caseDesc);
             } catch (error) {
                 console.error('Error:', error);
             }
         }
 
-        async function GETtherapists(city, caseDesc) {
+        async function GETtherapists(city, barangay, caseDesc) {
             try {
                 const therapists = await fetch("./PatientHomePageAPI/GETtherapistsAPI.php", {
                     method: "POST",
                     body: JSON.stringify({
                         "city": city,
+                        "barangay": barangay,
                         "case": caseDesc
                     })
                 });
@@ -260,33 +230,20 @@ session_start();
                 const ThrpstData = await therapists.json();
                 const PTElement = document.getElementById("PT");
 
-                // Clear previous results
-                // PTElement.innerHTML = '';
-
                 if (ThrpstData.message) {
-                    PTElement.innerHTML = ThrpstData.message; // Fixed the element reference
+                    PTElement.innerHTML = ThrpstData.message;
                 } else {
                     ThrpstData.forEach(therapist => {
-                        const fullname = `${therapist.fname} ${therapist.mname.charAt(0)}. ${therapist.lname}`;
+                        const fullname = `${therapist.fname} ${therapist.mname} ${therapist.lname}`;
                         const profilePic = therapist.profilePic;
-                        const caseHandled = therapist.case;
-                        const city = therapist.city;
+                        
+                        const caseHandled = therapist.case.split(",").map((item) => {
+                            return " " + item;
+                        }).toString();
 
-                        createTherapistCard(PTElement, profilePic, fullname, caseHandled, city, therapist.TID);
-    
-                        // const PTBTN = document.createElement('button'); // Create button element
+                        const cityBarangay = `${therapist.city}, ${therapist.barangay}`;
 
-                        // PTBTN.value = therapist.TID; // Set the button value
-                        // PTBTN.innerHTML = `${fullname}<br>Case Handled: ${therapist.case}<br>City: ${therapist.city}`;
-
-                        // // Add event listener for button click
-                        // PTBTN.addEventListener('click', function () {
-                        //     var SlctedID = this.value;
-                        //     SessionID(SlctedID, PtntID);
-                        //     //  alert(SlctedID+"  "+PtntID);
-                        // });
-
-                        // PTElement.appendChild(PTBTN); // Append button to PTElement
+                        createTherapistCard(PTElement, profilePic, fullname, caseHandled, cityBarangay, therapist.TID);
                     });
                 }
             } catch (error) {
@@ -294,22 +251,29 @@ session_start();
             }
         }
 
-        function SessionID(id, PtntID) {
+        function SessionID(id) {
             fetch("./PatientHomePageAPI/SessionAPI.php", {
                 method: "POST",
                 body: JSON.stringify({
                     PTID: id,
-                    PtntID: PtntID,
                 })
             }).then((res) => {
                 window.location.href = "PatientView.php";
             });
         }
 
-        function createTherapistCard(parentElement, profilePicture, fullName, caseHandled, city, SlctedID) {
+        function SessionPNTID(PtntID) {
+            fetch("./PatientHomePageAPI/SessionPID.php", {
+                method: "POST",
+                body: JSON.stringify({
+                    PNTID: PtntID,
+                })
+            });
+        }
+
+        function createTherapistCard(parentElement, profilePicture, fullName, caseHandled, cityBarangay, SlctedID) {
             const card = document.createElement('div');
             card.classList.add('card', 'shadow', 'rounded-5');
-            // card.style.width = '16rem';
 
             const img = document.createElement('img');
             img.src = `./UserFiles/ProfilePictures/${profilePicture}`;
@@ -326,15 +290,16 @@ session_start();
 
             const title = document.createElement('h6');
             title.classList.add('card-title');
+            title.classList.add('text-capitalize');
             title.textContent = fullName;
 
             const caseHandledLabel = document.createElement('small');
             caseHandledLabel.classList.add('mb-1');
-            caseHandledLabel.innerHTML = `<b>Case handled: </b>${caseHandled}`;
+            caseHandledLabel.innerHTML = `<b>Case handled: </b><span class='text-capitalize'>${caseHandled}</span>`;
 
-            const cityLabel = document.createElement('small');
-            cityLabel.classList.add('mb-1');
-            cityLabel.innerHTML = `<b>City: </b>${city}`;
+            const cityBarangayLabel = document.createElement('small');
+            cityBarangayLabel.classList.add('mb-1');
+            cityBarangayLabel.innerHTML = `<b>City: </b><span class='text-capitalize'>${cityBarangay}</span>`;
 
             const viewButton = document.createElement('a');
             viewButton.href = '#';
@@ -342,13 +307,13 @@ session_start();
             viewButton.textContent = 'View Therapist';
 
             viewButton.addEventListener("click", () => {
-                SessionID(SlctedID, PtntID);
+                SessionID(SlctedID);
             });
 
             cardBody.appendChild(title);
             cardBody.appendChild(caseHandledLabel);
             cardBody.appendChild(document.createElement('br'));
-            cardBody.appendChild(cityLabel);
+            cardBody.appendChild(cityBarangayLabel);
             cardBody.appendChild(document.createElement('br'));
             cardBody.appendChild(viewButton);
 

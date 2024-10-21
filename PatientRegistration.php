@@ -4,56 +4,62 @@ include "./database.php";
 
 session_start();
 
-function uploadFile($name, $tmp_name, $size, $target_dir) {
-    $fileExtension = explode(".", $name);
-    $newFileName = basename(uniqid() . "." . end($fileExtension));
-    $target_file = $target_dir . $newFileName;
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+function uploadFiles($names, $tmp_names, $sizes, $target_dir) {
+    $uploadedFiles = [];
+    
+    for ($i = 0; $i < count($names); $i++) {
+        $name = $names[$i];
+        $tmp_name = $tmp_names[$i];
+        $size = $sizes[$i];
 
-    // Check if image file is a actual image or fake image
-    if (isset($_POST["submit"])) {
-        $check = getimagesize($tmp_name);
-        if ($check !== false) {
-            $uploadOk = 1;
-        } else {
+        $fileExtension = explode(".", $name);
+        $newFileName = basename(uniqid() . "." . end($fileExtension));
+        $target_file = $target_dir . $newFileName;
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+        if (isset($_POST["submit"])) {
+            $check = getimagesize($tmp_name);
+            if ($check !== false) {
+                $uploadOk = 1;
+            } else {
+                $uploadOk = 0;
+            }
+        }
+
+        if (file_exists($target_file)) {
             $uploadOk = 0;
         }
-    }
 
-    // Check if file already exists
-    if (file_exists($target_file)) {
-        $uploadOk = 0;
-    }
+        if ($size > 50000000) {
+            $uploadOk = 0;
+        }
 
-    // Check file size
-    if ($size > 50000000) {
-        $uploadOk = 0;
-    }
+        if (
+            $imageFileType != "jpg" && 
+            $imageFileType != "png" && 
+            $imageFileType != "jpeg" && 
+            $imageFileType != "jfif"
+        ) {
+            $uploadOk = 0;
+        }
 
-    // Allow certain file formats
-    if (
-        $imageFileType != "jpg" && 
-        $imageFileType != "png" && 
-        $imageFileType != "jpeg" &&
-        $imageFileType != "jfif"
-    ) {
-        $uploadOk = 0;
-    }
-
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        http_response_code(400);
-        return false;
-    } else {
-        if (move_uploaded_file($tmp_name, $target_file)) {
-            return $newFileName;
-        } else {
+        if ($uploadOk == 0) {
             http_response_code(400);
             return false;
+        } else {
+            if (move_uploaded_file($tmp_name, $target_file)) {
+                $uploadedFiles[] = $newFileName;
+            } else {
+                http_response_code(400);
+                return false;
+            }
         }
     }
+
+    return $uploadedFiles;
 }
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (
@@ -83,7 +89,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $birthDate = $_POST["birthDate"];
         $profilePicture = $_FILES["profilePicture"];
 
-        $patientCase = $_POST["patientCase"];
+        $patientCase = implode(",", array_map(function ($value) {
+            $characterArray = str_split($value);
+            if ($characterArray[0] !== " ") {
+                return $value;
+            } else {
+                array_shift($characterArray);
+                return implode("", $characterArray);
+            }
+        }, explode(",", $_POST["patientCase"])));
+
         $patientCaseDescription = $_POST["patientCaseDescription"];
         $location = $_POST["location"];
         $assesmentImage = $_FILES["assesmentImage"];
@@ -97,26 +112,60 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $profilePictureName = $profilePicture["name"];
         $profilePictureTmpName = $profilePicture["tmp_name"];
         $profilePictureSize = $profilePicture["size"];
-        $newProfilePictureName = uploadFile($profilePictureName, $profilePictureTmpName, $profilePictureSize, "./UserFiles/ProfilePictures/");
+        $newProfilePictureName = uploadFiles($profilePictureName, $profilePictureTmpName, $profilePictureSize, "./UserFiles/ProfilePictures/");
 
         $assesmentImageName = $assesmentImage["name"];
         $assesmentImageTmpName = $assesmentImage["tmp_name"];
         $assesmentImageSize = $assesmentImage["size"];
-        $newAssesmentImageName = uploadFile($assesmentImageName, $assesmentImageTmpName, $assesmentImageSize, "./UserFiles/PatientAssementPictures/");
+        $newAssesmentImageNames = uploadFiles($assesmentImageName, $assesmentImageTmpName, $assesmentImageSize, "./UserFiles/PatientAssementPictures/");
 
         $medicalHistoryImageName = $medicalHistoryImage["name"];
         $medicalHistoryImageTmpName = $medicalHistoryImage["tmp_name"];
         $medicalHistoryImageSize = $medicalHistoryImage["size"];
-        $newMedicalHistoryImageName = uploadFile($medicalHistoryImageName, $medicalHistoryImageTmpName, $medicalHistoryImageSize, "./UserFiles/PatientMedicalHistoryPictures/");
+        $newMedicalHistoryImageNames = uploadFiles($medicalHistoryImageName, $medicalHistoryImageTmpName, $medicalHistoryImageSize, "./UserFiles/PatientMedicalHistoryPictures/");
 
-        if ($newProfilePictureName && $newAssesmentImageName && $newMedicalHistoryImageName) {
-            $userSql = "INSERT INTO `tbl_user`(`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`) VALUES ('[value-1]','$firstName','$lastName','$middleName','$birthDate','$username','$hashedPassword','$mobileNumber','$email','P','$newProfilePictureName')";
+        $newAssesmentImageNameErr = null;
+        $newMedicalHistoryImageNameErr = null;
+        
+        foreach ($newAssesmentImageNames as $name) {
+            if (!$name) {
+                $newAssesmentImageNameErr = $name;
+                break;
+            }
+        }
+
+        foreach ($newMedicalHistoryImageNames as $name) {
+            if (!$name) {
+                $newMedicalHistoryImageNameErr = $name;
+                break;
+            }
+        }
+        
+        if ($newProfilePictureName[0] && !$newAssesmentImageNameErr && !$newMedicalHistoryImageNameErr) {
+            $userSql = "INSERT INTO `tbl_user`(`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`) VALUES ('[value-1]','$firstName','$lastName','$middleName','$birthDate','$username','$hashedPassword','$mobileNumber','$email','P','$newProfilePictureName[0]')";
             $userQuery = mysqli_query($var_conn, $userSql);
 
             $userID = $var_conn->insert_id;
             $_SESSION["sess_id"] = $userID;
 
-            $patientSql = "INSERT INTO `tbl_patient`(`patient_id`, `user_id`, `P_case`, `case_desc`, `City`, `barangay`, `assement_photo`, `mid_hisotry_photo`) VALUES ('[value-1]','$userID','$patientCase','$patientCaseDescription','$city','$barangay','$newAssesmentImageName','$newMedicalHistoryImageName')";
+
+            $assesmentImageNamesArray = array();
+
+            foreach ($newAssesmentImageNames as $names) {
+                array_push($assesmentImageNamesArray, $names);
+            }
+
+            $assesmentImageNames = implode(",", $assesmentImageNamesArray);
+
+            $medicalHistoryImageArray = array();
+            
+            foreach ($newMedicalHistoryImageNames as $names) {
+                array_push($medicalHistoryImageArray, $names);
+            }
+
+            $medicalHistoryImageNames = implode(",", $medicalHistoryImageArray);
+
+            $patientSql = "INSERT INTO `tbl_patient`(`patient_id`, `user_id`, `P_case`, `case_desc`, `City`, `barangay`, `assement_photo`, `mid_hisotry_photo`) VALUES ('[value-1]','$userID','$patientCase','$patientCaseDescription','$city','$barangay','$assesmentImageNames','$medicalHistoryImageNames')";
             $patientQuery = mysqli_query($var_conn, $patientSql);
 
             if ($userQuery && $patientQuery) {
@@ -261,7 +310,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <hr>
 
                     <div class="mb-3">
-                        <label for="username" class="mb-1">Username</label>
+                        <label for="username" class="mb-1">Username <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 30)</small></label>
                         <input type="text" name="username" id="username" class="form-control" required>
                         <div class="invalid-feedback">
                             Please choose a Username.
@@ -269,21 +318,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </div>
 
                     <div class="mb-3">
-                        <label for="firstName" class="mb-1">First Name</label>
+                        <label for="firstName" class="mb-1">First Name <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 50)</small></label>
                         <input type="text" name="firstName" id="firstName" class="form-control" required>
                         <div class="invalid-feedback">
                             Please choose a First Name.
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="middleName" class="mb-1">Middle Name</label>
+                        <label for="middleName" class="mb-1">Middle Name <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 30)</small></label>
                         <input type="text" name="middleName" id="middleName" class="form-control" required>
                         <div class="invalid-feedback">
                             Please choose a Middle Name.
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="lastName" class="mb-1">Last Name</label>
+                        <label for="lastName" class="mb-1">Last Name <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 50)</small></label>
                         <input type="text" name="lastName" id="lastName" class="form-control" required>
                         <div class="invalid-feedback">
                             Please choose a Last Name.
@@ -291,7 +340,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </div>
 
                     <div class="mb-3">
-                        <label for="password" class="mb-1">Password</label>
+                        <label for="password" class="mb-1">Password <span class="text-danger">*</span> </label>
                         <div class="input-group">
                             <input type="password" name="password" id="password" class="form-control" required>
                             <button type="button" class="btn btn-primary viewPasswordButton rounded-end">
@@ -303,7 +352,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="passwordConfirmation" class="mb-1">Confirm Password</label>
+                        <label for="passwordConfirmation" class="mb-1">Confirm Password <span class="text-danger">*</span> </label>
                         <div class="input-group">
                             <input type="password" name="passwordConfirmation" id="passwordConfirmation" class="form-control" required>
                             <button type="button" class="btn btn-primary viewPasswordButton rounded-end">
@@ -315,21 +364,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         </small>
                     </div>
                     <div class="mb-3">
-                        <label for="email" class="mb-1">Email</label>
+                        <label for="email" class="mb-1">Email <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 30)</small></label>
                         <input type="email" name="email" id="email" class="form-control" required>
                         <div class="invalid-feedback">
                             Please enter a valid Email.
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="mobileNumber" class="mb-1">Mobile Number</label>
+                        <label for="mobileNumber" class="mb-1">Mobile Number <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 11)</small></label>
                         <input type="text" name="mobileNumber" id="mobileNumber" class="form-control" required>
                         <div class="invalid-feedback">
                             Please enter a valid Mobile Number.
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="birthDate" class="mb-1">Birthday</label>
+                        <label for="birthDate" class="mb-1">Birthday <span class="text-danger">*</span></label>
                         <input type="date" name="birthDate" id="birthDate" class="form-control" required>
                         <div class="invalid-feedback">
                             Please enter a valid Birthday.
@@ -337,8 +386,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </div>
                     <div class="mb-4">
                         <div class="mb-3">
-                            <label for="profilePicture" class="mb-1">Profile Picture</label>
-                            <input type="file" name="profilePicture" id="profilePicture" class="form-control" accept="image/*" required>
+                            <label for="profilePicture" class="mb-1">Profile Picture <span class="text-danger">*</span></label>
+                            <input type="file" name="profilePicture[]" id="profilePicture" class="form-control" accept="image/*" required>
                             <div class="invalid-feedback">
                                 Please choose a valid Profile Picture Image.
                             </div>
@@ -353,22 +402,50 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <hr>
 
                     <div class="mb-3">
-                        <label for="patientCase" class="mb-1">Patient Case</label>
-                        <input type="text" id="patientCase" name="patientCase" class="form-control" required>
+                        <label for="patientCase" class="mb-1">Patient Case <span class="text-danger">*</span> <small class="fw-semibold">(Use comma to separate your case, E.g.: Back Pain, Spine Injury,...)</small></label>
+                        <textarea id="patientCase" name="patientCase" class="form-control" data-bs-toggle="dropdown" placeholder="Case 1, Case 2, Case 3,..." style="height: 17px;" required></textarea>
+
+                        <ul class="dropdown-menu" id="patientCaseList">
+                            <?php
+
+                            $sql = "SELECT case_handled FROM tbl_therapists;";
+                            $results = mysqli_query($var_conn, $sql);
+
+                            $cases = array();
+
+                            foreach ($results as $result) {
+                                $caseArray = explode(",", $result["case_handled"]);
+
+                                foreach ($caseArray as $case) {
+                                    array_push($cases, $case);
+                                }
+                            }
+
+                            sort($cases);
+
+                            foreach (array_unique($cases) as $case) {
+                                echo "<li>
+                                    <button type='button' class='case dropdown-item d-block text-capitalize'>$case</button>
+                                </li>";
+                            }
+
+                            ?>
+                        </ul>
+                        
                         <div class="invalid-feedback">
                             Please enter a Case.
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="patientCaseDescription" class="mb-1">Patient Case Description</label>
+                        <label for="patientCaseDescription" class="mb-1">Patient Case Description <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 200)</small></label>
                         <textarea style="height: 250px; max-height: 250px;" id="patientCaseDescription" name="patientCaseDescription" class="form-control" required></textarea>
                         <div class="invalid-feedback">
                             Please enter a Case Description.
                         </div>
                     </div>
                     <div class="mb-2">
-                        <label for="location" class="mb-1">Address</label>
-                        <input type="text" name="location" id="location" class="form-control mb-3" required>
+                        <label for="location" class="mb-1">Address <span class="text-danger">*</span> <small class="fw-semibold">(Use comma to seperate your Barangay and City, E.g: Lahug, Cebu City or press the Choose Location button to choose locate your place)</small></label>
+                        <input type="text" name="location" id="location" class="form-control mb-3" placeholder="Barangay, City" required>
                         <div class="invalid-feedback">
                             Please enter a Location.
                         </div>
@@ -378,27 +455,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </div>
 
                     <div class="mb-3">
-                        <label for="assesmentImage" class="mb-1">Assesment Image</label>
-                        <input type="file" name="assesmentImage" id="assesmentImage" class="form-control" accept="image/*" required>
+                        <label for="assesmentImage" class="mb-1">Assesment Image <span class="text-danger">*</span> <small class="fw-semibold">(Max Image: 2)</small></label>
+                        <input type="file" name="assesmentImage[]" id="assesmentImage" class="form-control" accept="image/*" multiple required>
                         <div class="invalid-feedback">
                             Please choose a valid Assesment Image.
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center align-items-center flex-column d-none mb-3">
+                    <div id="assesmentPreviewContainer" class="d-flex justify-content-center align-items-center flex-column d-none mb-3">
                         <small class="fw-semibold mb-2">Assesment Image Preview</small>
-                        <img src="#" id="assesmentReview" class="img-thumbnail" style="height: 250px; width: auto; object-fit: cover;">
+                        <div class="d-flex justify-content-center align-items-center flex-column flex-md-row gap-2">
+                            <img src="#" class="assesmentPreview img-thumbnail" style="height: 250px; width: auto; object-fit: cover;">
+                            <img src="#" class="assesmentPreview img-thumbnail" style="height: 250px; width: auto; object-fit: cover;">
+                        </div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="medicalHistoryImage" class="mb-1">Medical History Image</label>
-                        <input type="file" name="medicalHistoryImage" id="medicalHistoryImage" class="form-control" accept="image/*" required>
+                        <label for="medicalHistoryImage" class="mb-1">Medical History Image <span class="text-danger">*</span> <small class="fw-semibold">(Max Image: 3)</small></label>
+                        <input type="file" name="medicalHistoryImage[]" id="medicalHistoryImage" class="form-control" accept="image/*" multiple required>
                         <div class="invalid-feedback">
                             Please choose a valid Medical History Image.
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center align-items-center flex-column d-none mb-3">
+                    <div id="medicalHistoryPreviewContainer" class="d-flex justify-content-center align-items-center flex-column d-none mb-3">
                         <small class="fw-semibold mb-2">Medical History Image Preview</small>
-                        <img src="#" id="medicalHistoryPreview" class="img-thumbnail" style="height: 250px; width: auto; object-fit: cover;">
+                        <div class="d-flex justify-content-center align-items-center flex-column flex-md-row gap-2">
+                            <img src="#" class="medicalHistoryPreview img-thumbnail" style="height: 250px; width: auto; object-fit: cover;">
+                            <img src="#" class="medicalHistoryPreview img-thumbnail" style="height: 250px; width: auto; object-fit: cover;">
+                            <img src="#" class="medicalHistoryPreview img-thumbnail" style="height: 250px; width: auto; object-fit: cover;">
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-center align-items-center">
@@ -439,32 +523,54 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             });
 
             const assesmentImage = document.getElementById("assesmentImage");
-            const assesmentReview = document.getElementById("assesmentReview");
+            const assesmentPreviewContainer = document.getElementById("assesmentPreviewContainer");
+            const assesmentPreview = document.getElementsByClassName("assesmentPreview");
 
             assesmentImage.addEventListener("change", () => {
-                const file = assesmentImage.files[0];
+                const files = assesmentImage.files;
 
-                if (file) {
-                    assesmentReview.parentElement.classList.replace("d-none", "d-block");
-                    assesmentReview.src = URL.createObjectURL(file);
+                if (!(files.length <= 1) && !(files.length >= 3)) {
+                    let index = -1;
+
+                    Array.from(assesmentPreview).forEach((element) => {
+                        index++;
+
+                        assesmentPreviewContainer.classList.replace("d-none", "d-block");
+                        element.src = URL.createObjectURL(files[index]);
+                    });
                 } else {
-                    assesmentReview.parentElement.classList.replace("d-block", "d-none");
-                    assesmentReview.src = "#"
+                    Array.from(assesmentPreview).forEach((element) => {
+                        assesmentPreviewContainer.classList.replace("d-block", "d-none");
+                    });
+
+                    assesmentImage.value = null;
+                    showToast("<label class='text-danger'>Assesment Image Input must have 2 required images.</label>");
                 }
             });
 
             const medicalHistoryImage = document.getElementById("medicalHistoryImage");
-            const medicalHistoryPreview = document.getElementById("medicalHistoryPreview");
+            const medicalHistoryPreviewContainer = document.getElementById("medicalHistoryPreviewContainer");
+            const medicalHistoryPreview = document.getElementsByClassName("medicalHistoryPreview");
 
             medicalHistoryImage.addEventListener("change", () => {
-                const file = medicalHistoryImage.files[0];
+                const files = medicalHistoryImage.files;
 
-                if (file) {
-                    medicalHistoryPreview.parentElement.classList.replace("d-none", "d-block");
-                    medicalHistoryPreview.src = URL.createObjectURL(file);
+                if (!(files.length <= 2) && !(files.length >= 4)) { 
+                    let index = -1;
+
+                    Array.from(medicalHistoryPreview).forEach((element) => {
+                        index++;
+
+                        medicalHistoryPreviewContainer.classList.replace("d-none", "d-block");
+                        element.src = URL.createObjectURL(files[index]);
+                    });
                 } else {
-                    medicalHistoryPreview.parentElement.classList.replace("d-block", "d-none");
-                    medicalHistoryPreview.src = "#"
+                    Array.from(medicalHistoryPreview).forEach((element) => {
+                        medicalHistoryPreviewContainer.classList.replace("d-block", "d-none");
+                    });
+                    
+                    medicalHistoryImage.value = null;
+                    showToast("<label class='text-danger'>Medical History Image Input must have 3 required images.</label>");
                 }
             });
 
@@ -516,7 +622,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 map.innerHTML = "<small>Geolocation is not supported by this browser.</small>";
             }
 
-            navigator.geolocation.getCurrentPosition((position) => {
+            navigator.geolocation.getCurrentPosition(async (position) => {
                 latitude = position.coords.latitude;
                 longitude = position.coords.longitude;
 
@@ -537,7 +643,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 let chosenMarker;
 
-                map.on("click", async (e) => {
+                map.on("click", async(e) => {
                     const latitudeLongitude = map.mouseEventToLatLng(e.originalEvent);
                     latitude = latitudeLongitude.lat;
                     longitude = latitudeLongitude.lng;
@@ -549,7 +655,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         chosenLatitude.value = latitude;
                         chosenLongitude.value = longitude;
 
-                        apiUrl = `https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}&api_key=66ffa02e9542d122573242pqy09573f`;
+                        const apiUrl = `https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}&api_key=66ffa02e9542d122573242pqy09573f`;
 
                         const response = await fetch(apiUrl, {
                             method: "GET"
@@ -577,8 +683,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             const passwordConfirmationFeedback = document.getElementById("password-confirmation-feedback");
 
             registrationForm.addEventListener("submit", (e) => {
+                const username = registrationForm.username.value;
+                const firstName = registrationForm.firstName.value;
+                const middleName = registrationForm.middleName.value;
+                const lastName = registrationForm.lastName.value;
+
                 const password = registrationForm.password.value;
                 const passwordConfirmation = registrationForm.passwordConfirmation.value;
+                
+                const email = registrationForm.email.value;
+                const mobileNumber = registrationForm.mobileNumber.value;
 
                 if (password !== passwordConfirmation) {
                     passwordConfirmationFeedback.classList.replace("d-none", "d-block");
@@ -588,7 +702,54 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 } else {
                     passwordConfirmationFeedback.classList.replace("d-block", "d-none");
                 }
+
+                if (
+                    username.length >= 30 ||
+                    firstName.length >= 50 ||
+                    middleName.length >= 30 ||
+                    lastName.length >= 50 ||
+                    password.length >= 30 ||
+                    email.length >= 30 ||
+                    mobileNumber.length > 11
+                ) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    showToast("<span class='text-danger'>Please follow the given max length of each inputs.</span>");
+                }
             });
+
+            const patientCase = document.getElementById("patientCase");
+            const patientCaseList = document.getElementById("patientCaseList");
+
+            Array.from(patientCaseList.getElementsByClassName("case")).forEach((element) => {
+                element.addEventListener("click", () => {
+                    patientCase.value = element.innerHTML;
+                });
+            });
+
+            patientCase.oninput = () => {
+                const value = patientCase.value.split(",").map((word) => {
+                    const characterArray = word.split("");
+
+                    if (characterArray[0] === " ") {
+                        characterArray.shift();
+                        return characterArray.join("");
+                    } else {
+                        return characterArray.join("");
+                    }
+                }).at(-1);
+
+                const patientCaseListElement = patientCaseList.getElementsByClassName("case");
+                const cases = [...patientCaseListElement].map((item) => { return item.innerHTML });
+
+                for (element of patientCaseListElement) {
+                    if (element.innerHTML.includes(value)) {
+                        element.classList.replace("d-none", "d-block");
+                    } else {
+                        element.classList.replace("d-block", "d-none");
+                    }
+                }
+            }
 
             <?php
 

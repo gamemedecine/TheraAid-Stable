@@ -8,11 +8,23 @@ $DcodeJSON = json_decode($JSNDATA, true);
 
 if (
     isset($DcodeJSON["city"])
-    & isset($DcodeJSON["case"])
+    && isset($DcodeJSON["barangay"])
+    && isset($DcodeJSON["case"])
 ) {
 
     $var_city = $DcodeJSON["city"];
-    $var_case = $DcodeJSON["case"];
+    
+    $barangay = $DcodeJSON["barangay"];
+
+    $var_case = array_map(function ($value) {
+        $characterArray = str_split($value);
+        if ($characterArray[0] !== " ") {
+            return $value;
+        } else {
+            array_shift($characterArray);
+            return implode($characterArray);
+        }
+    }, explode(",", $DcodeJSON["case"]));
 
     $var_slctTherapists = "SELECT   U.Fname,
                                     U.Mname,
@@ -20,6 +32,7 @@ if (
                                     U.profilePic,
                                     T.case_handled,
                                     T.city,
+                                    T.barangay,
                                     T.therapist_id
                                     FROM tbl_therapists T
                                     JOIN tbl_user U
@@ -28,28 +41,37 @@ if (
 
     $var_qry = mysqli_query($var_conn, $var_slctTherapists);
 
-    if (mysqli_num_rows($var_qry) > 0) {
-        while ($var_rec = mysqli_fetch_array($var_qry)) {
-            $var_strdcase = explode(",", $var_rec["case_handled"]);
+    $therapists = array();
 
-            if (in_array($var_case, $var_strdcase)) {
-                $var_therapists[] = [
-                    "fname" => $var_rec["Fname"],
-                    "lname" => $var_rec["Lname"],
-                    "mname" => $var_rec["Mname"],
-                    "profilePic" => $var_rec["profilePic"],
-                    "case" => $var_rec["case_handled"],// spine injury,stroke
-                    "city" => $var_rec["city"],
-                    "TID" => $var_rec["therapist_id"]
+    foreach ($var_qry as $result) {
+        $var_strdcase = explode(",", $result["case_handled"]);
+        $therapistCity = $result["city"];
+        $therapistBarangay = $result["barangay"];
 
-                ];
+        $isExists = false;
+
+        foreach ($var_case as $case) {
+            if (in_array($case, $var_strdcase)) {
+                $isExists = true;
+                break;
             }
-
         }
 
-        echo json_encode($var_therapists);
-    } else {
-        echo json_encode(["message" => "No Record Found"]);
+        if ($isExists && $var_city === $therapistCity) {
+            if ($var_city === $therapistCity || $barangay === $therapistBarangay) {
+                array_push($therapists, array(
+                    "fname" => $result["Fname"],
+                    "lname" => $result["Lname"],
+                    "mname" => $result["Mname"],
+                    "profilePic" => $result["profilePic"],
+                    "case" => $result["case_handled"],
+                    "city" => $result["city"],
+                    "barangay" => $result["barangay"],
+                    "TID" => $result["therapist_id"]
+                ));
+            }
+        }
     }
 
+    echo json_encode($therapists);
 }

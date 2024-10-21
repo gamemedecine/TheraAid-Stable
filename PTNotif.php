@@ -1,5 +1,6 @@
 <?php
-include("databse.php");
+
+include "./database.php";
 
 $var_notif ="SELECT * FROM tbl_notifications WHERE user_id=30";
 $var_qry = mysqli_query($var_conn,$var_notif);

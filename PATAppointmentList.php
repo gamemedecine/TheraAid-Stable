@@ -1,134 +1,219 @@
+<?php
+
+include "./database.php";
+
+session_start();
+
+$var_filter = "P"; // Default filter is Pending
+
+// Handle form submission for filtering
+if (isset($_POST["BtnFilter"])) {
+    $var_filter = $_POST["response"];
+}
+
+// SQL query based on the selected filter
+$var_slct = "SELECT 
+                    S.day,
+                    S.start_time,
+                    S.end_time,
+                    S.note,
+                    A.num_of_session,
+                    A.payment_type,
+                    A.start_date,
+                    A.date_accepted,
+                    A.therapists_id,
+                    A.patient_id,
+                    A.rate,
+                    A.status,
+                    A.Date_creadted,
+                    A.appointment_id 
+                FROM tbl_appointment A
+                JOIN tbl_sched S 
+                ON S.shed_id = A.schedle_id 
+                WHERE A.patient_id = " . $_SESSION["sess_PtntID"] . " 
+                AND A.status LIKE '" . $var_filter . "%'";
+
+$var_qry = mysqli_query($var_conn, $var_slct);
+
+if (isset($_POST["BTNAPInfo"])) {
+    $_SESSION["sess_APID"] = $_POST["BTNAPInfo"];
+    header("location: PATTherapistView.php");
+}
+
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html data-bs-theme="light">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Therapists List Of Appointment</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <style>
-        .table {
-            border: 1px solid black;
-            border-collapse: collapse;
-            /* Ensures borders don't double up */
-        }
-
-        .table th,
-        .table td {
-            border: 1px solid black;
-            /* Adds borders to table headers and cells */
-            padding: 8px;
-            /* Adds some padding inside cells */
-            text-align: left;
-            /* Aligns text to the left (optional) */
-        }
-    </style>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>TheraAid | Patient Home Page</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/PatientHomePage.css'>
 </head>
 
 <body>
-    <a style="font-size:30px;color: red;" href="PatientHomePage.php"><=Back</a>
-            <?php
-            include("databse.php");
-            session_start();
+    <header>
+        <nav class="navbar navbar-expand-lg bg-primary-subtle">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
+                </a>
+                <button class="navbar-toggler rounded-pill shadow" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-start bg-primary-subtle" tabindex="-1" id="offcanvasNavbar"
+                    aria-labelledby="offcanvasNavbarLabel">
 
-            $var_filter = "P"; // Default filter is Pending
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
+                        </h5>
+                        <button type="button" class="btn-close shadow" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                    </div>
 
-            // Handle form submission for filtering
-            if (isset($_POST["BtnFilter"])) {
-                $var_filter = $_POST["response"];
-            }
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientHomePage.php">
+                                    <i class="bi bi-house fs-3"></i><br>
+                                    <small>Home</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./PATAppointmentList.php">
+                                    <i class="bi bi-calendar-check fs-3"></i><br>
+                                    <small>Appointment</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                    <i class="bi bi-clock-history fs-3"></i><br>
+                                    <small>History</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                    <i class="bi bi-bell fs-3"></i><br>
+                                    <small>Notification</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                    <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
+                                    <small>Chat</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./ProfilePage.php">
+                                    <i class="bi bi-person fs-3"></i><br>
+                                    <small>Profile</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./Logout.php">
+                                    <i class="bi bi-box-arrow-right fs-3"></i><br>
+                                    <small>Logout</small>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-            // SQL query based on the selected filter
-            $var_slct = "SELECT 
-                        S.day,
-                        S.start_time,
-                        S.end_time,
-                        S.note,
-                        A.num_of_session,
-                        A.payment_type,
-                        A.start_date,
-                        A.date_accepted,
-                        A.therapists_id,
-                        A.patient_id,
-                        A.rate,
-                        A.status,
-                        A.Date_creadted
-                    FROM tbl_appointment A
-                    JOIN tbl_sched S 
-                    ON S.shed_id = A.schedle_id 
-                    WHERE A.patient_id = " . $_SESSION["sess_PtntID"] . " AND A.status LIKE '" . $var_filter . "%'";
+    <main class="py-0 py-lg-3">
 
-            $var_qry = mysqli_query($var_conn, $var_slct);
-            // $var_sclt = "SELECT * FROM tbl_appointment 
-            //     WHERE patient_id  = " . . " 
-            //     AND status LIKE '" . $var_filter . "%'";
+        <section class="main-section bg-secondary-subtle py-3 py-lg-5 px-3 px-lg-5 shadow container-fluid container-lg">
+            
+            <div class="overflow-x-auto">
 
-            // $var_qry = mysqli_query($var_conn, $var_sclt);
-            ?>
+                <form method="POST" action="PATAppointmentList.php" class="mb-3">
+                    <div class="d-flex justify-content-start align-items-center gap-3 mb-2 flex-wrap">
 
-            <form method="POST" action="PATAppointmentList.php">
-                <label>
-                    <input type="radio" name="response" value="P" <?php if ($var_filter == "P") echo "checked"; ?>> Pending
-                </label>
-                <label>
-                    <input type="radio" name="response" value="R" <?php if ($var_filter == "R") echo "checked"; ?>> Responded
-                </label>
-                <label>
-                    <input type="radio" name="response" value="O" <?php if ($var_filter == "O") echo "checked"; ?>> Ongoing
-                </label>
-                <input type="submit" name="BtnFilter" value="Filter">
-            </form>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="P" name="response" id="pending" <?php if ($var_filter == "P")
+                                echo "checked"; ?>>
+                            <label class="form-check-label" for="pending">
+                                Pending
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="R" name="response" id="responded" <?php if ($var_filter == "R")
+                                echo "checked"; ?>>
+                            <label class="form-check-label" for="responded">
+                                Responded
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="O" name="response" id="ongoing" <?php if ($var_filter == "O")
+                                echo "checked"; ?>>
+                            <label class="form-check-label" for="ongoing">
+                                Ongoing
+                            </label>
+                        </div>
+                        <input type="submit" name="BtnFilter" value="Filter"
+                            class="btn btn-primary px-5 rounded-5 btn-sm">
+                    </div>
+                </form>
 
-            <table class="table">
-                <tr>
-                    <th>Day</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Number Of Session</th>
-                    <th>Payment Type</th>
-                    <th>Start Date</th>
-                    <th>Status</th>
-                    <th>Date Created</th>
-                    <th>Rate</th>
-                    <th>Therapists</th>
-                    <?php if ($var_filter == "P") : ?>
-                        <th>Action</th>
-                    <?php endif; ?>
-
-                </tr>
-
-                <?php if ($var_qry && mysqli_num_rows($var_qry) > 0): ?>
-                    <?php while ($var_rec = mysqli_fetch_array($var_qry)) : ?>
-                        <tr>
-                            <td><?php echo $var_rec["day"]; ?></td>
-                            <td><?php echo $var_rec["start_time"]; ?></td>
-                            <td><?php echo $var_rec["end_time"]; ?></td>
-                            <td><?php echo $var_rec["num_of_session"]; ?></td>
-                            <td><?php echo $var_rec["payment_type"]; ?></td>
-                            <td><?php echo $var_rec["start_date"]; ?></td>
-                            <td><?php echo $var_rec["status"]; ?></td>
-                            <td><?php echo $var_rec["Date_creadted"]; ?></td>
-                            <td><?php echo $var_rec["rate"]; ?></td>
-                            <td><?php echo "<button value='".$var_rec["rate"]."' name='BTNProfile'>Check Profile</button>"; ?></td>
-
-
-                            <?php if ($var_filter == "P") { ?>
-                                <td>
-                                    <form method="POST" action="PATAppointmentList.php">
-                                        <button type="submit" name="BtnCancel" value="<?php echo $var_rec['patient_id']; ?>">Cancel Request</button>
-                                    </form>
-                                </td>
-                            <?php } ?>
-                        </tr>
-                    <?php endwhile; ?>
-                <?php else: ?>
+                <table class="table table-primary table-striped rounded-5">
                     <tr>
-                        <td colspan="<?php echo ($var_filter == "P" ? 7 : 6); ?>">No records found.</td>
+                        <th>Day</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Number Of Session</th>
+                        <th>Payment Type</th>
+                        <th>Start Date</th>
+                        <th>Status</th>
+                        <th>Date Created</th>
+                        <th>Rate</th>
+                        <?php if ($var_filter != "O"): ?>
+                            <th>Action</th>
+                        <?php else: ?>
+                            <th></th> <!-- Keep header blank for ongoing appointments -->
+                        <?php endif; ?>
                     </tr>
-                <?php endif; ?>
-            </table>
+                    <?php if ($var_qry && mysqli_num_rows($var_qry) > 0): ?>
+                        <?php while ($var_rec = mysqli_fetch_array($var_qry)): ?>
+                            <tr>
+                                <td><?php echo $var_rec["day"]; ?></td>
+                                <td><?php echo $var_rec["start_time"]; ?></td>
+                                <td><?php echo $var_rec["end_time"]; ?></td>
+                                <td><?php echo $var_rec["num_of_session"]; ?></td>
+                                <td><?php echo $var_rec["payment_type"]; ?></td>
+                                <td><?php echo $var_rec["start_date"]; ?></td>
+                                <td><?php echo $var_rec["status"]; ?></td>
+                                <td><?php echo $var_rec["Date_creadted"]; ?></td>
+                                <td><?php echo $var_rec["rate"]; ?></td>
+                                <?php if ($var_filter != "O"): ?>
+                                    <td>
+                                        <form method="POST" action="PATAppointmentList.php">
+                                            <button type="submit" value="<?php echo $var_rec['appointment_id']; ?>" name="BTNAPInfo" class="btn btn-primary btn-sm px-5 rounded-5 w-100">Check Appointment Info</button>
+                                        </form>
+                                    </td>
+                                <?php else: ?>
+                                    <td></td>
+                                <?php endif; ?>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="10">No records found.</td>
+                        </tr>
+                    <?php endif; ?>
+                </table>
 
-            <script src="js/bootstrap.bundle.min.js"></script>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 </body>
 
 </html>

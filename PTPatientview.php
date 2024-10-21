@@ -5,25 +5,23 @@ include "./database.php";
 session_start();
 
 $var_APID = $_SESSION["sess_ApntmntId"];
-
 $var_profid = $_SESSION["sess_PID"];
 $var_qry = "SELECT u.User_id,
-                    u.Fname, 
-                    u.Lname, 
-                    u.Mname, 
-                    u.Bday,
-                    u.ContactNum, 
-                    u.Email,
-                    u.profilePic,
-                    p.P_case,
-                    p.case_desc,
-                    p.City, 
-                    p.barangay,
-                    p.assement_photo, 
-                    p.mid_hisotry_photo 
-                    FROM tbl_user u JOIN tbl_patient p ON u.User_id = p.user_id
-                    WHERE 
-                    p.patient_id  ='$var_profid';";
+            u.Fname,
+            u.Lname,
+            u.Mname,
+            u.Bday,
+            u.ContactNum,
+            u.Email,
+            u.profilePic,
+            p.P_case,
+            p.case_desc,
+            p.City,
+            p.barangay,
+            p.assement_photo,
+            p.mid_hisotry_photo
+        FROM tbl_user u JOIN tbl_patient p ON u.User_id = p.user_id
+        WHERE p.patient_id  ='$var_profid';";
 $var_chk = mysqli_query($var_conn, $var_qry);
 $var_Fname = "";
 $var_Lname = "";
@@ -66,41 +64,37 @@ if (mysqli_num_rows($var_chk) > 0) {
 }
 
 $var_Rate = "";
+
 if (isset($_POST["BTNsubmit"])) {
     $var_Rate = intval($_POST["TxtRate"]);
     $var_status = "Responded";
-
-    $var_update = "UPDATE tbl_appointment SET
-                         rate=$var_Rate,
-                         status='$var_status' 
-                         WHERE appointment_id=" . $_SESSION["sess_ApntmntId"];
+    $var_update = "UPDATE tbl_appointment SET rate=$var_Rate, status='$var_status' WHERE appointment_id=" . $_SESSION["sess_ApntmntId"];
     $var_upqry = mysqli_query($var_conn, $var_update);
 
     if ($var_upqry) {
         $var_type = "Therapists Have Responded to your request";
-        $var_notif = "INSERT INTO tbl_notifications(user_id,appointment_id,type)
-        VALUES($var_UID,$var_APID,'$var_type')";
+        $var_notif = "INSERT INTO tbl_notifications(user_id,appointment_id,type) VALUES($var_UID,$var_APID,'$var_type')";
+        
         mysqli_query($var_conn, $var_notif);
         header("location: TherapistsAppointment.php");
     } else {
-        "error";
+        echo "error";
     }
 }
 
 if (isset($_POST["BTNDecline"])) {
-    $var_status = "declined"; // Set status to "declined"
+    $var_status = "declined";
 
-    // Update the status in the database
     $var_update = "UPDATE tbl_appointment SET
                          status='$var_status' 
-                         WHERE appointment_id=" . $_SESSION["sess_ApntmntId"];
+                         WHERE appointment_id=".$_SESSION["sess_ApntmntId"];
     $var_upqry = mysqli_query($var_conn, $var_update);
 
     if ($var_upqry) {
-        $var_type = "Therapists Have Declined to your request";
-        $var_notif = "INSERT INTO tbl_notifications(user_id,appointment_id,type)
+        $var_type="Therapists Have Declined to your request";
+        $var_notif ="INSERT INTO tbl_notifications(user_id,appointment_id,type)
         VALUES($var_UID,$var_APID,'$var_type')";
-        mysqli_query($var_conn, $var_notif);
+        mysqli_query($var_conn,$var_notif);
         header("location: TherapistsAppointment.php");
     } else {
         echo "Error: Could not decline the appointment.";
@@ -218,7 +212,7 @@ if (isset($_POST["BTNDecline"])) {
                             <img class="img-fluid rounded-5 shadow" style="height: 250px; width: auto; object-fit: cover;" src="./UserFiles/ProfilePictures/<?php echo $profilePic ?>" alt="<?php echo $profilePic ?>">
                         </div>
 
-                        <div>
+                        <div class="mb-3">
                             <label class="mb-1">
                                 <b>Full Name:</b>
                                 <span><?php echo $var_Fname . " " . $var_MI . ". " . $var_Lname; ?></span>
@@ -231,11 +225,21 @@ if (isset($_POST["BTNDecline"])) {
                                 <b>Contact Number:</b>
                                 <span><?php echo $var_CntctNum; ?></span>
                             </label><br>
-                            <label class="mb-1">
+                            <label>
                                 <b>Email:</b>
                                 <span><?php echo $var_Email; ?></span>
                             </label>
                         </div>
+
+                        <hr>
+
+                        <form id="declineForm" method="post" action="./PTPatientview.php" hidden></form>
+
+                        <div class="d-flex justify-content-center justify-content-lg-start align-items-center mt-3 flex-row gap-1 p-3 bg-secondary bg-opacity-50 shadow rounded">
+                            <button type="submit" class="btn btn-secondary px-5 px-lg-3 rounded-5" name="BTNDecline" form="declineForm">Cancel</button>
+                            <button type="button" class="btn btn-primary px-5 px-lg-3 rounded-5 fw-semibold" data-bs-toggle="modal" data-bs-target="#mainModal">Accept</button>
+                        </div>
+
                     </div>
 
                     <div class="col-lg">
@@ -265,27 +269,28 @@ if (isset($_POST["BTNDecline"])) {
                         <div class="row gap-3">
                             <div class="col-md">
                                 <label class="mb-3"><b>Medical History</b></label>
-                                <div class="d-flex justify-content-start align-items-start">
-                                    <img class="img-fluid rounded-5 shadow" style="height: auto; width: 100%; cursor: pointer;" src="./UserFiles/PatientMedicalHistoryPictures/<?php echo $var_Medpic ?>" alt="<?php echo $var_Medpic ?>">
+                                <div class="d-flex justify-content-start align-items-start flex-column gap-2">
+                                    <?php
+
+                                    foreach (explode(",", $var_Medpic) as $filename) {
+                                        echo "<img class='img-fluid rounded-5 shadow' style='height: auto; width: 100%; cursor: pointer;' src='./UserFiles/PatientMedicalHistoryPictures/$filename' alt='$filename'>";
+                                    }
+
+                                    ?>
                                 </div>
                             </div>
                             <div class="col-md">
                                 <label class="mb-3"><b>Medical Assesment</b></label>
-                                <div class="d-flex justify-content-start align-items-start">
-                                    <img class="img-fluid rounded-5 shadow cursor" style="height: auto; width: 100%; cursor: pointer;" src="./UserFiles/PatientAssementPictures/<?php echo $var_Assesment ?>" alt="<?php echo $var_Assesment ?>">
+                                <div class="d-flex justify-content-start align-items-start flex-column gap-2">
+                                    <?php
+
+                                    foreach (explode(",", $var_Assesment) as $filename) {
+                                        echo "<img class='img-fluid rounded-5 shadow cursor' style='height: auto; width: 100%; cursor: pointer;' src='./UserFiles/PatientAssementPictures/$filename' alt='$filename'>";
+                                    }
+
+                                    ?>
                                 </div>
                             </div>
-                        </div>
-
-                        <form id="declineForm" method="post" action="./PTPatientview.php" hidden></form>
-
-                        <div class="d-flex justify-content-center justify-content-lg-start align-items-center mt-3 flex-row gap-1">
-                            <button type="submit" class="btn btn-secondary px-5 rounded-5" name="BTNDecline" form="declineForm">
-                                Cancel
-                            </button>
-                            <button type="button" class="btn btn-primary px-5 rounded-5 fw-semibold" data-bs-toggle="modal" data-bs-target="#mainModal">
-                                Accept
-                            </button>
                         </div>
 
                     </div>
@@ -328,15 +333,15 @@ if (isset($_POST["BTNDecline"])) {
                             </label><br>
                             <label class="mb-1">
                                 <b>Payment Type:</b>
-                                <span><?php echo $var_get["payment_type"] ?></span>
+                                <span><?php echo $var_get["payment_type"]; ?></span>
                             </label><br>
                             <label class="mb-1">
                                 <b>Start Date:</b>
-                                <span><?php echo $var_get["start_date"] ?></span>
+                                <span><?php echo $var_get["start_date"]; ?></span>
                             </label><br>
                             <label class="mb-1">
                                 <b>Date Requested:</b>
-                                <span><?php echo $var_get["Date_creadted"] ?></span>
+                                <span><?php echo $var_get["Date_creadted"]; ?></span>
                             </label><br>
                             <label>
                                 <b>Condition:</b>

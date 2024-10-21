@@ -51,7 +51,7 @@ main {
 
         @media screen and (max-width: map.get($grid-breakpoints, sm)) {
             border-radius: 0;
-            height: 100vh;
+            height: 100%;
         }
 
         @media screen and (max-width: map.get($grid-breakpoints, sm)) {
@@ -68,7 +68,7 @@ main {
 
         @media screen and (max-width: map.get($grid-breakpoints, sm)) {
             border-radius: 0;
-            height: 100vh;
+            height: 100%;
         }
     }
 }

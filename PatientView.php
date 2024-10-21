@@ -40,14 +40,14 @@ session_start();
 
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
-                            <li class="nav-item">
+                        <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PATAppointmentList.php">
                                     <i class="bi bi-calendar-check fs-3"></i><br>
                                     <small>Appointment</small>
                                 </a>
@@ -71,7 +71,7 @@ session_start();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./ProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>
@@ -89,6 +89,16 @@ session_start();
         </nav>
     </header>
 
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body"></div>
+        </div>
+    </div>
+
     <main class="py-0 py-sm-3">
 
         <section class="patient-view-section bg-secondary-subtle py-3 py-sm-5 px-3 px-sm-5 shadow container-fluid container-sm">
@@ -100,29 +110,34 @@ session_start();
                     <div class="mb-3 d-flex justify-content-center align-items-center">
                         <img id="ProfPic" class="img-fluid rounded-5 shadow" style="height: 250px; width: auto;" src="#" alt="#">
                     </div>
+
                     <hr>
-                    <div class="mb-3">
+
+                    <div class="mb-1">
                         <label class="mb-1">
                             <b>Full Name:</b>
-                            <span id="fllname"></span>
+                            <span id="fllname" class="text-capitalize"></span>
                         </label><br>
                         <label class="mb-1">
                             <b>Case Handled:</b>
-                            <span id="case_handled"></span>
+                            <span id="case_handled" class="text-capitalize"></span>
                         </label><br>
                         <label class="mb-1">
                             <b>City:</b>
-                            <span id="City"></span>
+                            <span id="City" class="text-capitalize"></span>
                         </label><br>
                         <label class="mb-1">
                             <b>Barangay:</b>
-                            <span id="barangay"></span>
+                            <span id="barangay" class="text-capitalize"></span>
                         </label><br>
                         <label class="mb-1">
                             <b>Therapist ID:</b>
                             <span id="ID"></span>
                         </label>
                     </div>
+
+                    <!-- Continue Here -->
+                    <button type="button" id="sendMessageButton" class="btn btn-primary rounded-5 w-100 mb-3 mb-lg-0">Send Message</button>
 
                 </div>
 
@@ -154,48 +169,9 @@ session_start();
 
     </main>
 
-    <!-- <div class="container-fluid full-height">
-        <div class="white-box">
-            <div class="flex-container">
-                <div class="box">
-                    <div class="Details-box  rounded">
-                        <div class="TherapistInfo rounded">
-                            <img id="ProfPic" class="border rounded-circle" src="" alt="Profile Picture">
-                            <p id="fllname"></p>
-                            <p id="case_handled"></p>
-                            <p id="City"></p>
-                            <p id="Radius"></p>
-                            <p id="ID"></p>
-
-                            <p>Rating: </p>
-                        </div>
-                        <div class="TherapistScghed">
-                            <div id="TimeBTN" class="TimeBTN">
-                                <button id="BtnAM">AM</button>
-                                <button id="BtnPM">PM</button>
-                            </div>
-                            <div class="AM" id="AM-schedule">
-                                <div class="SchedButton">
-                                    <div id="AM"></div>
-                                </div>
-                            </div>
-                            <div class="PM" id="PM-schedule" style="display: none;">
-                                <div class="SchedButton">
-                                    PM Schedule content goes here
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div> -->
-
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script>
-        let TherapID;
+        var TherapID;
 
         (() => {
             const btnAM = document.getElementById('BtnAM');
@@ -232,7 +208,9 @@ session_start();
 
                 document.getElementById("fllname").innerText = fullname;
                 document.getElementById("ProfPic").src = `./UserFiles/ProfilePictures/${data.ProfPic}`;
-                document.getElementById("case_handled").innerText = data.case;
+                document.getElementById("case_handled").innerText = data.case.split(",").map((word) => {
+                    return " " + word;
+                }).toString();
                 document.getElementById("City").innerText = data.city;
                 document.getElementById("barangay").innerText = data.barangay;
                 document.getElementById("ID").innerText = data.therapitst_id;
@@ -243,6 +221,7 @@ session_start();
                 console.error('Error:', error);
             }
         }
+        
         async function GetSched(TherapID) {
             function convertTo12HourFormat(time24) {
                 const [hours, minutes] = time24.split(':');
@@ -303,11 +282,15 @@ session_start();
 
                 } else {
                     scheddata.forEach(schedule => {
-                        var SchedID = schedule.Sched_id;
-                        var SchedDay = schedule.Day;
-                        var Stime = schedule.Start_ime;
-                        var Etime = schedule.End_Time;
-                        var Note = schedule.Note;
+                        const SchedID = schedule.Sched_id;
+
+                        const SchedDay = schedule.Day.split(",").map((item) => {
+                            return " " + item;
+                        }).toString();
+
+                        const Stime = schedule.Start_ime;
+                        const Etime = schedule.End_Time;
+                        const Note = schedule.Note;
 
                         if (convertTo12HourFormat(schedule.Start_ime).includes("AM")) {
                             const scheduleHTML = `
@@ -331,13 +314,20 @@ session_start();
                         }
                     });
 
-                    Array.from(amElement.querySelectorAll(".schedule-btn")).forEach((button) => {
+                    Array.from(amElement.getElementsByClassName("schedule-btn")).forEach((button) => {
                         button.addEventListener("click", () => {
-                            const SlctedID = button.getAttribute("value");
-                            SessionSched(SlctedID);
+                            let SlctedID = button.getAttribute("value");
+                            CheckChed("<?php echo $_SESSION["sess_PtntID"]?>", SlctedID);
                         });
                     });
 
+                    Array.from(pmElement.getElementsByClassName("schedule-btn")).forEach((button) => {
+                        button.addEventListener("click", () => {
+                            let SlctedID = button.getAttribute("value");
+                            CheckChed("<?php echo $_SESSION["sess_PtntID"]?>", SlctedID);
+                        });
+                    });
+                    
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -346,14 +336,56 @@ session_start();
             }
         }
 
-        function SessionSched(SlctedID){
-            fetch("./PatientViewAPI/SelectedDateAPI.php",{
+        async function CheckChed(PatID, SlctedID) {
+            try {
+                const schedRes = await fetch("./PatientViewAPI/CheckSchedAPI.php", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        "PATID": PatID
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                    
+                const resSched = await schedRes.text();
+
+                if (resSched === "1") {
+                    alert("You have already booked an appointment and session");
+                }
+                if (resSched === "0") {
+                    SessionSched(SlctedID); 
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function SessionSched(SlctedID) {
+            fetch("./PatientViewAPI/SelectedDateAPI.php", {
                 method: "POST",
                 body: JSON.stringify({
-                    SchedID:SlctedID
-                })
+                    SchedID: SlctedID
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(() => {
+                window.location.href = "PatAppointment.php"; // Redirect to PatAppointment.php
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
-            window.location.href = "PatAppointment.php";
+        }
+
+        function showToast(message) {
+            const toastElement = document.getElementById("toast");
+            const toast = new bootstrap.Toast(toastElement);
+
+            toastElement.getElementsByClassName("toast-body")[0].innerHTML = message;
+
+            toast.show();
         }
     </script>
 

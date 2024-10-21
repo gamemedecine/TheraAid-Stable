@@ -9,7 +9,7 @@
 
 <body>
 <?php
-include("databse.php"); // Ensure the filename is correct
+include "./database.php"; // Ensure the filename is correct
 
 // Check if connection was successful
 if (!$var_conn) {

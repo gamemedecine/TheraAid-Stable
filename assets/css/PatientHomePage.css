@@ -18870,7 +18870,7 @@ main .patient-view-section {
 @media screen and (max-width: 576px) {
   main .patient-view-section {
     border-radius: 0;
-    height: 100vh;
+    height: 100%;
   }
 }
 @media screen and (max-width: 576px) {
@@ -18886,7 +18886,7 @@ main .patient-appointment-section {
 @media screen and (max-width: 576px) {
   main .patient-appointment-section {
     border-radius: 0;
-    height: 100vh;
+    height: 100%;
   }
 }
 
