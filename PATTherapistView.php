@@ -107,7 +107,7 @@ if (isset($_POST["BTNsubmit"])) {
         $var_notif = "INSERT INTO tbl_notifications(user_id,appointment_id,type)
         VALUES($var_UID,$var_APID,'$var_type')";
         mysqli_query($var_conn, $var_notif);
-        header("location: TherapistsAppointment.php");
+        header("location: ./TherapistsAppointment.php");
     } else {
         "error";
     }
@@ -135,15 +135,18 @@ if (isset($_POST["BTNDecline"])) {
 }
 
 $var_ammnt = "";
+$statusCode = 0;
 
 if (isset($_POST["BtnSubmit"])) {
     $var_ammnt = floatval($_POST["TxtAmount"]);
 
     if ($var_ammnt != $var_get["rate"]) {
-        echo "Please enter the proper amount";
+        $statusCode = 1;
+        // echo "Please enter the proper amount";
     }
     if ($var_get["rate"] > $var_PtntE_wallet) {
-        echo "Insufecient valance Please Top-up";
+        $statusCode = 2;
+        // echo "Insufficient balance Please Top-up";
     } else {
         $var_Payment = "INSERT INTO tbl_payment (appointment_id,amount,status)
         VALUES ('$var_APid','$var_ammnt','Paid')";
@@ -289,6 +292,16 @@ if (isset($_POST["BtnSubmit"])) {
         </div>
     </form>
 
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body"></div>
+        </div>
+    </div>
+
     <main class="py-0 py-lg-3">
 
         <section class="main-section bg-secondary-subtle py-3 py-lg-5 px-3 px-lg-5 shadow container-fluid container-lg">
@@ -340,7 +353,7 @@ if (isset($_POST["BtnSubmit"])) {
                         </label><br>
                         <label class="mb-1">
                             <b>Balance:</b>
-                            <span class="text-capitalize"><?php echo $var_PtntE_wallet; ?></span>
+                            <span class="text-capitalize" id="balance"><?php echo $var_PtntE_wallet; ?></span>
                         </label><br>
                         <label class="mb-1">
                             <b>Description:</b>
@@ -376,5 +389,34 @@ if (isset($_POST["BtnSubmit"])) {
     </main>
 
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script>
+        <?php
+
+        if ($statusCode === 1) {
+            echo "showToast(`<span class='text-danger'>Please enter the proper amount</span>`)";
+        }
+        if ($statusCode === 2) {
+            echo "showToast(`<span class='text-danger'>Insufficient balance Please Top-up</span>`)";
+        }
+
+        ?>
+
+        function showToast(message) {
+            const toastElement = document.getElementById("toast");
+            const toast = new bootstrap.Toast(toastElement);
+
+            toastElement.getElementsByClassName("toast-body")[0].innerHTML = message;
+
+            toast.show();
+        }
+
+        function formatCurrency(value) {
+            value = value.replace(/[^\d.-]/g, '');
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'PHP',
+            }).format(value || 0);
+        }
+    </script>
 </body>
 </html>

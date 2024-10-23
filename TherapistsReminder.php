@@ -7,7 +7,7 @@ session_start();
 $var_UserId = $_SESSION["sess_id"];
 $var_crrntDate = "2024-10-21";
 
-echo $var_crrntDate;//chnage it to a static value for testing
+echo $var_crrntDate;
 
 $var_Rmndr = "SELECT RM.reminder_date,
                     RM.reminder_messsage,

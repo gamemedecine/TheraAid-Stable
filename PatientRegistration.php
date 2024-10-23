@@ -253,7 +253,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </div>
                 <div class="modal-body">
                     <small class="mb-2 fw-semibold">Click the map to choose a location</small>
-                    <div id="map" style="width: 100%; height: 500px;" class="mb-2"></div>
+                    <div id="map" style="width: 100%; height: 500px;"></div>
                     <div class="row gap-2 gap-md-0">
                         <div class="mt-2 col-md">
                             <label for="chosen-latitude" class="mb-1 fw-semibold">Latitude</label>
@@ -592,7 +592,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             const forms = document.getElementsByClassName("needs-validation");
 
             Array.from(forms).forEach((form) => {
-                form.addEventListener("submit", async (e) => {
+                form.addEventListener("submit", (e) => {
                     if (!form.checkValidity()) {
                         e.preventDefault();
                         e.stopPropagation();
@@ -609,20 +609,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             const chosenLatitude = document.getElementById("chosen-latitude");
             const chosenLongitude = document.getElementById("chosen-longitude");
             const saveLocationBtn = document.getElementById("save-location-btn");
-            const map = document.getElementById("map");
             const fullAddressInput = document.getElementById("fullAddress");
+
+            let map;
 
             chooseLocationBtn.addEventListener("click", () => {
                 const modal = new bootstrap.Modal(mapModal);
 
                 modal.show();
+                
+                setTimeout(() => {
+                    window.dispatchEvent(new Event("resize"));
+                }, 500);
             });
 
             if (!navigator.geolocation) {
                 map.innerHTML = "<small>Geolocation is not supported by this browser.</small>";
             }
 
-            navigator.geolocation.getCurrentPosition(async (position) => {
+            navigator.geolocation.getCurrentPosition((position) => {
                 latitude = position.coords.latitude;
                 longitude = position.coords.longitude;
 
@@ -633,7 +638,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     center: [
                         latitude, longitude
                     ],
-                    zoom: 17
+                    zoom: 14
                 });
 
                 const marker = L.marker([latitude, longitude])
@@ -643,7 +648,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 let chosenMarker;
 
-                map.on("click", async(e) => {
+                map.on("click", (e) => {
                     const latitudeLongitude = map.mouseEventToLatLng(e.originalEvent);
                     latitude = latitudeLongitude.lat;
                     longitude = latitudeLongitude.lng;
@@ -657,18 +662,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                         const apiUrl = `https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}&api_key=66ffa02e9542d122573242pqy09573f`;
 
-                        const response = await fetch(apiUrl, {
-                            method: "GET"
-                        })
-                        const json = await response.json();
-                        const barangay = json.address.quarter;
-                        const city = json.address.city;
+                        fullAddressInput.placeholder = "Fetching location, please wait...";
 
-                        fullAddressInput.value = `${barangay}, ${city}`;
+                        setTimeout(async () => {
+                            const response = await fetch(apiUrl, {
+                                method: "GET"
+                            });
+
+                            const responseStatusCode = response.status;
+
+                            if (responseStatusCode === 200) {
+                                const json = await response.json();
+                                const barangay = json.address.quarter;
+                                const city = json.address.city;
+
+                                fullAddressInput.value = `${barangay}, ${city}`;
+                                fullAddressInput.placeholder = "";
+                            }
+                        }, 1000);
                     }
 
-                    chosenMarker = L.marker([latitude, longitude])
-                        .addTo(map);
+                    chosenMarker = L.marker([latitude, longitude]).addTo(map);
                 });
 
                 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -723,7 +737,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             Array.from(patientCaseList.getElementsByClassName("case")).forEach((element) => {
                 element.addEventListener("click", () => {
-                    patientCase.value = element.innerHTML;
+                    patientCase.value += element.innerHTML;
                 });
             });
 

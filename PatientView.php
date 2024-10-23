@@ -356,7 +356,7 @@ $sess_PTID = $_SESSION["sess_PTID"];
                 const resSched = await schedRes.text();
 
                 if (resSched === "1") {
-                    alert("You have already booked an appointment and session");
+                    showToast("You have already booked an appointment and session");
                 }
                 if (resSched === "0") {
                     SessionSched(SlctedID); 

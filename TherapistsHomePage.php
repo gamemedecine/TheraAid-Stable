@@ -417,6 +417,10 @@ $var_Etime = "";
                                         form.classList.remove("was-validated");
                                         alertPlaceholder.innerHTML = "";
                                     }
+
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 1000);
                                     
                                 } catch (err) {
                                     console.log(err.message);
@@ -491,7 +495,7 @@ $var_Etime = "";
                     const fullName = `${firstName} ${middleName}, ${lastName}`;
                     const profilePic = result.profilePic;
 
-                    patientsListContainer.appendChild(createPatientCard(profilePic, fullName, cases, city, barangay));
+                    patientsListContainer.appendChild(createPatientCard(profilePic, fullName, cases, city, barangay, userID));
                 }
 
             } catch (error) {
@@ -560,7 +564,7 @@ $var_Etime = "";
             }
         }
 
-        function createPatientCard(imageSrc, name, cases, city, barangay) {
+        function createPatientCard(imageSrc, name, cases, city, barangay, userID) {
             const cardDiv = document.createElement('div');
             cardDiv.className = 'card shadow rounded-5';
 
@@ -589,10 +593,13 @@ $var_Etime = "";
             cityBarangay.className = 'mb-1';
             cityBarangay.innerHTML = `<b>City & Barangay: </b> ${city}, ${barangay}`;
 
-            const button = document.createElement('a');
-            button.href = '#';
+            const button = document.createElement('button');
             button.className = 'btn btn-primary btn-sm px-5 rounded-5 w-100 fw-semibold mt-2';
             button.textContent = 'View Patient';
+
+            button.onclick = () => {
+                window.location.href = `./TherapistPatientView.php?userID=${userID}`;
+            }
 
             cardBody.appendChild(cardTitle);
             cardBody.appendChild(caseInfo);

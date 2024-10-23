@@ -78,6 +78,7 @@ if (isset($_POST["BtnSubmit"])) {
 
     $var_updt = "UPDATE tbl_user SET E_wallet= $var_UpdE_wallet WHERE User_id =  $var_profid ";
     $var_upqry = mysqli_query($var_conn, $var_updt);
+    header("location: ./ProfilePage.php");
 }
 
 ?>
@@ -166,29 +167,29 @@ if (isset($_POST["BtnSubmit"])) {
         </nav>
     </header>
 
-    <form method="POST" action="ProfilePage.php" class="needs-validation" novalidate>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">E_wallet</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">E_wallet</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="ProfilePage.php" class="needs-validation" id="topUpForm" novalidate>
                         <h3>Balance: <span class="balance">₱<?php echo $var_Balance ?></span></h3>
                         <hr>
                         <label class="mb-1" for="TxtMoney">Top up</label>
                         <input type="number" name="TxtMoney" placeholder="₱" class="form-control" id="TxtMoney" required>
                         <div class="invalid-feedback">Please type in a balance.</div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary px-5 rounded-5" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" name="BtnSubmit" class="btn btn-primary px-5 rounded-5">Top-up</button>
-                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary px-5 rounded-5" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" name="BtnSubmit" form="topUpForm" class="btn btn-primary px-5 rounded-5">Top-up</button>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 
     <main class="py-0 py-sm-3">
 
@@ -295,7 +296,6 @@ if (isset($_POST["BtnSubmit"])) {
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script>
         (() => {
-
             Array.from(document.getElementsByClassName("needs-validation")).forEach((form) => {
                 form.addEventListener("submit", (e) => {
                     if (!form.checkValidity()) {
@@ -320,15 +320,14 @@ if (isset($_POST["BtnSubmit"])) {
                     window.open(element.src);
                 });
             });
-
-            window.onload = () => {
-                Array.from(document.getElementsByClassName("balance")).forEach((balance) => {
-                    const newValue = formatCurrency(balance.innerHTML);
-                    balance.innerHTML = newValue;
-                });
-            }
-
         })();
+
+        window.onload = () => {
+            Array.from(document.getElementsByClassName("balance")).forEach((balance) => {
+                const newValue = formatCurrency(balance.innerHTML);
+                balance.innerHTML = newValue;
+            });
+        }
 
         function formatCurrency(value) {
             value = value.replace(/[^\d.-]/g, '');

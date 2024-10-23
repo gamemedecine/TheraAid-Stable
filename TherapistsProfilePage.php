@@ -69,13 +69,16 @@ if (mysqli_num_rows($var_chk) > 0) {
 } else {
     echo "No records found";
 }
+
 $var_UId = $var_get['User_id'];
 $var_ammnt = "";
+
 if (isset($_POST["BtnSubmit"])) {
     $var_ammnt = floatval($_POST["TxtMoney"]);
 
     $var_updt = "UPDATE tbl_user SET E_wallet= $var_ammnt WHERE User_id =  $var_UId ";
     $var_upqry = mysqli_query($var_conn, $var_updt);
+    header("location: ./TherapistsProfilePage.php");
 }
 
 ?>

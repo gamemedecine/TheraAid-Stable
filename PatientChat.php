@@ -341,9 +341,6 @@ function getChatHistory($userID) {
 
             ?>
 
-            const newChatModal = document.getElementById("newChatModal");
-            const newChatModalCloseButtons = document.querySelectorAll("button[type]")
-
             const messages = document.getElementById("messages");
 
             const response = await fetch(`./ChatAPI/getMessageHistory.php?target=${targetID}`);

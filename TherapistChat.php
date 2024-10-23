@@ -148,6 +148,11 @@ function getChatHistory($userID) {
                             <label for="userID" class="mb-1">User ID<span class="text-danger">*</span></label><br>
                             <input type="text" id="userID" name="userID" class="form-control" required>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="fullName" class="mb-1">Full Name<span class="text-danger">*</span></label><br>
+                            <input type="text" id="fullName" name="fullName" class="form-control" readonly required>
+                        </div>
                         
                         <div class="mb-3">
                             <label for="messageText" class="mb-1">Message<span class="text-danger">*</span></label><br>
@@ -197,8 +202,6 @@ function getChatHistory($userID) {
 
                     </form>
 
-                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill w-100" data-bs-target="#newChatModal" data-bs-toggle="modal">New Chat</button>
-
                 </div>
 
                 <div class="col">
@@ -208,9 +211,7 @@ function getChatHistory($userID) {
                         <div>
                             <?php
 
-                            if (
-                                isset($_GET["target"])
-                            ) {
+                            if (isset($_GET["target"])) {
                                 $target = $_GET["target"];
 
                                 $sql = "SELECT Fname, Mname, Lname FROM tbl_user WHERE User_id = $target;";
@@ -331,6 +332,25 @@ function getChatHistory($userID) {
                 }
             });
 
+            <?php
+
+            if (isset($_GET["newChat"])) {
+                $newChat = $_GET["newChat"];
+                
+                $sql = "SELECT Fname, Mname, Lname FROM tbl_user WHERE User_id = $newChat";
+                $result = $var_conn->query($sql)->fetch_assoc();
+                
+                $firstName = $result["Fname"];
+                $middleName = $result["Mname"];
+                $lastName = $result["Lname"];
+
+                $fullname = "$firstName $middleName $lastName";
+
+                echo "newChat('$newChat', '$fullname')";
+            }
+
+            ?>
+
             const messages = document.getElementById("messages");
 
             const response = await fetch(`./ChatAPI/getMessageHistory.php?target=${targetID}`);
@@ -351,6 +371,16 @@ function getChatHistory($userID) {
             toastElement.getElementsByClassName("toast-body")[0].innerHTML = message;
 
             toast.show();
+        }
+
+        function newChat(target, fullName) {
+            const newChatForm = document.getElementById("newChatForm");
+
+            newChatForm.userID.value = target;
+            newChatForm.fullName.value = fullName;
+
+            const modal = new bootstrap.Modal("#newChatModal");
+            modal.show();
         }
     </script>
 </body>

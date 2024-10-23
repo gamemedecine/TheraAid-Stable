@@ -172,6 +172,7 @@ if (isset($_POST["BtnSubmit"])) {
 
             <div class="mb-3">
                 <?php
+                
                 echo "<label class='mb-1'><b>Day Selected: </b>" . $var_rec["day"] . "</label><br>";
                 echo "<label class='mb-1'><b>Start Time: </b>" . $var_rec["start_time"] . "</label><br>";
                 echo "<label class='mb-1'><b>End Time: </b>" . $var_rec["end_time"] . "</label><br>";
@@ -179,14 +180,6 @@ if (isset($_POST["BtnSubmit"])) {
                 echo "<label class='mb-1'><b>Schedule ID: </b>" . $var_rec["shed_id"] . "</label><br>";
                 echo "<label class='mb-1'><b>Therapist ID: </b>" . $var_rec["therapists_id"] . "</label><br>";
 
-                // echo "<p>Day Selected: " . $var_rec["day"] . "</p>";
-                // echo "<p>Startinng Time: " . $var_rec["start_time"] . "</p>";
-                // echo "<p>Time Finished: " . $var_rec["end_time"] . "</p>";
-                // echo "<p>Note: " . $var_rec["note"] . "</p>";
-                // echo "Sched_id: " . $var_rec["shed_id"];
-                // echo " Therapists: " . $var_rec["therapists_id"];
-
-                // echo "session" . $var_Session . " Ptype" . $var_Ptype . " " . $var_Date . " " . $var_radBtn . " " . " " . $var_PTID . " " . $var_PtntID;
                 ?>
             </div>
 
