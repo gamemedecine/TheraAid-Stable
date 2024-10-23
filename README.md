@@ -1,2 +1,1 @@
-# TheraAid-Stable
- 
+# TheraAid Stable
