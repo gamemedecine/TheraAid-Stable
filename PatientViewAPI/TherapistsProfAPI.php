@@ -28,14 +28,15 @@ if( isset($DcodeJSON["ID"])
         $var_rec = mysqli_fetch_array($var_qry);
         
         echo json_encode([
-           "fname" => $var_rec["Fname"],
+            "userID" =>$var_rec["User_id"],
+            "fname" => $var_rec["Fname"],
             "lname" =>$var_rec["Lname"],
             "mname" => $var_rec["Mname"],
             "ProfPic" =>$var_rec["profilePic"],
             "case" => $var_rec["case_handled"],
             "city" => $var_rec["city"],
             "barangay" => $var_rec["barangay"],
-            "therapitst_id" =>$var_rec["therapist_id"]
+            "therapitst_id" =>$var_rec["therapist_id"],
         ]);
 
     }

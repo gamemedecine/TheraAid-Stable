@@ -4,6 +4,8 @@ include"./database.php";
 
 session_start();
 
+$sess_PTID = $_SESSION["sess_PTID"];
+
 ?>
 
 <!DOCTYPE html>
@@ -136,7 +138,6 @@ session_start();
                         </label>
                     </div>
 
-                    <!-- Continue Here -->
                     <button type="button" id="sendMessageButton" class="btn btn-primary rounded-5 w-100 mb-3 mb-lg-0">Send Message</button>
 
                 </div>
@@ -199,10 +200,10 @@ session_start();
                 const response = await fetch("./PatientViewAPI/TherapistsProfAPI.php", {
                     method: "POST",
                     body: JSON.stringify({
-                        'ID': "<?php echo $_SESSION["sess_PTID"]; ?>"
+                        'ID': "<?php echo $sess_PTID; ?>"
                     })
                 });
-
+                
                 const data = await response.json();
                 const fullname = `${data.fname} ${data.mname.charAt(0)}. ${data.lname}`;
 
@@ -214,6 +215,10 @@ session_start();
                 document.getElementById("City").innerText = data.city;
                 document.getElementById("barangay").innerText = data.barangay;
                 document.getElementById("ID").innerText = data.therapitst_id;
+
+                document.getElementById("sendMessageButton").addEventListener("click", () => {
+                    window.location.href = `./PatientChat.php?newChat=${data.userID}`;
+                });
 
                 TherapID = data.therapitst_id;
                 GetSched(TherapID);
@@ -317,7 +322,7 @@ session_start();
                     Array.from(amElement.getElementsByClassName("schedule-btn")).forEach((button) => {
                         button.addEventListener("click", () => {
                             let SlctedID = button.getAttribute("value");
-                            CheckChed("<?php echo $_SESSION["sess_PtntID"]?>", SlctedID);
+                            CheckChed("<?php echo $_SESSION["sess_PtntID"] ?>", SlctedID);
                         });
                     });
 

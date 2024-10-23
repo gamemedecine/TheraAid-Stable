@@ -8,9 +8,8 @@ if (!isset($_SESSION["sess_id"])) {
     header("location: landingPage.php");
     exit();
 }
-$var_profid = intval($_SESSION["sess_id"]);
 
-$var_conn = mysqli_connect("localhost", "root", "", "theraaid");
+$var_profid = intval($_SESSION["sess_id"]);
 $var_qry = "SELECT u.User_id,
                     u.Fname, 
                     u.Lname, 

@@ -1,7 +1,8 @@
 <?php
-session_start();
 
-$var_conn = mysqli_connect("localhost", "root", "", "theraaid");
+include "./database";
+
+session_start();
 
 if (isset($_POST["BtnSubmit"])) {
     $var_Username = $_POST["TxtUsername"];
