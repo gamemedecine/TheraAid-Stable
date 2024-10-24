@@ -11,6 +11,8 @@ function calculateAge($birthdate) {
 
 if (isset($_GET["userID"])) {
 
+    $targetUserID = $_GET["userID"];
+
     $sql = "SELECT
             user.User_id,
             CONCAT(user.Fname, ' ', user.Mname, ' ', user.Lname) as fullName,
@@ -28,7 +30,7 @@ if (isset($_GET["userID"])) {
         FROM tbl_user user
         JOIN tbl_patient patient
         ON patient.user_id = user.User_id
-        WHERE user.User_id = 53";
+        WHERE user.User_id = $targetUserID";
     $result = $var_conn->query($sql)->fetch_assoc();
 
     $userID = $result["User_id"];

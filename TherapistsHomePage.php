@@ -461,7 +461,7 @@ $var_Etime = "";
                 document.getElementById("case_handled").innerText = data.case.split(",").map((item) => {
                     return " " + item;
                 }).toString();
-                document.getElementById("City").innerText = data.city;
+                document.getElementById("City").innerText = `${data.city}, ${data.barangay}`;
                 document.getElementById("ID").innerText = TherapID;
 
                 GetSched(TherapID);
@@ -469,9 +469,9 @@ $var_Etime = "";
                 SessionPTID(TherapID);
 
                 const formData = new FormData();
-                formData.append("city", " Mandaue City");
-                formData.append("barangay", "Banilad");
-                formData.append("case", "Case 1,Case 2,Case 3,Case 4,Case 5,Case 6");
+                formData.append("city", data.city);
+                formData.append("barangay", data.barangay);
+                formData.append("case", data.case);
 
                 response = await fetch("./TherapistHomePageAPI/NearMePatients.php", {
                     method: "POST",

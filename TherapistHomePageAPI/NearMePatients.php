@@ -9,7 +9,6 @@ if (
 ) {
     $city = $_POST["city"];
     $barangay = $_POST["barangay"];
-
     $cases = explode(",", $_POST["case"]);
         
     $sql = "SELECT 
@@ -29,7 +28,7 @@ if (
         JOIN tbl_user user
         ON patient.User_id = user.User_id;";
 
-    $results = mysqli_query($var_conn, $sql);
+    $results = $var_conn->query($sql);
 
     if ($results) {
         $patients = array();
@@ -47,17 +46,16 @@ if (
             $lastName = $result["Lname"];
             $profilePic = $result["profilePic"];
 
-            $isExists = false;
+            $isExists = "false<br>";
 
             foreach ($cases as $case) {
                 if (in_array($case, $patientCases)) {
-                    $isExists = true;
-                    break;
+                    $isExists = "true<br>";
                 }
             }
 
             if ($isExists) {
-                if ($city === $patientCity || $barangay === $patientBarangay) {
+                if ($city === $patientCity && $barangay === $patientBarangay) {
                     array_push($patients, array(
                         "patientID" => $patientID,
                         "userID" => $userID,
