@@ -66,13 +66,13 @@ $var_slctdID = "";
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./PATnotif.php">
                                     <i class="bi bi-bell fs-3"></i><br>
                                     <small>Notification</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
                                     <small>Chat</small>
                                 </a>

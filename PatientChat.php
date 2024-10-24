@@ -55,6 +55,30 @@ function getChatHistory($userID) {
                 <a class="navbar-brand" href="#">
                     <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
                 </a>
+                <button class="navbar-toggler px-5 py-2 rounded-pill fs-5 text-black" type="button" data-bs-toggle="offcanvas" data-bs-target="#chatOffcanvas">
+                    Chats
+                </button>
+
+                <div class="offcanvas offcanvas-start bg-primary-subtle d-block d-lg-none" tabindex="-1" id="chatOffcanvas">
+                    <div class="offcanvas-header">
+                        <h3 class="offcanvas-title">Chats</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                    </div>
+                    <div class="offcanvas-body">
+
+                        <form method="GET" action="./TherapistChat.php" class="d-flex justify-content-start align-items-center p-3 flex-column gap-2">
+
+                        <?php
+                        
+                        getChatHistory($userID);
+    
+                        ?>
+    
+                        </form>
+
+                    </div>
+                </div>
+
                 <button class="navbar-toggler rounded-pill shadow" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
@@ -73,7 +97,7 @@ function getChatHistory($userID) {
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./PatientHomePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
@@ -97,7 +121,7 @@ function getChatHistory($userID) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./PatientChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
                                     <small>Chat</small>
                                 </a>
@@ -174,7 +198,7 @@ function getChatHistory($userID) {
 
             <div class="row rounded">
 
-                <div class="col-3" id="users" style="height: 650px; overflow-y: auto;">
+                <div class="col-3 d-none d-lg-block" id="users" style="height: 650px; overflow-y: auto;">
 
                     <h3 class="fw-semibold text-center">Chats</h3>
 

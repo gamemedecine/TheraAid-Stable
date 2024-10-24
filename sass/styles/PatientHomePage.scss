@@ -71,4 +71,15 @@ main {
             height: 100%;
         }
     }
+
+    .chat-section {
+        height: auto;
+        border-radius: $border-radius-xxl;
+        transition: border-radius 0.2s ease-in-out;
+
+        @media screen and (max-width: map.get($grid-breakpoints, md)) {
+            border-radius: 0;
+            height: 100%;
+        }
+    }
 }

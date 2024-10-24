@@ -252,9 +252,9 @@ if (isset($_POST["BtnSubmit"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./Logout.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PATAppointmentList.php">
                                     <i class="bi bi-box-arrow-right fs-3"></i><br>
-                                    <small>Logout</small>
+                                    <small>Go Back</small>
                                 </a>
                             </li>
                         </ul>
@@ -349,7 +349,7 @@ if (isset($_POST["BtnSubmit"])) {
                     <div class="mb-3">
                         <label class="mb-1">
                             <b>Case:</b>
-                            <span class="text-capitalize"><?php echo $var_get["P_case"]; ?></span>
+                            <span class="text-capitalize"><?php echo implode(", ", explode(",", $var_get["P_case"])); ?></span>
                         </label><br>
                         <label class="mb-1">
                             <b>Balance:</b>

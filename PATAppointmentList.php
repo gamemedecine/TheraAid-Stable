@@ -95,13 +95,13 @@ if (isset($_POST["BTNAPInfo"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PATnotif.php">
                                     <i class="bi bi-bell fs-3"></i><br>
                                     <small>Notification</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
                                     <small>Chat</small>
                                 </a>
@@ -189,15 +189,24 @@ if (isset($_POST["BTNAPInfo"])) {
                                 <td><?php echo $var_rec["status"]; ?></td>
                                 <td><?php echo $var_rec["Date_creadted"]; ?></td>
                                 <td><?php echo $var_rec["rate"]; ?></td>
-                                <?php if ($var_filter != "O"): ?>
-                                    <td>
-                                        <form method="POST" action="PATAppointmentList.php">
-                                            <button type="submit" value="<?php echo $var_rec['appointment_id']; ?>" name="BTNAPInfo" class="btn btn-primary btn-sm px-5 rounded-5 w-100">Check Appointment Info</button>
-                                        </form>
-                                    </td>
-                                <?php else: ?>
-                                    <td></td>
-                                <?php endif; ?>
+                                <?php
+
+                                $appointment_id = $var_rec["appointment_id"];
+
+                                if ($var_filter === "P") {
+                                    echo "<td>
+                                            <button type='submit' value='$appointment_id' name='BTNAPInfo' class='btn btn-primary btn-sm px-5 rounded-5 w-100'>Cancel</button>
+                                        </td>";
+                                }
+                                if ($var_filter === "R") {
+                                    echo "<td>
+                                            <form method='POST' action='PATAppointmentList.php'>
+                                                <button type='submit' value='$appointment_id' name='BTNAPInfo'
+                                                    class='btn btn-primary btn-sm px-5 rounded-5 w-100'>Check Appointment Info</button>
+                                            </form>
+                                        </td>";
+                                }
+                                ?>
                             </tr>
                         <?php endwhile; ?>
                     <?php else: ?>

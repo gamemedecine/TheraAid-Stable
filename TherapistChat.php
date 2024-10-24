@@ -55,18 +55,42 @@ function getChatHistory($userID) {
                 <a class="navbar-brand" href="#">
                     <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
                 </a>
+                <button class="navbar-toggler px-5 py-2 rounded-pill fs-5 text-black" type="button" data-bs-toggle="offcanvas" data-bs-target="#chatOffcanvas">
+                    Chats
+                </button>
+
+                <div class="offcanvas offcanvas-start bg-primary-subtle d-block d-lg-none" tabindex="-1" id="chatOffcanvas">
+                    <div class="offcanvas-header">
+                        <h3 class="offcanvas-title">Chats</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                    </div>
+                    <div class="offcanvas-body">
+
+                        <form method="GET" action="./TherapistChat.php" class="d-flex justify-content-start align-items-center p-3 flex-column gap-2">
+
+                        <?php
+                        
+                        getChatHistory($userID);
+    
+                        ?>
+    
+                        </form>
+
+                    </div>
+                </div>
+
                 <button class="navbar-toggler rounded-pill shadow" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="offcanvas offcanvas-start bg-primary-subtle" tabindex="-1" id="offcanvasNavbar"
-                    aria-labelledby="offcanvasNavbarLabel">
+
+                <div class="offcanvas offcanvas-start bg-primary-subtle" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
 
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
                             <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
                         </h5>
-                        <button type="button" class="btn-close shadow" data-bs-dismiss="offcanvas"
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
                     </div>
 
@@ -79,7 +103,7 @@ function getChatHistory($userID) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
                                 </a>
@@ -91,13 +115,13 @@ function getChatHistory($userID) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsReminder.php">
                                     <i class="bi bi-card-checklist fs-3"></i><br>
                                     <small>Reminder</small>
                                 </a>
@@ -182,11 +206,11 @@ function getChatHistory($userID) {
     
     <main class="py-0 py-lg-3">
 
-        <section class="main-section bg-secondary-subtle py-3 py-lg-5 px-3 px-lg-5 shadow container-fluid container-lg">
+        <section class="chat-section bg-secondary-subtle py-3 py-lg-5 px-3 px-lg-5 shadow container-lg">
 
             <div class="row rounded">
 
-                <div class="col-3" id="users" style="height: 650px; overflow-y: auto;">
+                <div class="col-3 d-none d-lg-block" id="users" style="height: 650px; overflow-y: auto;">
 
                     <h3 class="fw-semibold text-center">Chats</h3>
 

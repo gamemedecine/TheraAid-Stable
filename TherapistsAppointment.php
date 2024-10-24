@@ -73,7 +73,7 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
                                 </a>
@@ -85,13 +85,13 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsReminder.php">
                                     <i class="bi bi-card-checklist fs-3"></i><br>
                                     <small>Reminder</small>
                                 </a>

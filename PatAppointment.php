@@ -99,7 +99,7 @@ if (isset($_POST["BtnSubmit"])) {
 
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
-                        <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
@@ -118,13 +118,13 @@ if (isset($_POST["BtnSubmit"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PATnotif.php">
                                     <i class="bi bi-bell fs-3"></i><br>
                                     <small>Notification</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
                                     <small>Chat</small>
                                 </a>

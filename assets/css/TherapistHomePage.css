@@ -18854,5 +18854,16 @@ main .main-section {
     height: 100%;
   }
 }
+main .chat-section {
+  height: auto;
+  border-radius: 2rem;
+  transition: border-radius 0.2s ease-in-out;
+}
+@media screen and (max-width: 768px) {
+  main .chat-section {
+    border-radius: 0;
+    height: 100%;
+  }
+}
 
 /*# sourceMappingURL=TherapistHomePage.css.map */

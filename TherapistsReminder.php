@@ -7,8 +7,6 @@ session_start();
 $var_UserId = $_SESSION["sess_id"];
 $var_crrntDate = "2024-10-21";
 
-echo $var_crrntDate;
-
 $var_Rmndr = "SELECT RM.reminder_date,
                     RM.reminder_messsage,
                     RM.reminder_status,
@@ -45,76 +43,143 @@ if (isset($_POST["BtnSession"])) {
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
-
+<html data-bs-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Therapists Reminder</title>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>TheraAid | Therapist Reminder</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/TherapistHomePage.css'>
 </head>
-
 <body>
-    <h1 style="text-align:center;">Appointment for today!</h1>
-    <form method="POST" action="TherapistsReminder.php">
-        <div class="box">
-            <table style="width:100%;">
-                <tr>
-                    <?php
+    <header>
+        <nav class="navbar navbar-expand-lg bg-primary-subtle">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
+                </a>
+                <button class="navbar-toggler rounded-pill shadow" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-start bg-primary-subtle" tabindex="-1" id="offcanvasNavbar"
+                    aria-labelledby="offcanvasNavbarLabel">
 
-                    if (mysqli_num_rows($var_rmndrqry) > 0) {
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
+                        </h5>
+                        <button type="button" class="btn-close shadow" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                    </div>
 
-                        while ($var_Rget = mysqli_fetch_array($var_rmndrqry)) {
-                            $var_listDate = explode(",", $var_Rget["reminder_date"]);
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsHomePage.php">
+                                    <i class="bi bi-house fs-3"></i><br>
+                                    <small>Home</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
+                                    <i class="bi bi-hospital fs-3"></i><br>
+                                    <small>Session</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsAppointment.php">
+                                    <i class="bi bi-calendar-check fs-3"></i><br>
+                                    <small>Appointment</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                    <i class="bi bi-clock-history fs-3"></i><br>
+                                    <small>History</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./TherapistsReminder.php">
+                                    <i class="bi bi-card-checklist fs-3"></i><br>
+                                    <small>Reminder</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                    <i class="bi bi-bell fs-3"></i><br>
+                                    <small>Notification</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistChat.php">
+                                    <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
+                                    <small>Chat</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsProfilePage.php">
+                                    <i class="bi bi-person fs-3"></i><br>
+                                    <small>Profile</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./Logout.php">
+                                    <i class="bi bi-box-arrow-right fs-3"></i><br>
+                                    <small>Logout</small>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-                            if (in_array($var_crrntDate, $var_listDate)) {
-                                $appointmentID = $var_Rget["appointment_id"];
-                                $profilePic = $var_Rget["profilePic"];
-                                $fullName = $var_Rget["Pat_fllname"];
-                                $day = $var_Rget["day"];
-                                $startTime = $var_Rget["start_time"];
-                                $endTime = $var_Rget["end_time"];
+    <main class="py-0 py-sm-3">
 
-                                echo "<td><button name='BtnSession' value='$appointment_id'>
-                                    <img src='./UserFiles/ProfilePictures/$profilePic' alt='$profilePic'>
-                                    <span>$fullName</span>
-                                    <span>$day</span>
-                                    <span>$startTime</span>
-                                    <span>$endTime</span>
-                                </td>";
+        <section class="main-section bg-secondary-subtle py-3 py-sm-5 px-3 px-sm-5 shadow container">
+
+            <h1 class="text-center">Appointment for Today</h1>
+            <form method="POST" action="TherapistsReminder.php">
+                <table class="table w-100" style="height: 650px; overflow-y: auto;">
+                    <tr>
+                        <?php
+
+                        if (mysqli_num_rows($var_rmndrqry) > 0) {
+                        
+                            while ($var_Rget = mysqli_fetch_array($var_rmndrqry)) {
+                                $var_listDate = explode(",", $var_Rget["reminder_date"]);
+                            
+                                if (in_array($var_crrntDate, $var_listDate)) {
+                                    $appointmentID = $var_Rget["appointment_id"];
+                                    $profilePic = $var_Rget["profilePic"];
+                                    $fullName = $var_Rget["Pat_fllname"];
+                                    $day = $var_Rget["day"];
+                                    $startTime = $var_Rget["start_time"];
+                                    $endTime = $var_Rget["end_time"];
+                                
+                                    echo "<td><button name='BtnSession' value='$appointment_id'>
+                                        <img src='./UserFiles/ProfilePictures/$profilePic' alt='$profilePic'>
+                                        <span>$fullName</span>
+                                        <span>$day</span>
+                                        <span>$startTime</span>
+                                        <span>$endTime</span>
+                                    </td>";
+                                }
                             }
                         }
-                    }
+                    
+                        ?>
+                    </tr>
+                </table>
+            </form>
 
-                    ?>
-                </tr>
-            </table>
-        </div>
-    </form>
+        </section>
 
+    </main>
 
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 </body>
 
 </html>
-<style>
-    .box {
-        margin-left: 0;
-        margin-top: 2%;
-        width: 90%;
-        height: 700px;
-        border: 4px solid black;
-    }
-
-    .box th,
-    td {
-        border: 1px solid black;
-        border-radius: 50px;
-        height: 40%;
-    }
-
-    .box button {
-        width: 100%;
-        height: 100px;
-        border-radius: 25px;
-        text-align: left;
-    }
-</style>
