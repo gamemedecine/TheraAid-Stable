@@ -55,7 +55,7 @@ if (
             }
 
             if ($isExists) {
-                if ($city === $patientCity && $barangay === $patientBarangay) {
+                if ($city === $patientCity || $barangay === $patientBarangay) {
                     array_push($patients, array(
                         "patientID" => $patientID,
                         "userID" => $userID,
