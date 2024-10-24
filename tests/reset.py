@@ -1,9 +1,9 @@
-import os
+import os, shutil
 
 def clearChatsDirs():
     for i in os.scandir("../Chats"):
         if i.is_dir():
-            os.removedirs(i)
+            shutil.rmtree(i, ignore_errors=True)
 
 def clearUserFiles():
     parentDir = "UserFiles"
