@@ -57,7 +57,7 @@ if (
             }
         }
 
-        if ($isExists && $var_city === $therapistCity) {
+        if ($isExists) {
             if ($var_city === $therapistCity || $barangay === $therapistBarangay) {
                 array_push($therapists, array(
                     "fname" => $result["Fname"],

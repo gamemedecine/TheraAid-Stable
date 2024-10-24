@@ -143,8 +143,7 @@ if (isset($_POST["BtnSubmit"])) {
     if ($var_ammnt != $var_get["rate"]) {
         $statusCode = 1;
         // echo "Please enter the proper amount";
-    }
-    if ($var_get["rate"] > $var_PtntE_wallet) {
+    } else if ($var_get["rate"] > $var_PtntE_wallet) {
         $statusCode = 2;
         // echo "Insufficient balance Please Top-up";
     } else {
@@ -176,6 +175,7 @@ if (isset($_POST["BtnSubmit"])) {
             if ($var_SchedUpdtQRY) {
                 //CREATE A REMINDER
                 SetReminder($var_APid, $var_Sdate, $data_day, $var_NumofSession, $var_conn);
+                header("location: ./PATAppointmentList.php");
             }
         }
     }

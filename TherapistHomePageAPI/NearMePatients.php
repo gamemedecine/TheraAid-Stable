@@ -46,11 +46,11 @@ if (
             $lastName = $result["Lname"];
             $profilePic = $result["profilePic"];
 
-            $isExists = "false<br>";
+            $isExists = false;
 
             foreach ($cases as $case) {
                 if (in_array($case, $patientCases)) {
-                    $isExists = "true<br>";
+                    $isExists = true;
                 }
             }
 
