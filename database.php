@@ -3,7 +3,7 @@
 $hostname = "localhost";
 $username = "root";
 $password = "";
-$database = "theraaid";
+$database = "ta_new";
 
 $var_conn = new mysqli($hostname, $username, $password, $database);
 

@@ -13,7 +13,9 @@ if (
 }
 
 $var_Tid = $_SESSION["sess_PTID"];
+
 $var_Etime = "";
+
 
 ?>
 <!DOCTYPE html>
@@ -162,11 +164,11 @@ $var_Etime = "";
                                     <?php
                         
                                     for ($var_i = 7; $var_i <= 12; $var_i++) {
-                                        echo "<option value=" . $var_i . ":00" . ">" . $var_i . ":00 AM</option>";
+                                        echo "<option value=" . $var_i . ":30" . ">" . $var_i . ":30 AM</option>";
                                     }
         
                                     for ($var_j = 1; $var_j <= 5; $var_j++) {
-                                        echo "<option value=" . ($var_j + 12) . ":00" . ">" . $var_j . ":00 PM</option>";
+                                        echo "<option value=" . ($var_j + 12) . ":30" . ">" . $var_j . ":30 PM</option>";
                                     }
         
                                     ?>
@@ -188,6 +190,69 @@ $var_Etime = "";
             </div>
         </div>
     </div>
+    <!--EDIT MODAL--->
+    
+    <div class="modal fade" id="EditscheduleModal" tabindex="-1" aria-labelledby="EditscheduleModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="EditscheduleModal">Schedule Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input id="modalSchedId" name="TxtSchedID" hidden>
+                    <label>Day(s):</label>
+                    <input type="checkbox" name="days[]" value="Mon"><label>Mon</label>
+                    <input type="checkbox" name="days[]" value="Tue"><label>Tue</label>
+                    <input type="checkbox" name="days[]" value="Wed"><label>Wed</label>
+                    <input type="checkbox" name="days[]" value="THU"><label>Thu</label>
+                    <input type="checkbox" name="days[]" value="Fri"><label>Fri</label>
+                    <input type="checkbox" name="days[]" value="Sat"><label>Sat</label>
+                    
+                    <br><label>Start Time: </label>
+                    <select id="modalSTime"  name="SlctSTime">
+
+                    </select>
+                    <label>End Time: </label>
+                    <select id="modalETime" name="SlctETime">
+
+                    </select><br>
+                    <label>Note:</label><textarea id="modalNote" name="EditNote"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary px-5 rounded-5" id="editButton">Edit</button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal">
+                        Delete
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+ <!-- DELETE MODAL -->
+<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="DeleteModalLabel">Warning</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this schedule?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Confirm</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="main-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -303,7 +368,7 @@ $var_Etime = "";
                     for (let i = startTime + 1; i <= 17; i++) {
                         let period = i < 12 ? "AM" : "PM";
                         let displayHour = i <= 12 ? i : i - 12;
-                        endTimeSelect.innerHTML += `<option value="${i}:00">${displayHour}:00 ${period}</option>`;
+                        endTimeSelect.innerHTML += `<option value="${i}:30">${displayHour}:30 ${period}</option>`;
                     }
                 }
             });
@@ -312,7 +377,7 @@ $var_Etime = "";
 
             form.addEventListener("submit", async (e) => {
                 const addScheduleModal = document.querySelector("#add-schedule-modal");
-                const alertPlaceholder = document.getElementById('alertPlaceHolder');
+               
 
                 const button = addScheduleModal.querySelector("button[type='submit']");
 
@@ -441,6 +506,11 @@ $var_Etime = "";
 
         })();
 
+        
+
+
+
+
         async function suway() {
             try {
                 let response = await fetch("./HomePageAPI/TheraPistsAPI.php", {
@@ -540,15 +610,17 @@ $var_Etime = "";
 
                         if (convertTo12HourFormat(schedule.Start_ime).includes("AM")) {
                             amElement.innerHTML += `
-                                <button value="${schedule.Sched_id}" class='btn btn-outline-primary d-flex justify-content-center align-items-start flex-column gap-1'>
-                                    <label><b>Day<small>(s)</small>:</b> ${schedule.Day}</label>
-                                    <label><b>Time:</b> ${convertTo12HourFormat(schedule.Start_ime)} to ${convertTo12HourFormat(schedule.End_Time)}</label>
-                                    <label><b>Note:</b> ${schedule.Note}</label>
-                                </button>
+                            <button onclick="openScheduleModal('${schedule.Sched_id}', '${schedule.Day}', '${convertTo12HourFormat(schedule.Start_ime)}','${convertTo12HourFormat(schedule.End_Time)}' ,'${schedule.Note}')" 
+                                    class='btn btn-outline-primary d-flex justify-content-center align-items-start flex-column gap-1'>
+                                <label><b>Day<small>(s)</small>:</b> ${schedule.Day}</label>
+                                <label><b>Time:</b> ${convertTo12HourFormat(schedule.Start_ime)} to ${convertTo12HourFormat(schedule.End_Time)}</label>
+                                <label><b>Note:</b> ${schedule.Note}</label>
+                             </button>
                             `;
                         } else if (convertTo12HourFormat(schedule.Start_ime).includes("PM")) {
                             pmElement.innerHTML += `
-                                <button value="${schedule.Sched_id}" class='btn btn-outline-primary d-flex justify-content-center align-items-start flex-column gap-1'>
+                                <button onclick="openScheduleModal('${schedule.Sched_id}', '${schedule.Day}', '${convertTo12HourFormat(schedule.Start_ime)}','${convertTo12HourFormat(schedule.End_Time)}' ,'${schedule.Note}')" 
+                                    class='btn btn-outline-primary d-flex justify-content-center align-items-start flex-column gap-1'>
                                     <label><b>Day<small>(s)</small>:</b> ${schedule.Day}</label>
                                     <label><b>Time:</b> ${convertTo12HourFormat(schedule.Start_ime)} to ${convertTo12HourFormat(schedule.End_Time)}</label>
                                     <label><b>Note:</b> ${schedule.Note}</label>
@@ -630,6 +702,217 @@ $var_Etime = "";
 
             toast.show();
         }
+        function openScheduleModal(id, day, Stime, Etime, note) {
+    // Populate modal content
+    document.getElementById('modalSchedId').value = id;
+
+    // Split the selected days
+    const selectedDays = day.split(",");
+    const checkboxes = document.querySelectorAll("input[name='days[]']");
+    const modalTimeSelect = document.getElementById('modalSTime');
+    const modalETimeSelect = document.getElementById('modalETime');
+
+    // Clear existing options in the start time dropdown
+    modalTimeSelect.innerHTML = ''; 
+
+    // Set the pulled value as the first option
+    modalTimeSelect.innerHTML += `<option value="${Stime}" selected>${Stime}</option>`;
+
+    // Add additional options from 7:30 AM to 5:30 PM
+    for (let i = 7; i <= 12; i++) {
+        modalTimeSelect.innerHTML += `<option value="${i}:30 AM">${i}:30 AM</option>`;
+    }
+    for (let j = 1; j <= 5; j++) {
+        modalTimeSelect.innerHTML += `<option value="${j+12}:30 PM">${j}:30 PM</option>`;
+    }
+
+    // Initialize the end time options based on the initial start time value
+    setEndTimeOptions(modalTimeSelect.value);
+
+    // Event listener to update end time options whenever the start time changes
+    modalTimeSelect.addEventListener('change', function(event) {
+        const selectedValue = event.target.value;
+        console.log("Selected start time:", selectedValue);
+
+        // Update end time options based on selected start time
+        setEndTimeOptions(selectedValue);
+    });
+
+    // Populate notes
+    document.getElementById('modalNote').innerText = note;
+
+    // Check the selected days for the checkboxes
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = selectedDays.includes(checkbox.value);
+    });
+
+    // Show the modal
+    const modal = new bootstrap.Modal(document.getElementById('EditscheduleModal'));
+    modal.show();
+}
+
+
+
+// Function to set end time options based on the selected start time
+function setEndTimeOptions(startTime) {
+    const modalETimeSelect = document.getElementById('modalETime');
+    modalETimeSelect.innerHTML = ''; // Clear existing options
+
+    // Parse start time to determine hour and AM/PM suffix
+    const [hourStr, suffix] = startTime.split(" ");
+    let hour = parseInt(hourStr.split(":")[0]);
+    
+    // Add end times starting one hour after the selected start time
+    let nextHour = hour + 1;
+    let nextSuffix = suffix;
+
+    // Check for AM to PM transition
+    if (nextHour > 12) {
+        nextHour = nextHour -12; 
+        nextSuffix = "PM";
+    }
+    
+
+    // Add end time options until 5:30 PM
+    while ((nextSuffix === "AM" && (nextHour <= 12 || suffix === "PM")) || 
+           (nextSuffix === "PM" && nextHour <= 5)) {
+
+        // Generate option for end time dropdown
+        const timeOption = `${nextHour}`;
+        var SlcedEtime;
+        if(timeOption < 7){
+             SlcedEtime = parseInt(timeOption)+12;
+        }
+        else{
+            SlcedEtime = timeOption;
+        }
+       
+        modalETimeSelect.innerHTML += `<option value="${SlcedEtime+":30"}">${timeOption+":30"+nextSuffix}</option>`;
+        
+        // Increment to next hour
+        nextHour++;
+        
+        // Transition from 12 PM to 1 PM or 12 AM to 1 AM
+        if (nextHour > 12) {
+            nextHour = 1;
+            nextSuffix = nextSuffix === "AM" ? "PM" : "AM";
+        }
+    }
+}
+
+
+
+// EDIT SCHEDULE
+document.getElementById('editButton').addEventListener('click', async function() {
+    // Gather values from the modal
+    const schedId = document.getElementById('modalSchedId').value;
+    const days = Array.from(document.querySelectorAll('input[name="days[]"]:checked')).map(cb => cb.value);
+    const startTime = document.getElementById('modalSTime').value;
+    const endTime = document.getElementById('modalETime').value;
+    const note = document.getElementById('modalNote').value;
+
+    let EditErrors = "";
+
+    // Validation
+    if (days.length === 0) {
+        EditErrors += "Please select at least one day.\n";
+    }
+    if (startTime === "" || endTime === "") {
+        EditErrors += "Please select both a start and an end time.\n";
+    }
+    if (note === "") {
+        EditErrors += "Please enter a note.\n";
+    }
+
+    // Show error messages if any, and stop execution if there are errors
+    if (EditErrors) {
+        alert(EditErrors);
+        return;
+    }
+
+    try {
+        // Ensure `therapists_id` is defined or replace with actual value
+        const therapists_ID = TherapID; // Replace with the correct value
+
+        const Eres = await fetch("./SchedAPI/SchedCheckerAPI.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                day: days,
+                start_time: startTime,
+                therapists_id:therapists_ID
+            })
+        });
+
+        // Check for response
+        const Etext = await Eres.text();
+
+        // Handle different API responses
+        if (Etext === "1") {
+            alert("Schedule already exists.");
+        } else if (Etext === "2") {
+            alert("This time overlaps with an existing schedule.");
+        } else {
+            try{
+                const updte = await fetch("./SchedAPI/SchedUPDATE.php",{
+                    method:"POST",
+                    body: JSON.stringify({
+                        day: days,
+                        start_time: startTime,
+                        end_time: endTime,
+                        note: note,
+                        SchedID: schedId 
+                    })
+                });
+                const updtres = await updte.text();
+                if(updtres =="1"){
+                    alert("Update successfull");
+                    window.location.href = "TherapistsHomePage.php"
+                }if(updtres =="0"){
+                    alert("Update failed");
+
+                }
+            }catch (err) {
+            console.error("Fetch error:", err.message);
+        }
+        }
+
+    } catch (err) {
+        console.error("Fetch error:", err.message);
+    }
+});
+//DELETE
+document.getElementById("confirmDeleteButton").addEventListener("click",  async function () {
+  // Get the value of the hidden input field
+  const schedId = document.getElementById("modalSchedId").value;
+    
+    try{
+        const schedID = schedId;
+        
+        const delt = await fetch("./SchedAPI/SchedDELETE.php",{
+            method:"POST",
+            body: JSON.stringify({
+                DeleteID:schedID
+            })
+        });
+        const delres = await delt.text();
+        if(delres === "1"){
+            alert("Schedule was deleted successfully");
+        }
+        else{
+            alert("Warning schedule was not deleted");
+        }
+
+    }catch (err) {
+        console.error("Fetch error:", err.message);
+    }
+
+});
+
+
+
     </script>
 
 </body>
