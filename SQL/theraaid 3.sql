@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2024 at 07:51 PM
+-- Generation Time: Nov 03, 2024 at 02:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -79,16 +79,16 @@ CREATE TABLE `tbl_patient` (
 --
 
 INSERT INTO `tbl_patient` (`patient_id`, `user_id`, `P_case`, `case_desc`, `City`, `barangay`, `assement_photo`, `mid_hisotry_photo`) VALUES
-(22, 66, 'Anxiety,PTSD', 'Experiencing heightened anxiety due to work stress and PTSD from a past traumatic event.', ' Cebu City', 'Lahug', '671936f6959d8.png,671936f695c8b.jpg', '671936f695eca.jpg,671936f6960c0.jpg,671936f6963a0.jpg'),
-(23, 67, 'Depression,Grief', 'Struggling with depression after losing a family member and coping with grief.', ' Cebu City', 'Guadalupe', '671936f6b11c4.png,671936f6b149b.jpg', '671936f6b1746.jpg,671936f6b19b9.jpg,671936f6b1bcb.jpg'),
-(24, 68, 'OCD,Phobia', 'Experiencing obsessive-compulsive behaviors and a phobia of public spaces.', ' Cebu City', 'Mabolo', '671936f6ca7c0.png,671936f6caa70.jpg', '671936f6cae47.jpg,671936f6cb0b4.jpg,671936f6cb2c7.jpg'),
-(25, 69, 'Burnout,Stress', 'Experiencing burnout and stress from work demands, feeling overwhelmed.', ' Cebu City', 'Banilad', '671936f6e631c.png,671936f6e6541.jpg', '671936f6e688c.jpg,671936f6e6b21.jpg,671936f6ea8f9.jpg'),
-(26, 70, 'Eating Disorders,Body Image Issues', 'Struggling with an eating disorder and negative body image perceptions.', ' Cebu City', 'Carcar', '671936f7157d9.png,671936f715a7f.jpg', '671936f715e03.jpg,671936f7160ec.jpg,671936f716416.jpg'),
-(27, 71, 'Relationship Issues,Anxiety', 'Facing challenges in personal relationships, leading to increased anxiety.', ' Cebu City', 'Talisay', '671936f731a2d.png,671936f731c7a.jpg', '671936f731eb9.jpg,671936f73213b.jpg,671936f732480.jpg'),
-(28, 72, 'ADHD,Focus Issues', 'Struggling with attention deficit hyperactivity disorder and focus-related challenges.', ' Cebu City', 'Mandaue', '671936f74f323.png,671936f74f536.jpg', '671936f74f72a.jpg,671936f74f8f7.jpg,671936f74fab2.jpg'),
-(29, 73, 'Bipolar Disorder,Mood Swings', 'Experiencing mood swings related to bipolar disorder, affecting daily life.', ' Cebu City', 'Liloan', '671936f7693bc.png,671936f769641.jpg', '671936f769887.jpg,671936f769aef.jpg,671936f769d34.jpg'),
-(30, 74, 'Stress,PTSD', 'Dealing with stress and PTSD symptoms from past experiences.', ' Cebu City', 'Lahug', '671936f792a76.png,671936f794663.jpg', '671936f7948a2.jpg,671936f794a6b.jpg,671936f794e70.jpg'),
-(31, 75, 'Grief,Depression', 'Experiencing grief and depression after a significant loss.', ' Cebu City', 'Guadalupe', '671936f7af5ba.png,671936f7af7a1.jpg', '671936f7afd9e.jpg,671936f7affbd.jpg,671936f7b018e.jpg');
+(42, 96, 'Anxiety,PTSD', 'Experiencing heightened anxiety due to work stress and PTSD from a past traumatic event.', ' Cebu City', 'Lahug', '672780dc095d9.png,672780dc09882.jpg', '672780dc09b75.jpg,672780dc09e02.jpg,672780dc0a21d.jpg'),
+(43, 97, 'Depression,Grief', 'Struggling with depression after losing a family member and coping with grief.', ' Cebu City', 'Guadalupe', '672780dc26321.png,672780dc265e7.jpg', '672780dc26849.jpg,672780dc26a53.jpg,672780dc29eb3.jpg'),
+(44, 98, 'OCD,Phobia', 'Experiencing obsessive-compulsive behaviors and a phobia of public spaces.', ' Cebu City', 'Mabolo', '672780dc487b7.png,672780dc48a98.jpg', '672780dc48d39.jpg,672780dc48fd1.jpg,672780dc4924e.jpg'),
+(45, 99, 'Burnout,Stress', 'Experiencing burnout and stress from work demands, feeling overwhelmed.', ' Cebu City', 'Banilad', '672780dc63ca0.png,672780dc63f2c.jpg', '672780dc641ac.jpg,672780dc64412.jpg,672780dc64738.jpg'),
+(46, 100, 'Eating Disorders,Body Image Issues', 'Struggling with an eating disorder and negative body image perceptions.', ' Cebu City', 'Carcar', '672780dc7ee1e.png,672780dc7f109.jpg', '672780dc84a61.jpg,672780dc84d4a.jpg,672780dc84fae.jpg'),
+(47, 101, 'Relationship Issues,Anxiety', 'Facing challenges in personal relationships, leading to increased anxiety.', ' Cebu City', 'Talisay', '672780dca212d.png,672780dca2591.jpg', '672780dca283a.jpg,672780dca2abd.jpg,672780dca2d7c.jpg'),
+(48, 102, 'ADHD,Focus Issues', 'Struggling with attention deficit hyperactivity disorder and focus-related challenges.', ' Cebu City', 'Mandaue', '672780dcc02de.png,672780dcc058a.jpg', '672780dcc07a8.jpg,672780dcc0a09.jpg,672780dcc0cd6.jpg'),
+(49, 103, 'Bipolar Disorder,Mood Swings', 'Experiencing mood swings related to bipolar disorder, affecting daily life.', ' Cebu City', 'Liloan', '672780dce2261.png,672780dce2547.jpg', '672780dce27c1.jpg,672780dce2a3f.jpg,672780dce2c47.jpg'),
+(50, 104, 'Stress,PTSD', 'Dealing with stress and PTSD symptoms from past experiences.', ' Cebu City', 'Lahug', '672780dd0b398.png,672780dd0b650.jpg', '672780dd0b91e.jpg,672780dd0bb52.jpg,672780dd0bd9d.jpg'),
+(51, 105, 'Grief,Depression', 'Experiencing grief and depression after a significant loss.', ' Cebu City', 'Guadalupe', '672780dd2e416.png,672780dd2e6e8.jpg', '672780dd2eb53.jpg,672780dd2ede3.jpg,672780dd2f022.jpg');
 
 -- --------------------------------------------------------
 
@@ -174,16 +174,16 @@ CREATE TABLE `tbl_therapists` (
 --
 
 INSERT INTO `tbl_therapists` (`therapist_id`, `user_id`, `case_handled`, `city`, `Radius`, `license_img`, `date_created`, `barangay`) VALUES
-(19, 56, 'Anxiety,Depression,Trauma', ' Cebu City', '', '67192e211983a.png', '0000-00-00', 'Mabolo'),
-(20, 57, 'Stress,OCD,Phobia', ' Cebu City', '', '67192e213aec4.png', '0000-00-00', 'Lahug'),
-(21, 58, 'PTSD,Burnout,Grief', ' Cebu City', '', '67192e2152a96.png', '0000-00-00', 'Banilad'),
-(22, 59, 'Eating Disorders,ADHD', ' Cebu City', '', '67192e216b3f3.png', '0000-00-00', 'Guadalupe'),
-(23, 60, 'Relationship Issues,Stress,Trauma', ' Cebu City', '', '67192e21840b3.png', '0000-00-00', 'Talisay'),
-(24, 61, 'Grief,Depression,OCD', ' Cebu City', '', '67192e219e2a2.png', '0000-00-00', 'Lahug'),
-(25, 62, 'Anxiety,Bipolar Disorder,Trauma', ' Cebu City', '', '67192e21b8c7c.png', '0000-00-00', 'Carcar'),
-(26, 63, 'ADHD,Eating Disorders', ' Cebu City', '', '67192e21d0db5.png', '0000-00-00', 'Mandaue'),
-(27, 64, 'Stress,OCD,Depression', ' Cebu City', '', '67192e21e9206.png', '0000-00-00', 'Mabolo'),
-(28, 65, 'PTSD,Anxiety,Relationship Issues', ' Cebu City', '', '67192e220d907.png', '0000-00-00', 'Liloan');
+(39, 106, 'Anxiety,Depression,Trauma', ' Cebu City', '', '672780f0a8237.png', '0000-00-00', 'Mabolo'),
+(40, 107, 'Stress,OCD,Phobia', ' Cebu City', '', '672780f0c3200.png', '0000-00-00', 'Lahug'),
+(41, 108, 'PTSD,Burnout,Grief', ' Cebu City', '', '672780f0de501.png', '0000-00-00', 'Banilad'),
+(42, 109, 'Eating Disorders,ADHD', ' Cebu City', '', '672780f1051c4.png', '0000-00-00', 'Guadalupe'),
+(43, 110, 'Relationship Issues,Stress,Trauma', ' Cebu City', '', '672780f1207ba.png', '0000-00-00', 'Talisay'),
+(44, 111, 'Grief,Depression,OCD', ' Cebu City', '', '672780f13b814.png', '0000-00-00', 'Lahug'),
+(45, 112, 'Anxiety,Bipolar Disorder,Trauma', ' Cebu City', '', '672780f155cac.png', '0000-00-00', 'Carcar'),
+(46, 113, 'ADHD,Eating Disorders', ' Cebu City', '', '672780f1709c3.png', '0000-00-00', 'Mandaue'),
+(47, 114, 'Stress,OCD,Depression', ' Cebu City', '', '672780f188936.png', '0000-00-00', 'Mabolo'),
+(48, 115, 'PTSD,Anxiety,Relationship Issues', ' Cebu City', '', '672780f1a349f.png', '0000-00-00', 'Liloan');
 
 -- --------------------------------------------------------
 
@@ -211,26 +211,26 @@ CREATE TABLE `tbl_user` (
 --
 
 INSERT INTO `tbl_user` (`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`, `E_wallet`) VALUES
-(56, 'Therese', 'Johnson', 'Anne', '1985-03-10', 'therajohn123', '$2y$10$wqTjJq9EnzJt4gT9BtFeoOBOS8wCyW.KDeHIUgX8psxWa4RWxKK92', '09123456789', 'therajohn@example.com', 'T', '67192e2117b9d.jpg', 0),
-(57, 'Mary', 'Smith', 'Jane', '1990-07-22', 'marysmith987', '$2y$10$PBaPY1nE1weLg4TPp0i8u.XH/J2OqwqP70izx2.Rpl.8AyaZmh2bm', '09234567890', 'marysmith@sample.com', 'T', '67192e213aa04.jpg', 0),
-(58, 'John', 'Wilson', 'David', '1980-11-15', 'johnther123', '$2y$10$vE2.cKl87X6p3Ui63aBHS.3wWkojjMwLsmjTRWWmHga/1F1Dx/OFy', '09345678901', 'johnw@example.com', 'T', '67192e21527ef.jpg', 0),
-(59, 'Sarah', 'Brown', 'Beth', '1988-05-30', 'sarahb_ther', '$2y$10$GdOtr/YxDq.yla/P/S8TT.HT6wKbQSst6opZBIPXrU95k49ZN8IS6', '09456789012', 'sarahb@example.com', 'T', '67192e216b0bd.jpg', 0),
-(60, 'Carlos', 'Garcia', 'Manuel', '1975-09-10', 'carlosther890', '$2y$10$CsMJtGVvvcQMcSmEe3UBV.QEwQz75ryuTYWKrEnWqv/JAFR3ROuny', '09567890123', 'carlosg@example.com', 'T', '67192e2183e2d.jpg', 0),
-(61, 'Jane', 'Taylor', 'Marie', '1992-12-17', 'jane_therapist', '$2y$10$wQNcjxhcWQYpFwv0JdXFoe.YvYpFcgMyrQSGPNFUOpbPv7x6ccue.', '09678901234', 'janet@example.com', 'T', '67192e219de7a.jpg', 0),
-(62, 'Patrick', 'Lee', 'Walter', '1979-04-14', 'patrick_w_ther', '$2y$10$yAAtUQzw7L4RurZY5nqpeOqA2nifkCQS0/9ByyCT6MmkovPAdpMVC', '09789012345', 'patrickle@example.com', 'T', '67192e21b89ad.jpg', 0),
-(63, 'Elizabeth', 'Walker', 'Rose', '1984-06-29', 'elizabeththerapist', '$2y$10$388ld7EIXmu10eGI9CTiXui8Zuc/jiBci8.wX0MwYp65SkoGXJZlu', '09890123456', 'eliza_w@example.com', 'T', '67192e21d0b30.jpg', 0),
-(64, 'Robert', 'Clark', 'Thomas', '1995-01-12', 'robertt_ther', '$2y$10$C2zisslCly3bkReVXkjSeOdQ.6AKs6zLfuROcg3loeuD6ZL4akEAy', '09901234567', 'robertc@example.com', 'T', '67192e21e8f33.jpg', 0),
-(65, 'Amy', 'Evans', 'Patricia', '1986-08-04', 'amyp_therapist', '$2y$10$QW9liZe.IqQkruD7wqefK.Mym0QeLy3th0c2YZDysM7Jyx.z31lQG', '09123457890', 'amy.evans@example.com', 'T', '67192e220d677.jpg', 0),
-(66, 'Jessica', 'Garcia', 'Anne', '1992-05-14', 'jessica_p01', '$2y$10$EYQrL/bM.eN1UjlBsAYQvOj.Nu4r9xQzlH/KPla2BnBlkHHqBwJma', '09123456780', 'jessica01@example.com', 'P', '671936f69572a.jpg', 0),
-(67, 'Mike', 'Brown', 'James', '1987-08-23', 'mike_brown87', '$2y$10$J4dASyR4t/5SyXHBZXvJbeDhHE05uoFsvy31QF603.YDLAYmdchEi', '09234567891', 'mike.brown@example.com', 'P', '671936f6b0f3f.jpg', 0),
-(68, 'Sarah', 'Jones', 'Lynn', '1999-12-05', 'sarah_jones99', '$2y$10$JBDqJab73Y7sJvU8UtI7i.o8sjCZOHJWgaTGKel4OoWg7NQGMv/gy', '09345678902', 'sarah.jones@example.com', 'P', '671936f6ca505.jpg', 0),
-(69, 'David', 'Wilson', 'Mark', '1988-03-20', 'david_wilson88', '$2y$10$sFpyM3Pryo9xjupH.zCJ.eviNSFY2TF3k7/UPaWwOxMJ0MGeVj29q', '09456789012', 'david.wilson@example.com', 'P', '671936f6e6091.jpg', 0),
-(70, 'Amy', 'Taylor', 'Marie', '1996-01-15', 'amy_taylor96', '$2y$10$B/jv33h2f8H5Mw27thmqluUUqVD9ENOBBEDoyf8jMWLBfirZ46yBa', '09567890123', 'amy.taylor@example.com', 'P', '671936f715532.jpg', 0),
-(71, 'John', 'Doe', 'Michael', '1977-11-25', 'john_doe77', '$2y$10$UJ7u9ffCqxwribylwk9C1.49e3fMw85fpw9qM5veubjUHRf7cevGK', '09678901234', 'john.doe@example.com', 'P', '671936f73170d.jpg', 0),
-(72, 'Linda', 'Smith', 'Ann', '1984-07-30', 'linda_smith84', '$2y$10$V.qOOyXf.OZ/UtqfvdxVW.iC.PT59RtJpi2ZCasiszA27G52Mro7a', '09789012345', 'linda.smith@example.com', 'P', '671936f74efa8.jpg', 0),
-(73, 'Susan', 'Miller', 'Lee', '1991-02-14', 'susan_miller91', '$2y$10$N5duIz0Bhezz28nmZs/Q.OvP9X/MocKwYux2VozfTKRpzermiOfE6', '09890123456', 'susan.miller@example.com', 'P', '671936f7690d9.jpg', 0),
-(74, 'Robert', 'James', 'Andrew', '1980-09-10', 'robert_james80', '$2y$10$FpvtACW/I22IC/B4ZSds0e88NAJVXlW8jhkislHC1wACbxwvwB4AG', '09123457890', 'robert.james@example.com', 'P', '671936f792569.jpg', 0),
-(75, 'Karen', 'Moore', 'Elizabeth', '1985-10-20', 'karen_moore85', '$2y$10$6hTE4MCTf0nS8QmWgYHpc.mGBJcX17/Hpzs8Y7l/2ZxVWh8jxV2x.', '09234567803', 'karen.moore@example.com', 'P', '671936f7af342.jpg', 0);
+(96, 'Jessica', 'Garcia', 'Anne', '1992-05-14', 'jessica_p01', '$2y$10$tYzKEBiZxPJUR3DbqaQYr.2Bt7ADDv5AkSv3t.0/ic5KV3JLpRm4C', '09123456780', 'jessica01@example.com', 'P', '672780dc07861.jpg', 0),
+(97, 'Mike', 'Brown', 'James', '1987-08-23', 'mike_brown87', '$2y$10$34QK1iqDCR0jOsBQDHgFn.chYuGQLcAT8sLGSqIGSTo8yOUXQcvjG', '09234567891', 'mike.brown@example.com', 'P', '672780dc25ff0.jpg', 0),
+(98, 'Sarah', 'Jones', 'Lynn', '1999-12-05', 'sarah_jones99', '$2y$10$WBn54WDsJgrfPR2FPQ4jr.XKZi1eszSAIRUw.o2egYMep90alX2He', '09345678902', 'sarah.jones@example.com', 'P', '672780dc48510.jpg', 0),
+(99, 'David', 'Wilson', 'Mark', '1988-03-20', 'david_wilson88', '$2y$10$G4Gpf8p0J41qU/VynEP/L./5X1j5gg4rho8XOud0Dn6AsfWlY79xW', '09456789012', 'david.wilson@example.com', 'P', '672780dc63963.jpg', 0),
+(100, 'Amy', 'Taylor', 'Marie', '1996-01-15', 'amy_taylor96', '$2y$10$hPdfogd86kEu5gGkHYhXy.xbKjnRxJoEX5aXPAkX1V7IUSN1tJmLC', '09567890123', 'amy.taylor@example.com', 'P', '672780dc7eb11.jpg', 0),
+(101, 'John', 'Doe', 'Michael', '1977-11-25', 'john_doe77', '$2y$10$70XTd1NCOrPuU2LbCAPwtuYqP3krYu4ivHASseCwbp1eBGgwW2f3i', '09678901234', 'john.doe@example.com', 'P', '672780dca1d8f.jpg', 0),
+(102, 'Linda', 'Smith', 'Ann', '1984-07-30', 'linda_smith84', '$2y$10$g/uWXF9CXrmiKlElx4CQq.NYhdEsAYQCdMkhbTDjEl.RYCBuie.Wi', '09789012345', 'linda.smith@example.com', 'P', '672780dcc0051.jpg', 0),
+(103, 'Susan', 'Miller', 'Lee', '1991-02-14', 'susan_miller91', '$2y$10$HI1X.RrHk8qdDcWqZpc9vug/gqD.9ex0PNZtIJ0JxTam0nXZIwsyq', '09890123456', 'susan.miller@example.com', 'P', '672780dce1f5e.jpg', 0),
+(104, 'Robert', 'James', 'Andrew', '1980-09-10', 'robert_james80', '$2y$10$LzrmBX5qESoBcEqvtaOJ.O9WzrwVrps6V80sIjAnIHxZMy8TLiWUW', '09123457890', 'robert.james@example.com', 'P', '672780dd0b0e4.jpg', 0),
+(105, 'Karen', 'Moore', 'Elizabeth', '1985-10-20', 'karen_moore85', '$2y$10$o8.bl0B.ghqIk3rjOY.xG.wLbuKS7BHBJ8IzPgN2rGszi1lln0c86', '09234567803', 'karen.moore@example.com', 'P', '672780dd2e135.jpg', 0),
+(106, 'Therese', 'Johnson', 'Anne', '1985-03-10', 'therajohn123', '$2y$10$1lVfVd/veI8pS/YDUaTtYuMlrCJL/upGtC./AmSTfIH6Q06H/dfZi', '09123456789', 'therajohn@example.com', 'T', '672780f0a7ec5.jpg', 0),
+(107, 'Mary', 'Smith', 'Jane', '1990-07-22', 'marysmith987', '$2y$10$QmXp.Nkgmi1H/ExVrp2kF.ASDTcktwfT.HSE5oNRLZv8QSQnnaa7i', '09234567890', 'marysmith@sample.com', 'T', '672780f0c2f4c.jpg', 0),
+(108, 'John', 'Wilson', 'David', '1980-11-15', 'johnther123', '$2y$10$34LlOFdWoSimh.XC3tByl.R3kIOsntsur0457jTN./Dq2HYOzaIYq', '09345678901', 'johnw@example.com', 'T', '672780f0de220.jpg', 0),
+(109, 'Sarah', 'Brown', 'Beth', '1988-05-30', 'sarahb_ther', '$2y$10$Z2fbVmh57FcKjRoYw8Ujs..gEGl4XdinDi8aQBHwyTiySgFC9Sona', '09456789012', 'sarahb@example.com', 'T', '672780f104ec6.jpg', 0),
+(110, 'Carlos', 'Garcia', 'Manuel', '1975-09-10', 'carlosther890', '$2y$10$qHn0C1b763su2og9LyJ3yekd8CGOnMI7UgAFmS8m6CNtZxD/FYgLa', '09567890123', 'carlosg@example.com', 'T', '672780f1204cf.jpg', 0),
+(111, 'Jane', 'Taylor', 'Marie', '1992-12-17', 'jane_therapist', '$2y$10$La5nIjyiH0uSe9CV5.ZI/eHJHHss46NV4VStsjC5uZNBuMMN37XnW', '09678901234', 'janet@example.com', 'T', '672780f13b40c.jpg', 0),
+(112, 'Patrick', 'Lee', 'Walter', '1979-04-14', 'patrick_w_ther', '$2y$10$tqcTy8IOO/ImpWpwS61.qOSY.qonTDkd4v7NvJIrWKQjt3hAZm/3y', '09789012345', 'patrickle@example.com', 'T', '672780f1559a2.jpg', 0),
+(113, 'Elizabeth', 'Walker', 'Rose', '1984-06-29', 'elizabeththerapist', '$2y$10$WBSGFv952HJ.hnMEfKKbZeYpXKLkGW1mJ./TM/cU6SiOauIfg4OKq', '09890123456', 'eliza_w@example.com', 'T', '672780f1706e8.jpg', 0),
+(114, 'Robert', 'Clark', 'Thomas', '1995-01-12', 'robertt_ther', '$2y$10$8W3QJ9w3EN1HVIZtq8s1rOSb1hBxrOrBFjeJK.U87Y5vnUU0WQV2a', '09901234567', 'robertc@example.com', 'T', '672780f18862d.jpg', 0),
+(115, 'Amy', 'Evans', 'Patricia', '1986-08-04', 'amyp_therapist', '$2y$10$qCkzI8RcVLkanVv8AdxzSeaR72o.NisWsKA4LdaDIUTuBspF4.XkK', '09123457890', 'amy.evans@example.com', 'T', '672780f1a3196.jpg', 0);
 
 --
 -- Indexes for dumped tables
@@ -306,37 +306,37 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT for table `tbl_appointment`
 --
 ALTER TABLE `tbl_appointment`
-  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `tbl_notifications`
 --
 ALTER TABLE `tbl_notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `tbl_patient`
 --
 ALTER TABLE `tbl_patient`
-  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment`
 --
 ALTER TABLE `tbl_payment`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `tbl_reminder`
 --
 ALTER TABLE `tbl_reminder`
-  MODIFY `reminder_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `reminder_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tbl_sched`
 --
 ALTER TABLE `tbl_sched`
-  MODIFY `shed_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+  MODIFY `shed_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
 
 --
 -- AUTO_INCREMENT for table `tbl_session`
@@ -348,13 +348,13 @@ ALTER TABLE `tbl_session`
 -- AUTO_INCREMENT for table `tbl_therapists`
 --
 ALTER TABLE `tbl_therapists`
-  MODIFY `therapist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `therapist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `User_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `User_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
 --
 -- Constraints for dumped tables

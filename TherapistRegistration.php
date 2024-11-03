@@ -411,6 +411,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <div class="d-flex justify-content-center align-items-center">
                         <button type="submit" class="btn btn-primary rounded-5 px-5 shadow">Register</button>
                     </div>
+                    
                 </form>
                 <div class="mt-3">
                     <label class="small text-end w-100">

@@ -13,6 +13,7 @@ if (!isset($_SESSION["sess_id"])) {
 
 $var_profid = intval($_SESSION["sess_id"]);
 $var_qry = "SELECT u.User_id,
+                    u.UserName,
                     u.Fname, 
                     u.Lname, 
                     u.Mname, 
@@ -50,6 +51,7 @@ if (mysqli_num_rows($var_chk) > 0) {
 
     $var_CaseHndld = implode(", ", explode(",", $var_get["case_handled"]));
 
+    $username = $var_get["UserName"];
     $var_City = $var_get["city"];
     $var_Radius = $var_get["Radius"];
     $var_LicenseIMG = $var_get["license_img"];
@@ -90,6 +92,7 @@ if (isset($_POST["BtnSubmit"])) {
     <title>TheraAid | Therapist Profile</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/TherapistHomePage.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='./node_modules/leaflet/dist/leaflet.css'>
 </head>
 
 <body>
@@ -177,29 +180,300 @@ if (isset($_POST["BtnSubmit"])) {
         </nav>
     </header>
 
-    <form method="POST" action="TherapistsProfilePage.php" class="needs-validation" novalidate>
-        <div class="modal fade" id="topUpModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5">E Wallet</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal fade" tabindex="-1" id="map-modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Choose your location</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <small class="mb-2 fw-semibold">Click the map to choose a location</small>
+                    <div id="map" style="width: 100%; height: 500px;" class="mb-2"></div>
+                    <div class="row gap-2 gap-md-0">
+                        <div class="mt-2 col-md">
+                            <label for="chosen-latitude" class="mb-1 fw-semibold">Latitude</label>
+                            <input type="text" id="chosen-latitude" class="form-control form-control-sm" readonly>
+                        </div>
+                        <div class="mt-2 col-md">
+                            <label for="chosen-longitude" class="mb-1 fw-semibold">Longitude</label>
+                            <input type="text" id="chosen-longitude" class="form-control form-control-sm" readonly>
+                        </div>
                     </div>
-                    <div class="modal-body">
+                    <div class="mt-2">
+                        <label for="fullAddress">Full Address</label>
+                        <input type="text" id="fullAddress" class="form-control form-control-sm" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary px-5 rounded-5" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary px-5 rounded-5" data-bs-dismiss="modal" data-bs-target="#updateTherapistInformationModal" data-bs-toggle="modal" id="save-location-btn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body"></div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="topUpModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">E Wallet</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="TherapistsProfilePage.php" id="topUpForm" class="needs-validation" novalidate>
                         <h3 class="fw-semibold">Balance: <span class="balance"><?php echo $balance; ?></span></h3>
                         <div class="mb-3">
                             <label class="mb-1">Top up</label>
                             <input type="text" name="TxtMoney" class="form-control" required>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" name="BtnSubmit" class="btn btn-primary">Top-up</button>
-                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="topUpForm" name="BtnSubmit" class="btn btn-primary">Top-up</button>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+
+    <div class="modal modal-xl fade" id="changeProfilePictureModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">E Wallet</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="TherapistsProfilePage.php" id="changeProfilePictureForm" class="needs-validation" novalidate>
+
+                        <div class="mb-4">
+                            <div class="mb-3">
+                                <label for="profilePicture" class="mb-1">Profile Picture <span class="text-danger">*</span></label>
+                                <input type="file" name="profilePicture" id="profilePicture" class="form-control" accept="image/*" required>
+                                <div class="invalid-feedback">
+                                    Please choose a valid Profile Picture Image.
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center flex-column d-block mb-3">
+                                <small class="fw-semibold mb-2">Profile Picture Preview</small>
+                                <img src="./UserFiles/ProfilePictures/<?php echo $profilePic; ?>" id="profilePicturePreview" class="img-thumbnail" style="height: 250px; width: auto; object-fit: cover;">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="changeProfilePictureForm" name="BtnSubmit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-xl fade" id="changeLicenseImageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">E Wallet</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="TherapistsProfilePage.php" id="changeLicenseImageForm" class="needs-validation" novalidate>
+
+                        <div class="mb-3">
+                            <label for="licenseImage" class="mb-1">License Image <span class="text-danger">*</span></label>
+                            <input type="file" name="licenseImage" id="licenseImage" class="form-control" accept="image/*" required>
+                            <div class="invalid-feedback">
+                                Please choose a valid License Image.
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center flex-column d-block mb-3">
+                            <small class="fw-semibold mb-2">License Image Preview</small>
+                            <img src="./UserFiles/LicensePictures/<?php echo $var_LicenseIMG; ?>" id="licensePreview" class="img-thumbnail" style="height: 250px; width: auto; object-fit: cover;">
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="changeLicenseImageForm" name="BtnSubmit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-xl fade" id="updateUserInformationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">E Wallet</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="TherapistsProfilePage.php" id="updateUserInformationForm" class="needs-validation" novalidate>
+
+                        <div class="mb-3">
+                            <label for="username" class="mb-1">Username <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 30)</small></label>
+                            <input type="text" name="username" value="<?php echo $username; ?>" id="username" class="form-control" required>
+                            <div class="invalid-feedback">
+                                Please choose a Username.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="firstName" class="mb-1">First Name <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 50)</small></label>
+                            <input type="text" name="firstName" value="<?php echo $var_Fname; ?>" id="firstName" class="form-control" required>
+                            <div class="invalid-feedback">
+                                Please choose a First Name.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="middleName" class="mb-1">Middle Name <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 30)</small></label>
+                            <input type="text" name="middleName" value="<?php echo $var_MI; ?>" id="middleName" class="form-control" required>
+                            <div class="invalid-feedback">
+                                Please choose a Middle Name.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastName" class="mb-1">Last Name <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 50)</small></label>
+                            <input type="text" name="lastName" value="<?php echo $var_Lname; ?>" id="lastName" class="form-control" required>
+                            <div class="invalid-feedback">
+                                Please choose a Last Name.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="mb-1">Password <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="password" name="password" id="password" class="form-control" required>
+                                <button type="button" class="btn btn-primary viewPasswordButton rounded-end">
+                                    <i class="bi bi-eye-fill"></i>
+                                </button>
+                                <div class="invalid-feedback">
+                                    Please choose a Password.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwordConfirmation" class="mb-1">Confirm Password <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="password" name="passwordConfirmation" id="passwordConfirmation" class="form-control" required>
+                                <button type="button" class="btn btn-primary viewPasswordButton rounded-end">
+                                    <i class="bi bi-eye-fill"></i>
+                                </button>
+                            </div>
+                            <small class="text-danger d-none mt-1" id="password-confirmation-feedback">
+                                Password do not match.
+                            </small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="mb-1">Email <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 30)</small></label>
+                            <input type="email" name="email" value="<?php echo $var_Email; ?>" id="email" class="form-control" required>
+                            <div class="invalid-feedback">
+                                Please enter a valid Email.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mobileNumber" class="mb-1">Mobile Number <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 11)</small></label>
+                            <input type="text" name="mobileNumber" value="<?php echo $var_CntctNum; ?>" id="mobileNumber" class="form-control" required>
+                            <div class="invalid-feedback">
+                                Please enter a valid Mobile Number.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="birthDate" class="mb-1">Birthday <span class="text-danger">*</span></label>
+                            <input type="date" name="birthDate" value="<?php echo $var_Date; ?>" id="birthDate" class="form-control" required>
+                            <div class="invalid-feedback">
+                                Please enter a valid Birthday.
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="updateUserInformationForm" name="BtnSubmit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-xl fade" id="updateTherapistInformationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">E Wallet</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="TherapistsProfilePage.php" id="updateTherapistInformationForm" class="needs-validation" novalidate>
+
+                        <div class="mb-3">
+                            <label for="caseHandled" class="mb-1">Case Handled <span class="text-danger">*</span> <small class="fw-semibold">(Use comma to separate your case handled, E.g.: Back Pain, Spine Injury,...)</small></label>
+                            <textarea style="height: 17px; max-height: 250px;" id="caseHandled" name="caseHandled" class="form-control" data-bs-toggle="dropdown" placeholder="Case 1, Case 2, Case 3,..." required></textarea>
+
+                            <ul class="dropdown-menu" id="caseHandledList">
+                                <?php
+
+                                $sql = "SELECT P_case FROM tbl_patient;";
+                                $results = mysqli_query($var_conn, $sql);
+
+                                $cases = array();
+
+                                foreach ($results as $result) {
+                                    $caseArray = explode(",", $result["P_case"]);
+
+                                    foreach ($caseArray as $case) {
+                                        array_push($cases, $case);
+                                    }
+                                }
+
+                                sort($cases);
+
+                                foreach (array_unique($cases) as $case) {
+                                    echo "<li>
+                                        <button type='button' class='case dropdown-item d-block text-capitalize'>$case</button>
+                                    </li>";
+                                }
+
+                                ?>
+                            </ul>
+
+                            <div class="invalid-feedback">
+                                Please enter a Case.
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="location" class="mb-1">Address <span class="text-danger">*</span> <small class="fw-semibold">(Use comma to seperate your Barangay and City, E.g: Lahug, Cebu City or press the Choose Location button to choose locate your place)</small></label>
+                            <input type="text" name="location" id="location" class="form-control mb-3" placeholder="Barangay, City" required>
+                            <div class="invalid-feedback">
+                                Please enter a Location.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-secondary px-5 rounded-5" id="choose-location-btn" data-bs-dismiss="modal">Choose Location</button>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="updateTherapistInformationForm" name="BtnSubmit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <main class="py-0 py-sm-3">
 
@@ -214,9 +488,16 @@ if (isset($_POST["BtnSubmit"])) {
                     <div class="mb-3 d-flex justify-content-center align-items-center">
                         <img id="ProfPic" class="img-fluid rounded-5 shadow" style="height: 250px; width: auto;" src="./UserFiles/ProfilePictures/<?php echo $profilePic; ?>" alt="<?php echo $profilePic; ?>">
                     </div>
+
+                    <div class="d-flex justify-content-center align-items-center">
+                        <button type="button" class="btn btn-primary px-5 rounded-5 shadow btn-sm" data-bs-target="#changeProfilePictureModal" data-bs-toggle="modal">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                    </div>
+
                     <hr>
 
-                    <div>
+                    <div class="mb-3">
                         <label class="mb-1">
                             <b>Full Name:</b>
                             <span><?php echo $var_Fname . " " . $var_MI . ". " . $var_Lname; ?></span>
@@ -244,6 +525,12 @@ if (isset($_POST["BtnSubmit"])) {
                         </label><br>
                     </div>
 
+                    <div class="d-flex justify-content-start align-items-center">
+                        <button type="button" class="btn btn-primary px-5 rounded-5 shadow btn-sm" data-bs-target="#updateUserInformationModal" data-bs-toggle="modal">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                    </div>
+
                 </div>
 
                 <div class="col-md">
@@ -262,13 +549,22 @@ if (isset($_POST["BtnSubmit"])) {
                         <label class="mb-1">
                             <b>Barangay:</b>
                             <span><?php echo $var_get["barangay"]; ?></span>
-                        </label><br>
-                        <label>
-                            <b>Radius:</b>
-                            <span><?php echo $var_Radius ? $var_Radius : "<i>N/A</i>"; ?></span>
                         </label>
                     </div>
+
+                    <div class="d-flex justify-content-start align-items-center">
+                        <button type="button" class="btn btn-primary px-5 rounded-5 shadow btn-sm" data-bs-target="#updateTherapistInformationModal" data-bs-toggle="modal">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                    </div>
+
                     <hr>
+
+                    <div class="d-flex justify-content-end align-items-center">
+                        <button type="button" class="btn btn-primary px-5 rounded-5 shadow btn-sm" data-bs-target="#changeLicenseImageModal" data-bs-toggle="modal">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                    </div>
 
                     <div class="d-flex justify-content-center align-items-start flex-column">
                         <label class="mb-2 fw-semibold">License Image:</label>
@@ -283,8 +579,25 @@ if (isset($_POST["BtnSubmit"])) {
     </main>
 
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src='./node_modules/leaflet/dist/leaflet.js'></script>
     <script>
         window.onload = () => {
+            const viewPasswordButton = document.getElementsByClassName("viewPasswordButton");
+
+            Array.from(viewPasswordButton).forEach((button) => {
+                button.addEventListener("click", () => {
+                    const input = button.parentElement.getElementsByTagName("input")[0];
+
+                    if (input.type === "password") {
+                        input.type = "text";
+                        button.innerHTML = `<i class="bi bi-eye-slash-fill"></i>`;
+                    } else { 
+                        input.type = "password";
+                        button.innerHTML = `<i class="bi bi-eye-fill"></i>`;
+                    }
+                });
+            });
+
             Array.from(document.getElementsByClassName("needs-validation")).forEach((form) => {
                 form.addEventListener("submit", (e) => {
                     if (!form.checkValidity()) {
@@ -299,6 +612,311 @@ if (isset($_POST["BtnSubmit"])) {
             Array.from(document.getElementsByClassName("balance")).forEach((element) => {
                 element.innerHTML = formatCurrency(element.innerHTML);
             });
+
+            const profilePicture = document.getElementById("profilePicture");
+            const profilePicturePreview = document.getElementById("profilePicturePreview");
+
+            profilePicture.addEventListener("change", () => {
+                const file = profilePicture.files[0];
+
+                if (file) {
+                    profilePicturePreview.parentElement.classList.replace("d-none", "d-block");
+                    profilePicturePreview.src = URL.createObjectURL(file);
+                } else {
+                    profilePicturePreview.parentElement.classList.replace("d-block", "d-none");
+                    profilePicturePreview.src = "#"
+                }
+            });
+
+            const changeProfilePictureForm = document.getElementById("changeProfilePictureForm");
+
+            changeProfilePictureForm.addEventListener("submit", async (e) => {
+                if (!changeProfilePictureForm.checkValidity()) {
+                    return;
+                }
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const file = changeProfilePictureForm.profilePicture.files[0];
+
+                const formData = new FormData();
+                formData.append("profilePicture", file);
+
+                const response = await fetch("./ProfilePageAPI/change_profile_picture.php", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const responseText = await response.text();
+
+                showToast(responseText);
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            });
+
+            const licenseImage = document.getElementById("licenseImage");
+            const licensePreview = document.getElementById("licensePreview");
+
+            licenseImage.addEventListener("change", () => {
+                const file = licenseImage.files[0];
+
+                if (file) {
+                    licensePreview.parentElement.classList.replace("d-none", "d-block");
+                    licensePreview.src = URL.createObjectURL(file);
+                } else {
+                    licensePreview.parentElement.classList.replace("d-block", "d-none");
+                    licensePreview.src = "#"
+                }
+            });
+
+            const changeLicenseImageForm = document.getElementById("changeLicenseImageForm");
+
+            changeLicenseImageForm.addEventListener("submit", async (e) => {
+                if (!changeLicenseImageForm.checkValidity()) {
+                    return;
+                }
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const file = changeLicenseImageForm.licenseImage.files[0];
+
+                const formData = new FormData();
+                formData.append("licenseImage[]", file);
+
+                const response = await fetch("./TherapistsProfilePageAPI/change_license_image.php", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const responseText = await response.text();
+
+                showToast(responseText);
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            });
+
+            const updateUserInformationForm = document.getElementById("updateUserInformationForm");
+
+            updateUserInformationForm.addEventListener("submit", async (e) => {
+                if (!updateUserInformationForm.checkValidity()) {
+                    return;
+                }
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const username = updateUserInformationForm.username.value;
+                const firstName = updateUserInformationForm.firstName.value;
+                const middleName = updateUserInformationForm.middleName.value;
+                const lastName = updateUserInformationForm.lastName.value;
+                const birthDate = updateUserInformationForm.birthDate.value;
+
+                const password = updateUserInformationForm.password.value;
+                const passwordConfirmation = updateUserInformationForm.passwordConfirmation.value;
+                
+                const email = updateUserInformationForm.email.value;
+                const mobileNumber = updateUserInformationForm.mobileNumber.value;
+
+                if (
+                    username.length >= 30 ||
+                    firstName.length >= 50 ||
+                    middleName.length >= 30 ||
+                    lastName.length >= 50 ||
+                    password.length >= 30 ||
+                    email.length >= 30 ||
+                    mobileNumber.length > 11
+                ) {
+                    return showToast("<span class='text-danger'>Please follow the given max length of each inputs.</span>");
+                }
+
+                const formData = new FormData();
+                formData.append("username", username);
+                formData.append("firstName", firstName);
+                formData.append("middleName", middleName);
+                formData.append("lastName", lastName);
+                formData.append("birthDate", birthDate);
+                formData.append("password", password);
+                formData.append("passwordConfirmation", passwordConfirmation);
+                formData.append("email", email);
+                formData.append("mobileNumber", mobileNumber);
+
+                const response = await fetch("./ProfilePageAPI/update_user_information.php", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const responseText = await response.text();
+
+                showToast(responseText);
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            });
+
+            const caseHandled = document.getElementById("caseHandled");
+            const caseHandledList = document.getElementById("caseHandledList");
+
+            Array.from(caseHandledList.getElementsByClassName("case")).forEach((element) => {
+                element.addEventListener("click", () => {
+                    caseHandled.value += element.innerHTML;
+                });
+            });
+
+            caseHandled.oninput = () => {
+                const value = caseHandled.value.split(",").map((word) => {
+                    const characterArray = word.split("");
+
+                    if (characterArray[0] === " ") {
+                        characterArray.shift();
+                        return characterArray.join("");
+                    } else {
+                        return characterArray.join("");
+                    }
+                }).at(-1);
+
+                const caseHandledListElement = caseHandledList.getElementsByClassName("case");
+                const cases = [...caseHandledListElement].map((item) => { return item.innerHTML });
+
+                for (element of caseHandledListElement) {
+                    if (element.innerHTML.includes(value)) {
+                        element.classList.replace("d-none", "d-block");
+                    } else {
+                        element.classList.replace("d-block", "d-none");
+                    }
+                }
+            }
+            
+            const updateTherapistInformationForm = document.getElementById("updateTherapistInformationForm");
+
+            const chooseLocationBtn = document.getElementById("choose-location-btn");
+            const mapModal = document.getElementById("map-modal");
+            const chosenLatitude = document.getElementById("chosen-latitude");
+            const chosenLongitude = document.getElementById("chosen-longitude");
+            const saveLocationBtn = document.getElementById("save-location-btn");
+            const fullAddressInput = document.getElementById("fullAddress");
+
+            let map;
+
+            chooseLocationBtn.addEventListener("click", () => {
+                const modal = new bootstrap.Modal(mapModal);
+
+                modal.show();
+
+                setTimeout(() => {
+                    window.dispatchEvent(new Event("resize"));
+                }, 500);
+            });
+
+            if (!navigator.geolocation) {
+                map.innerHTML = "<small>Geolocation is not supported by this browser.</small>";
+            }
+
+            navigator.geolocation.getCurrentPosition((position) => {
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+
+                chosenLatitude.value = latitude;
+                chosenLongitude.value = longitude;
+
+                const map = L.map("map", {
+                    center: [
+                        latitude, longitude
+                    ],
+                    zoom: 14
+                });
+
+                const marker = L.marker([latitude, longitude])
+                    .addTo(map)
+                    .bindPopup("Your current location.")
+                    .openPopup();
+
+                let chosenMarker;
+
+                map.on("click", (e) => {
+                    const latitudeLongitude = map.mouseEventToLatLng(e.originalEvent);
+                    latitude = latitudeLongitude.lat;
+                    longitude = latitudeLongitude.lng;
+
+                    map.removeLayer(marker);
+
+                    if (chosenMarker) {
+                        map.removeLayer(chosenMarker);
+                        chosenLatitude.value = latitude;
+                        chosenLongitude.value = longitude;
+
+                        apiUrl = `https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}&api_key=66ffa02e9542d122573242pqy09573f`;
+
+                        fullAddressInput.placeholder = "Fetching location, please wait...";
+
+                        setTimeout(async () => {
+                            const response = await fetch(apiUrl, {
+                                method: "GET"
+                            });
+
+                            const responseStatusCode = response.status;
+
+                            if (responseStatusCode === 200) {
+                                const json = await response.json();
+                                const barangay = json.address.quarter;
+                                const city = json.address.city;
+
+                                fullAddressInput.value = `${barangay}, ${city}`;
+                                fullAddressInput.placeholder = "";
+                            }
+                        }, 1000);
+                    }
+
+                    chosenMarker = L.marker([latitude, longitude]).addTo(map);
+                });
+
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+            }, showError);
+
+            saveLocationBtn.addEventListener("click", () => {
+                updateTherapistInformationForm.location.value = fullAddressInput.value;
+            });
+
+            updateTherapistInformationForm.addEventListener("submit", async (e) => {
+                if (!updateTherapistInformationForm.checkValidity()) {
+                    return;
+                }
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const caseHandled = updateTherapistInformationForm.caseHandled.value;
+                const location = updateTherapistInformationForm.location.value;
+
+                const city = location.split(",")[1];
+                const barangay = location.split(",")[0];
+
+                const formData = new FormData();
+                formData.append("caseHandled", caseHandled);
+                formData.append("barangay", barangay);
+                formData.append("city", city);
+
+                const response = await fetch("./TherapistsProfilePageAPI/update_therapist_information.php", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const responseText = await response.text();
+
+                showToast(responseText);
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            });
         }
 
         function formatCurrency(value) {
@@ -307,6 +925,32 @@ if (isset($_POST["BtnSubmit"])) {
                 style: 'currency',
                 currency: 'PHP',
             }).format(value || 0);
+        }
+
+        function showToast(message) {
+            const toastElement = document.getElementById("toast");
+            const toast = new bootstrap.Toast(toastElement);
+
+            toastElement.getElementsByClassName("toast-body")[0].innerHTML = message;
+
+            toast.show();
+        }
+    
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
         }
     </script>
 </body>

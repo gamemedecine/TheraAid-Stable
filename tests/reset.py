@@ -30,4 +30,5 @@ def clearUserFiles():
             os.remove(f"../{parentDir}/{profilePicturesDir}/{i}")
 
 if __name__ == "__main__":
+    clearUserFiles()
     clearChatsDirs()
