@@ -4,9 +4,9 @@ include "./database.php";
 
 session_start();
 
-echo $_SESSION["sess_PATID"];
+echo $_SESSION["sess_PTID"];
 
-$var_appid = $_SESSION["sess_PATID"];
+$var_appid = $_SESSION["sess_PTID"];
 
 date_default_timezone_set('Asia/Manila'); // Change to your timezone
 
@@ -14,15 +14,29 @@ $var_crrntTime = date("h:i:sa");
 //$var_currntDate = date("Y-m-d");
 $var_currntDate = "2024-10-18";
 
-// echo $var_currntDate . "<br>";
+echo $var_currntDate . "<br>";
 // echo $var_crrntTime;
 
-$var_sessionList = "SELECT * FROM tbl_session  WHERE appointment_id =" . $var_appid;
+$var_filter = "";
+$var_days= array();
+$var_sessionList = "SELECT *    
+                            FROM tbl_session SS JOIN tbl_appointment AP ON AP.appointment_id = SS.appointment_id
+                             JOIN tbl_therapists PT ON PT.therapist_id = AP.therapists_id 
+                             JOIN tbl_patient PAT ON AP.patient_id =  PAT.patient_id 
+                             JOIN tbl_user U ON PAT.user_id = U.User_id 
+                             JOIN tbl_sched SC ON SC.shed_id = AP.schedle_id
+                             WHERE PT.therapist_id = $var_appid AND AP.status LIKE '%On-Going%'";
 $var_Slist = mysqli_query($var_conn, $var_sessionList);
+
+if(isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])){
+    $var_filter = $_POST["RadDay"];
+}
+
 
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light">
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -30,6 +44,7 @@ $var_Slist = mysqli_query($var_conn, $var_sessionList);
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/TherapistHomePage.css'>
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-primary-subtle">
@@ -120,48 +135,88 @@ $var_Slist = mysqli_query($var_conn, $var_sessionList);
         <section class="main-section bg-secondary-subtle py-3 py-sm-5 px-3 px-sm-5 shadow container">
 
             <form method="POST" action="PTSession.php">
+                <input type="radio" name="RadDay" value="All"><label>All</label> 
+                <input type="radio" name="RadDay" value="Mon"><label>Mon</label> 
+                <input type="radio" name="RadDay" value="Tue"><label>Tue</label> 
+                <input type="radio" name="RadDay" value="Wed"><label>Wed</label> 
+                <input type="radio" name="RadDay" value="Thu"><label>Thu</label> 
+                <input type="radio" name="RadDay" value="Fri"><label>Fri</label> 
+                <input type="radio" name="RadDay" value="Sat"><label>Sat</label>
+                <button type="submit" name="BtnFilter">Filter</button> 
                 <div class="container-fluid full-height">
-                    <div class="white-box">
                         <div class="flex-container">
                             <div class="box">
                                 <div class="Details-box  rounded">
                                     <div class="TherapistInfo">
-                                        <img id="ProfPic" class="border rounded-circle" style="width: 200px; height: 180px;"
-                                            src="" alt="profile Picture">
-                                        <br><br>
-                                        <p id="fllname"></p>
-                                        <p id="case"></p>
-                                        <p id="City"></p>
-                                        <p id="sess"></p>
-        
+
                                     </div>
                                 </div>
                                 <div class="hi">
                                     <div id="Therapists" style="padding-left: 20px; padding-top: 50px;">
                                         <div class="SessionList">
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#Session">
-                                                +
-                                            </button>
-        
+                                            <table border="4px solid black" style="border-collapse:collpase; width: 1100px;">
+                                                <tr>
+                                                    <th style="text-align:center;">Sessions</th>
+                                                </tr>
+                                                <tr>
+                                                    <?php
+                                                         if(mysqli_num_rows($var_Slist)>0){
+                                                            while($var_SSRec=mysqli_fetch_array($var_Slist)){
+                                                               $var_days= explode(",", $var_SSRec["day"]);
+                                                               
+
+                                                                    if(in_array($var_filter,$var_days)){
+
+                                                           
+
+                                                    ?>
+                                                            <td><button style="width: 1100px; height: 100px; border-radius: 25px;"  
+                                                                type="submit" name="BtnsessID" value="<?php echo $var_SSRec["session_id"]; ?>"><?php echo $var_SSRec["Fname"]; ?></button></td>
+                                                </tr>
+                                                    <?php
+                                                             }else if($var_filter == "All"){
+                                                                ?>
+                                                                    <tr>
+                                                                    <td><button style="width: 1100px; height: 100px; border-radius: 25px;"  
+                                                                    type="submit" name="BtnsessID" value="">yes</button></td>
+                                                                    </tr>
+                                                                <?php
+                                                                
+                                                             }else{
+                                                                echo " <td><button style='width: 1100px; height: 100px; border-radius: 25px;'  
+                                                                  >No Data</button></td>";
+                                                                  break;
+                                                             }
+                                                            
+                                                         }
+                                                        }else{
+                                                            ?>
+                                                             <td><button style="width: 1100px; height: 100px; border-radius: 25px;"  
+                                                             >No Data</button></td>
+                                                            <?php
+                                                        }
+                                                                
+                                                    ?>
+                                            </table>
+
                                         </div>
                                         <div id="sessions">
                                             <p id="check"></p>
-        
+
                                         </div>
-        
+
                                     </div>
                                 </div>
                             </div>
-        
+
                         </div>
-        
+
                     </div>
-        
-        
+
+
                 </div>
-        
-        
+
+
                 <!-- Modal -->
                 <div class="modal fade" id="Session" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -177,7 +232,7 @@ $var_Slist = mysqli_query($var_conn, $var_sessionList);
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        
+
                             </div>
                         </div>
                     </div>
@@ -198,7 +253,7 @@ $var_Slist = mysqli_query($var_conn, $var_sessionList);
                             <div class="modal-footer">
                                 <button type="button" id="StartSession" class="btn btn-primary">Save</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        
+
                             </div>
                         </div>
                     </div>
@@ -210,74 +265,7 @@ $var_Slist = mysqli_query($var_conn, $var_sessionList);
     </main>
 
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            let city;
-            let caseDesc;
-            let PtntID;
-            let AppntmntId;
-            async function GETPatient() {
-                try {
-                    const response = await fetch("./PTSESSIONAPI/PTsessionAPI.php", {
-                        method: "POST",
-                        body: JSON.stringify({
-                            "PTID": "<?php echo $_SESSION["sess_PATID"]; ?>"
-                        })
-                    });
-                    const data = await response.json();
-                    const fullname = `${data.fname} ${data.mname.charAt(0)}. ${data.lname}`;
-                    document.getElementById("fllname").innerText = "Name :" + fullname;
-                    document.getElementById("ProfPic").src = `ProfilePic/${data.profPic}`;
-                    document.getElementById("case").innerText = "Case :" + data.case;
-                    document.getElementById("City").innerText = "City :" + data.city;
-                    document.getElementById("sess").innerText = "Session:" + data.Session;
-                    AppntmntId = data.APID;
-                    city = data.city;
-                    caseDesc = data.case;
-                    PtntID = data.PtntID;
 
-
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            }
-
-
-
-            GETPatient();
-            document.getElementById("StartSession").addEventListener("click", () => {
-                checkSession(AppntmntId);
-            });
-
-            async function checkSession(AppntmntId) {
-                try {
-                    const response = await fetch("./PTSESSIONAPI/PTcheckSession.php", {
-                        method: "POST",
-                        body: JSON.stringify({
-                            "appId": AppntmntId
-                        })
-                    })
-                    const res = await response.text();
-                    if (res == "1") {
-                        alert(AppntmntId + "  " + "You have already started a session!");
-                    }
-                    else if (res == "2") {
-                        alert(AppntmntId + "  " + "You dont Have a session today!");
-                    }
-                    else if (res == "0") {
-                        alert(AppntmntId + "  " + "New session have been added!");
-                    }
-
-                }
-
-                catch (err) {
-                    console.error(err.message);
-
-                }
-            }
-
-
-        });
 
     </script>
 </body>
