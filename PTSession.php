@@ -20,12 +20,12 @@ echo $var_currntDate . "<br>";
 $var_filter = "";
 $var_days= array();
 $var_sessionList = "SELECT *    
-                            FROM tbl_session SS JOIN tbl_appointment AP ON AP.appointment_id = SS.appointment_id
-                             JOIN tbl_therapists PT ON PT.therapist_id = AP.therapists_id 
-                             JOIN tbl_patient PAT ON AP.patient_id =  PAT.patient_id 
-                             JOIN tbl_user U ON PAT.user_id = U.User_id 
-                             JOIN tbl_sched SC ON SC.shed_id = AP.schedle_id
-                             WHERE PT.therapist_id = $var_appid AND AP.status LIKE '%On-Going%'";
+                        FROM tbl_session SS JOIN tbl_appointment AP ON AP.appointment_id = SS.appointment_id
+                        JOIN tbl_therapists PT ON PT.therapist_id = AP.therapists_id 
+                        JOIN tbl_patient PAT ON AP.patient_id =  PAT.patient_id 
+                        JOIN tbl_user U ON PAT.user_id = U.User_id 
+                        JOIN tbl_sched SC ON SC.shed_id = AP.schedle_id
+                    WHERE PT.therapist_id = $var_appid AND AP.status LIKE '%On-Going%'";
 $var_Slist = mysqli_query($var_conn, $var_sessionList);
 
 if(isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])){
