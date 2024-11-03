@@ -653,8 +653,8 @@ if (isset($_POST["BtnSubmit"])) {
                 showToast(responseText);
 
                 setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
+                  window.location.reload();
+               }, 1000);
             });
 
             const licenseImage = document.getElementById("licenseImage");
