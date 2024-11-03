@@ -13,7 +13,6 @@ if (
 }
 
 $var_Tid = $_SESSION["sess_PTID"];
-
 $var_Etime = "";
 
 
