@@ -641,7 +641,7 @@ if (isset($_POST["BtnSubmit"])) {
                 const file = changeProfilePictureForm.profilePicture.files[0];
 
                 const formData = new FormData();
-                formData.append("profilePicture", file);
+                formData.append("profilePicture[]", file);
 
                 const response = await fetch("./ProfilePageAPI/change_profile_picture.php", {
                     method: "POST",
@@ -653,8 +653,8 @@ if (isset($_POST["BtnSubmit"])) {
                 showToast(responseText);
 
                 setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
+                  window.location.reload();
+               }, 1000);
             });
 
             const licenseImage = document.getElementById("licenseImage");
