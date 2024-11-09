@@ -5,7 +5,8 @@ include "./database.php";
 session_start();
 
 $var_UserId = $_SESSION["sess_id"];
-$var_crrntDate = "2024-10-21";
+$var_crrntDate = date("Y-m-d");
+// $var_crrntDate = "2024-11-09";
 
 $var_Rmndr = "SELECT RM.reminder_date,
                     RM.reminder_messsage,
@@ -29,16 +30,16 @@ $var_Rmndr = "SELECT RM.reminder_date,
 					JOIN tbl_therapists PT ON AP.therapists_id = PT.therapist_id
 					JOIN tbl_user U ON U.User_id = P.user_id
 					JOIN tbl_sched SC ON AP.schedle_id = SC.shed_id
-					WHERE  PT.user_id =$var_UserId";
+					WHERE  PT.user_id = $var_UserId";
 $var_rmndrqry = mysqli_query($var_conn, $var_Rmndr);
 $var_data = "";
 $var_listDate = [];
-$_SESSION["sess_PATID"] = "";
+// $_SESSION["sess_PATID"] = "";
 
 if (isset($_POST["BtnSession"])) {
-    $_SESSION["sess_PATID"] = $_POST["BtnSession"];
+    $_SESSION["appointment_id"] = $_POST["BtnSession"];
 
-    header("location: PTSession.php");
+    header("location: TherapistCreateSession.php");
 }
 
 ?>
@@ -140,39 +141,54 @@ if (isset($_POST["BtnSession"])) {
 
         <section class="main-section bg-secondary-subtle py-3 py-sm-5 px-3 px-sm-5 shadow container">
 
-            <h1 class="text-center">Appointment for Today</h1>
-            <form method="POST" action="TherapistsReminder.php">
-                <table class="table w-100" style="height: 650px; overflow-y: auto;">
-                    <tr>
-                        <?php
+            <h1 class="text-center mb-3">Appointment for Today</h1>
 
-                        if (mysqli_num_rows($var_rmndrqry) > 0) {
+            <hr>
+
+            <form method="POST" action="TherapistsReminder.php">
+                
+                <div class="d-flex justify-content-center align-items-center flex-column gap-3">
+
+                    <?php
+
+                    if (mysqli_num_rows($var_rmndrqry) > 0) {
+                    
+                        while ($var_Rget = mysqli_fetch_array($var_rmndrqry)) {
+                            $var_listDate = explode(",", $var_Rget["reminder_date"]);
                         
-                            while ($var_Rget = mysqli_fetch_array($var_rmndrqry)) {
-                                $var_listDate = explode(",", $var_Rget["reminder_date"]);
-                            
-                                if (in_array($var_crrntDate, $var_listDate)) {
-                                    $appointmentID = $var_Rget["appointment_id"];
-                                    $profilePic = $var_Rget["profilePic"];
-                                    $fullName = $var_Rget["Pat_fllname"];
-                                    $day = $var_Rget["day"];
-                                    $startTime = $var_Rget["start_time"];
-                                    $endTime = $var_Rget["end_time"];
-                                
-                                    echo "<td><button name='BtnSession' value='$appointment_id'>
-                                        <img src='./UserFiles/ProfilePictures/$profilePic' alt='$profilePic'>
-                                        <span>$fullName</span>
-                                        <span>$day</span>
-                                        <span>$startTime</span>
-                                        <span>$endTime</span>
-                                    </td>";
-                                }
+                            if (in_array($var_crrntDate, $var_listDate)) {
+                                $appointmentID = $var_Rget["appointment_id"];
+                                $profilePic = $var_Rget["profilePic"];
+                                $fullName = $var_Rget["Pat_fllname"];
+                                $day = $var_Rget["day"];
+                                $startTime = $var_Rget["start_time"];
+                                $endTime = $var_Rget["end_time"];
+
+                                echo "<div class='row w-100 bg-bg-secondary-subtle p-3 rounded-5 shadow border-5 gap-3 gap-sm-0'>
+
+                                    <b class='mb-3'>Information:</b>
+
+                                    <div class='col-sm d-flex justify-content-center align-items-center flex-column gap-3'>
+                                        <img src='./UserFiles/ProfilePictures/$profilePic' alt='$profilePic' class='img-fluid rounded-5 shadow' style='object-fit: cover; height: 250px;'>
+                                        <label class='text-center'><b>Full Name: </b>$fullName</label>
+                                    </div>
+
+                                    <div class='col-sm'>
+                                        <label class='mb-1'><b>Day: </b>$day</label><br>
+                                        <label class='mb-1'><b>Start Time: </b>$startTime</label><br>
+                                        <label class='mb-1'><b>End Time: </b>$endTime</label><br>
+                                        <hr>
+                                        <button name='BtnSession' value='$appointmentID' class='btn btn-primary px-5 rounded-5 shadow'>View Appointment</button>
+                                    </div>
+
+                                </div>";
                             }
                         }
+                    }
                     
-                        ?>
-                    </tr>
-                </table>
+                    ?>
+
+                </div>
             </form>
 
         </section>

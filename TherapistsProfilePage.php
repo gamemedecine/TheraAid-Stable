@@ -4,32 +4,17 @@ include "./database.php";
 
 session_start();
 
-$_SESSION["sess_id"];
-
 if (!isset($_SESSION["sess_id"])) {
     header("location: landingPage.php");
     exit();
 }
 
 $var_profid = intval($_SESSION["sess_id"]);
-$var_qry = "SELECT u.User_id,
-                    u.UserName,
-                    u.Fname, 
-                    u.Lname, 
-                    u.Mname, 
-                    u.Bday,
-                    u.ContactNum, 
-                    u.Email, 
-                    u.E_wallet,
-                    u.profilePic,
-                    t.case_handled,
-                    t.city,
-                    t.Radius,
-                    t.barangay,
-                    t.license_img
-                    FROM tbl_user u JOIN tbl_therapists t ON u.User_id = t.user_id
-                    WHERE 
-                    t.User_id ='$var_profid';";
+$var_qry = "SELECT
+                *,
+                CONCAT(t.barangay, ',', t.city) AS full_address
+            FROM tbl_user u JOIN tbl_therapists t ON u.User_id = t.user_id
+            WHERE t.User_id ='$var_profid';";
 $var_chk = mysqli_query($var_conn, $var_qry);
 $var_Fname = "";
 $var_Lname = "";
@@ -44,7 +29,6 @@ $var_Radius = "";
 $var_LicenseIMG = "";
 
 $profilePic = "";
-$balance;
 
 if (mysqli_num_rows($var_chk) > 0) {
     $var_get = mysqli_fetch_array($var_chk);
@@ -68,17 +52,20 @@ if (mysqli_num_rows($var_chk) > 0) {
     $var_byear = substr($var_Date, 0, 4);
     $var_Age = $var_year - $var_byear;
 
+    $certificate = $var_get["certificate"];
+    $contract = $var_get["contract"];
+
+    $full_address = $var_get["full_address"];
+
 } else {
     echo "No records found";
 }
 
 $var_UId = $var_get['User_id'];
-$var_ammnt = "";
 
 if (isset($_POST["BtnSubmit"])) {
-    $var_ammnt = floatval($_POST["TxtMoney"]);
-
-    $var_updt = "UPDATE tbl_user SET E_wallet= $var_ammnt WHERE User_id =  $var_UId ";
+    $balance += floatval($_POST["TxtMoney"]);
+    $var_updt = "UPDATE tbl_user SET E_wallet= $balance WHERE User_id =  $var_UId ";
     $var_upqry = mysqli_query($var_conn, $var_updt);
     header("location: ./TherapistsProfilePage.php");
 }
@@ -227,7 +214,7 @@ if (isset($_POST["BtnSubmit"])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">E Wallet</h1>
+                    <h1 class="modal-title fs-5">Top Up Modal</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -251,7 +238,7 @@ if (isset($_POST["BtnSubmit"])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">E Wallet</h1>
+                    <h1 class="modal-title fs-5">Update Profile Picture</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -285,7 +272,7 @@ if (isset($_POST["BtnSubmit"])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">E Wallet</h1>
+                    <h1 class="modal-title fs-5">Update License Image</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -317,7 +304,7 @@ if (isset($_POST["BtnSubmit"])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">E Wallet</h1>
+                    <h1 class="modal-title fs-5">Update User Information</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -413,7 +400,7 @@ if (isset($_POST["BtnSubmit"])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">E Wallet</h1>
+                    <h1 class="modal-title fs-5">Update Therapist Information</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -421,7 +408,7 @@ if (isset($_POST["BtnSubmit"])) {
 
                         <div class="mb-3">
                             <label for="caseHandled" class="mb-1">Case Handled <span class="text-danger">*</span> <small class="fw-semibold">(Use comma to separate your case handled, E.g.: Back Pain, Spine Injury,...)</small></label>
-                            <textarea style="height: 17px; max-height: 250px;" id="caseHandled" name="caseHandled" class="form-control" data-bs-toggle="dropdown" placeholder="Case 1, Case 2, Case 3,..." required></textarea>
+                            <textarea style="height: 17px; max-height: 250px;" id="caseHandled" name="caseHandled" class="form-control" data-bs-toggle="dropdown" placeholder="Case 1, Case 2, Case 3,..." required><?php echo $var_CaseHndld; ?></textarea>
 
                             <ul class="dropdown-menu" id="caseHandledList">
                                 <?php
@@ -456,7 +443,7 @@ if (isset($_POST["BtnSubmit"])) {
                         </div>
                         <div class="mb-2">
                             <label for="location" class="mb-1">Address <span class="text-danger">*</span> <small class="fw-semibold">(Use comma to seperate your Barangay and City, E.g: Lahug, Cebu City or press the Choose Location button to choose locate your place)</small></label>
-                            <input type="text" name="location" id="location" class="form-control mb-3" placeholder="Barangay, City" required>
+                            <input type="text" name="location" id="location" class="form-control mb-3" placeholder="Barangay, City" value="<?php echo $full_address; ?>" required>
                             <div class="invalid-feedback">
                                 Please enter a Location.
                             </div>
@@ -470,6 +457,96 @@ if (isset($_POST["BtnSubmit"])) {
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" form="updateTherapistInformationForm" name="BtnSubmit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-xl fade" id="viewCertificateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Your Certificate</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?php
+
+                    if ($certificate !== null) {
+                        echo "<embed src='./UserFiles/Certificates/$certificate' class='border-0 w-100' style='height: 100vh;'/>";
+                    } else {
+                        echo "<div class='d-flex justify-content-center align-items-center flex-column gap-3 py-2'>
+                            <h3>Oops! Looks like you haven't uploaded a file yet</h3>
+                            <button type='submit'class='btn btn-outline-primary px-5 rounded-5 shadow' data-bs-target='#updateContractCertificateModal' data-bs-toggle='modal' data-bs-dismiss='modal'>Upload your Certificate Now</button>
+                        </div>";
+                    }
+
+                    ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-target='#updateContractCertificateModal' data-bs-toggle='modal' data-bs-dismiss='modal'>Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-xl fade" id="viewContractModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Your Contract</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?php
+
+                    if ($contract !== null) {
+                        echo "<embed src='./UserFiles/Contracts/$contract' class='border-0 w-100' style='height: 100vh;'/>";
+                    } else {
+                        echo "<div class='d-flex justify-content-center align-items-center flex-column gap-3 py-2'>
+                            <h3>Oops! Looks like you haven't uploaded a file yet</h3>
+                            <button type='submit'class='btn btn-outline-primary px-5 rounded-5 shadow' data-bs-target='#updateContractCertificateModal' data-bs-toggle='modal' data-bs-dismiss='modal'>Upload your Contract Now</button>
+                        </div>";
+                    }
+
+                    ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-target='#updateContractCertificateModal' data-bs-toggle='modal' data-bs-dismiss='modal'>Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-xl fade" id="updateContractCertificateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Update Contract & Certificate</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="needs-validation" id="updateContractCertificateForm" novalidate>
+
+                        <p><b>Note: </b>Kindly refrain from uploading files in any format other than PDF.</p>
+
+                        <div class="mb-3">
+                            <label class="mb-1 fw-semibold">Certificate:</label><br>
+                            <input type="file" name="certificate" accept="application/pdf" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="mb-1 fw-semibold">Contract:</label><br>
+                            <input type="file" name="contract" accept="application/pdf" class="form-control" required>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" form="updateContractCertificateForm">Save Changes</button>
                 </div>
             </div>
         </div>
@@ -560,6 +637,21 @@ if (isset($_POST["BtnSubmit"])) {
 
                     <hr>
 
+                    <label class="mb-3 fw-semibold">Contract and Certificate:</label>
+
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-primary px-5 rounded-5 shadow" data-bs-target="#viewCertificateModal" data-bs-toggle="modal">View Certificate</button>
+                        <button type="button" class="btn btn-primary px-5 rounded-5 shadow" data-bs-target="#viewContractModal" data-bs-toggle="modal">View Contract</button>
+                    </div>
+
+                    <div class="d-flex justify-content-start align-items-center">
+                        <button type="button" class="btn btn-primary px-5 rounded-5 shadow btn-sm" data-bs-target="#updateContractCertificateModal" data-bs-toggle="modal">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                    </div>
+
+                    <hr>
+
                     <div class="d-flex justify-content-end align-items-center">
                         <button type="button" class="btn btn-primary px-5 rounded-5 shadow btn-sm" data-bs-target="#changeLicenseImageModal" data-bs-toggle="modal">
                             <i class="bi bi-pencil-square"></i>
@@ -570,7 +662,7 @@ if (isset($_POST["BtnSubmit"])) {
                         <label class="mb-2 fw-semibold">License Image:</label>
                         <img class="img-fluid licenseImage rounded shadow" style="object-fit: cover; cursor: pointer;" src="./UserFiles/LicensePictures/<?php echo $var_LicenseIMG; ?>" alt="<?php echo $var_LicenseIMG; ?>">
                     </div>
-                </div>
+                </l>
 
             </div>
 
@@ -916,6 +1008,37 @@ if (isset($_POST["BtnSubmit"])) {
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000);
+            });
+
+            const updateContractCertificateForm = document.getElementById("updateContractCertificateForm");
+
+            updateContractCertificateForm.addEventListener("submit", async (e) => {
+                if (!updateContractCertificateForm.checkValidity()) {
+                    return;
+                }
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const certificate = updateContractCertificateForm.certificate.files[0];
+                const contract = updateContractCertificateForm.contract.files[0];
+
+                const formData = new FormData();
+                formData.append("certificate", certificate, certificate.name);
+                formData.append("contract", contract, contract.name);
+
+                if (contract.name.split(".").indexOf("pdf") < 0 || certificate.name.split(".").indexOf("pdf") < 0) {
+                    return showToast("All file submissions must be in PDF format only.");
+                }
+
+                const response = await fetch("./TherapistsProfilePageAPI/update_certificate_contract.php", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const responseText = await response.text();
+
+                showToast(responseText);
             });
         }
 

@@ -19,6 +19,7 @@ $var_Etime = "";
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light">
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -26,6 +27,7 @@ $var_Etime = "";
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/TherapistHomePage.css'>
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-primary-subtle">
@@ -42,7 +44,8 @@ $var_Etime = "";
 
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
-                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
+                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64"
+                                height="64">
                         </h5>
                         <button type="button" class="btn-close shadow" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
@@ -51,7 +54,8 @@ $var_Etime = "";
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./TherapistsHomePage.php">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page"
+                                    href="./TherapistsHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
@@ -63,7 +67,8 @@ $var_Etime = "";
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsAppointment.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page"
+                                    href="./TherapistsAppointment.php">
                                     <i class="bi bi-calendar-check fs-3"></i><br>
                                     <small>Appointment</small>
                                 </a>
@@ -75,7 +80,8 @@ $var_Etime = "";
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsReminder.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page"
+                                    href="./TherapistsReminder.php">
                                     <i class="bi bi-card-checklist fs-3"></i><br>
                                     <small>Reminder</small>
                                 </a>
@@ -87,13 +93,15 @@ $var_Etime = "";
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistChat.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page"
+                                    href="./TherapistChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
                                     <small>Chat</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsProfilePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page"
+                                    href="./TherapistsProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>
@@ -126,27 +134,33 @@ $var_Etime = "";
                         <div class="mb-3">
                             <label class="mb-1">Days <span class="text-danger">*</span></label><br>
                             <div class="form-check">
-                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Mon" id="monday">
+                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Mon"
+                                    id="monday">
                                 <label class="form-check-label" for="monday">Monday</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Tue" id="tuesday">
+                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Tue"
+                                    id="tuesday">
                                 <label class="form-check-label" for="tuesday">Tuesday</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Wed" id="wednesday">
+                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Wed"
+                                    id="wednesday">
                                 <label class="form-check-label" for="wednesday">Wednesday</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="THU" id="thursday">
+                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="THU"
+                                    id="thursday">
                                 <label class="form-check-label" for="thursday">Thursday</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Fri" id="friday">
+                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Fri"
+                                    id="friday">
                                 <label class="form-check-label" for="friday">Friday</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Sat" id="saturday">
+                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Sat"
+                                    id="saturday">
                                 <label class="form-check-label" for="saturday">Saturday</label>
                             </div>
                         </div>
@@ -157,19 +171,20 @@ $var_Etime = "";
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label for="startTime" class="mb-1">Start Time <span class="text-danger">*</span></label><br>
+                                <label for="startTime" class="mb-1">Start Time <span
+                                        class="text-danger">*</span></label><br>
                                 <select id="startTime" name="start_time" class="form-control" required>
-                                <option value="">Select a start time.</option>
+                                    <option value="">Select a start time.</option>
                                     <?php
-                        
+
                                     for ($var_i = 7; $var_i <= 12; $var_i++) {
                                         echo "<option value=" . $var_i . ":30" . ">" . $var_i . ":30 AM</option>";
                                     }
-        
+
                                     for ($var_j = 1; $var_j <= 5; $var_j++) {
                                         echo "<option value=" . ($var_j + 12) . ":30" . ">" . $var_j . ":30 PM</option>";
                                     }
-        
+
                                     ?>
                                 </select>
                             </div>
@@ -183,14 +198,15 @@ $var_Etime = "";
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary px-5 rounded-5" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary px-5 rounded-5"
+                        data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary px-5 rounded-5" form="InputSched">Add</button>
                 </div>
             </div>
         </div>
     </div>
     <!--EDIT MODAL--->
-    
+
     <div class="modal fade" id="EditscheduleModal" tabindex="-1" aria-labelledby="EditscheduleModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -207,9 +223,9 @@ $var_Etime = "";
                     <input type="checkbox" name="days[]" value="THU"><label>Thu</label>
                     <input type="checkbox" name="days[]" value="Fri"><label>Fri</label>
                     <input type="checkbox" name="days[]" value="Sat"><label>Sat</label>
-                    
+
                     <br><label>Start Time: </label>
-                    <select id="modalSTime"  name="SlctSTime">
+                    <select id="modalSTime" name="SlctSTime">
 
                     </select>
                     <label>End Time: </label>
@@ -228,27 +244,28 @@ $var_Etime = "";
             </div>
         </div>
     </div>
-    
- <!-- DELETE MODAL -->
-<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="DeleteModalLabel">Warning</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this schedule?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Confirm</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
+
+    <!-- DELETE MODAL -->
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="DeleteModalLabel">Warning</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this schedule?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
 
 
@@ -271,7 +288,8 @@ $var_Etime = "";
                 <div class="col-lg-3">
 
                     <div class="mb-3 d-flex justify-content-center align-items-center">
-                        <img id="ProfPic" class="img-fluid rounded-5 shadow" style="height: 250px; width: auto;" src="#" alt="#">
+                        <img id="ProfPic" class="img-fluid rounded-5 shadow" style="height: 250px; width: auto;" src="#"
+                            alt="#">
                     </div>
                     <hr>
                     <div class="mb-3">
@@ -292,9 +310,9 @@ $var_Etime = "";
                             <span id="ID"></span>
                         </label>
                     </div>
-                    
+
                     <hr>
-                    
+
                     <div class="TherapistScghed">
                         <div id="TimeBTN" class="TimeBTN d-flex justify-content-center align-items-center gap-1 mb-3">
                             <button id="BtnAM" class="btn btn-primary px-5 rounded-5 w-100">AM</button>
@@ -302,15 +320,20 @@ $var_Etime = "";
                         </div>
                         <div class="AM" id="AM-schedule">
                             <div class="SchedButton">
-                                <p id="AM" class="d-flex justify-content-start align-items-center flex-column shadow rounded p-3 gap-2" style="height: 250px; overflow-y: auto;"></p>
+                                <p id="AM"
+                                    class="d-flex justify-content-start align-items-center flex-column shadow rounded p-3 gap-2"
+                                    style="height: 250px; overflow-y: auto;"></p>
                             </div>
                         </div>
                         <div class="PM" id="PM-schedule" style="display: none;">
                             <div class="SchedButton">
-                                <p id="PM" class="d-flex justify-content-start align-items-center flex-column shadow rounded p-3 gap-2" style="height: 250px; overflow-y: auto;"></p>
+                                <p id="PM"
+                                    class="d-flex justify-content-start align-items-center flex-column shadow rounded p-3 gap-2"
+                                    style="height: 250px; overflow-y: auto;"></p>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary px-5 rounded-5 w-100" data-bs-target="#add-schedule-modal" data-bs-toggle="modal">Add Schedule</button>
+                        <button type="button" class="btn btn-primary px-5 rounded-5 w-100"
+                            data-bs-target="#add-schedule-modal" data-bs-toggle="modal">Add Schedule</button>
                     </div>
 
                 </div>
@@ -320,7 +343,9 @@ $var_Etime = "";
                     <h3>Near Me Patients</h3>
                     <hr>
 
-                    <div id="patients" class="d-flex justify-content-center justify-content-lg-start align-items-start flex-wrap p-3 gap-3 rounded shadow" style="height: 740px; overflow-y: auto;">
+                    <div id="patients"
+                        class="d-flex justify-content-center justify-content-lg-start align-items-start flex-wrap p-3 gap-3 rounded shadow"
+                        style="height: 740px; overflow-y: auto;">
 
                     </div>
 
@@ -375,8 +400,9 @@ $var_Etime = "";
             const form = document.getElementById("InputSched");
 
             form.addEventListener("submit", async (e) => {
+                const alertPlaceholder = document.getElementById("alertPlaceHolder");
+
                 const addScheduleModal = document.querySelector("#add-schedule-modal");
-               
 
                 const button = addScheduleModal.querySelector("button[type='submit']");
 
@@ -389,7 +415,7 @@ $var_Etime = "";
                         '</div>'
                     ].join('');
 
-                    alertPlaceholder.append(wrapper);
+                    alertPlaceholder.appendChild(wrapper);
                 }
 
                 e.preventDefault();
@@ -401,25 +427,25 @@ $var_Etime = "";
                 const EndTime = form.end_time.value;
                 const Note = form.Note.value
                 const checkboxes = form["CheckBoxDay[]"];
-                
+
                 var Error = "";
                 var isThereChecked = false;
                 var therapists_id = form["TxtID"].value;
                 var days = [];
                 var Status = "Available";
-            
+
                 days = days.map((day) => {
                     return day + ",";
                 })
-            
+
                 for (var i = 0; i < checkboxes.length; i++) {
                     const isChecked = checkboxes[i].checked;
-                
+
                     if (isChecked) {
                         isThereChecked = true;
                     }
                 }
-            
+
                 if (isThereChecked) {
                     checkboxes.forEach((item) => {
                         if (item.checked) {
@@ -432,11 +458,11 @@ $var_Etime = "";
 
                 if (StarTime === "" || EndTime === "") {
                     var Error = "Error";
-                
+
                 }
                 if (Note === "") {
                     var Error = "Error";
-                
+
                 }
 
                 if (Error == "") {
@@ -449,7 +475,7 @@ $var_Etime = "";
                                 therapists_id: therapists_id,
                             })
                         });
-                    
+
                         const rText = await r.text();
 
                         switch (rText) {
@@ -485,7 +511,7 @@ $var_Etime = "";
                                     setTimeout(() => {
                                         window.location.reload();
                                     }, 1000);
-                                    
+
                                 } catch (err) {
                                     console.log(err.message);
                                 }
@@ -504,11 +530,6 @@ $var_Etime = "";
             });
 
         })();
-
-        
-
-
-
 
         async function suway() {
             try {
@@ -702,217 +723,218 @@ $var_Etime = "";
             toast.show();
         }
         function openScheduleModal(id, day, Stime, Etime, note) {
-    // Populate modal content
-    document.getElementById('modalSchedId').value = id;
+            // Populate modal content
+            document.getElementById('modalSchedId').value = id;
 
-    // Split the selected days
-    const selectedDays = day.split(",");
-    const checkboxes = document.querySelectorAll("input[name='days[]']");
-    const modalTimeSelect = document.getElementById('modalSTime');
-    const modalETimeSelect = document.getElementById('modalETime');
+            // Split the selected days
+            const selectedDays = day.split(",");
+            const checkboxes = document.querySelectorAll("input[name='days[]']");
+            const modalTimeSelect = document.getElementById('modalSTime');
+            const modalETimeSelect = document.getElementById('modalETime');
 
-    // Clear existing options in the start time dropdown
-    modalTimeSelect.innerHTML = ''; 
+            // Clear existing options in the start time dropdown
+            modalTimeSelect.innerHTML = '';
 
-    // Set the pulled value as the first option
-    modalTimeSelect.innerHTML += `<option value="${Stime}" selected>${Stime}</option>`;
+            // Set the pulled value as the first option
+            modalTimeSelect.innerHTML += `<option value="${Stime}" selected>${Stime}</option>`;
 
-    // Add additional options from 7:30 AM to 5:30 PM
-    for (let i = 7; i <= 12; i++) {
-        modalTimeSelect.innerHTML += `<option value="${i}:30 AM">${i}:30 AM</option>`;
-    }
-    for (let j = 1; j <= 5; j++) {
-        modalTimeSelect.innerHTML += `<option value="${j+12}:30 PM">${j}:30 PM</option>`;
-    }
+            // Add additional options from 7:30 AM to 5:30 PM
+            for (let i = 7; i <= 12; i++) {
+                modalTimeSelect.innerHTML += `<option value="${i}:30 AM">${i}:30 AM</option>`;
+            }
+            for (let j = 1; j <= 5; j++) {
+                modalTimeSelect.innerHTML += `<option value="${j + 12}:30 PM">${j}:30 PM</option>`;
+            }
 
-    // Initialize the end time options based on the initial start time value
-    setEndTimeOptions(modalTimeSelect.value);
+            // Initialize the end time options based on the initial start time value
+            setEndTimeOptions(modalTimeSelect.value);
 
-    // Event listener to update end time options whenever the start time changes
-    modalTimeSelect.addEventListener('change', function(event) {
-        const selectedValue = event.target.value;
-        console.log("Selected start time:", selectedValue);
+            // Event listener to update end time options whenever the start time changes
+            modalTimeSelect.addEventListener('change', function (event) {
+                const selectedValue = event.target.value;
+                console.log("Selected start time:", selectedValue);
 
-        // Update end time options based on selected start time
-        setEndTimeOptions(selectedValue);
-    });
+                // Update end time options based on selected start time
+                setEndTimeOptions(selectedValue);
+            });
 
-    // Populate notes
-    document.getElementById('modalNote').innerText = note;
+            // Populate notes
+            document.getElementById('modalNote').innerText = note;
 
-    // Check the selected days for the checkboxes
-    checkboxes.forEach((checkbox) => {
-        checkbox.checked = selectedDays.includes(checkbox.value);
-    });
+            // Check the selected days for the checkboxes
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = selectedDays.includes(checkbox.value);
+            });
 
-    // Show the modal
-    const modal = new bootstrap.Modal(document.getElementById('EditscheduleModal'));
-    modal.show();
-}
-
-
-
-// Function to set end time options based on the selected start time
-function setEndTimeOptions(startTime) {
-    const modalETimeSelect = document.getElementById('modalETime');
-    modalETimeSelect.innerHTML = ''; // Clear existing options
-
-    // Parse start time to determine hour and AM/PM suffix
-    const [hourStr, suffix] = startTime.split(" ");
-    let hour = parseInt(hourStr.split(":")[0]);
-    
-    // Add end times starting one hour after the selected start time
-    let nextHour = hour + 1;
-    let nextSuffix = suffix;
-
-    // Check for AM to PM transition
-    if (nextHour > 12) {
-        nextHour = nextHour -12; 
-        nextSuffix = "PM";
-    }
-    
-
-    // Add end time options until 5:30 PM
-    while ((nextSuffix === "AM" && (nextHour <= 12 || suffix === "PM")) || 
-           (nextSuffix === "PM" && nextHour <= 5)) {
-
-        // Generate option for end time dropdown
-        const timeOption = `${nextHour}`;
-        var SlcedEtime;
-        if(timeOption < 7){
-             SlcedEtime = parseInt(timeOption)+12;
+            // Show the modal
+            const modal = new bootstrap.Modal(document.getElementById('EditscheduleModal'));
+            modal.show();
         }
-        else{
-            SlcedEtime = timeOption;
+
+
+
+        // Function to set end time options based on the selected start time
+        function setEndTimeOptions(startTime) {
+            const modalETimeSelect = document.getElementById('modalETime');
+            modalETimeSelect.innerHTML = ''; // Clear existing options
+
+            // Parse start time to determine hour and AM/PM suffix
+            const [hourStr, suffix] = startTime.split(" ");
+            let hour = parseInt(hourStr.split(":")[0]);
+
+            // Add end times starting one hour after the selected start time
+            let nextHour = hour + 1;
+            let nextSuffix = suffix;
+
+            // Check for AM to PM transition
+            if (nextHour > 12) {
+                nextHour = nextHour - 12;
+                nextSuffix = "PM";
+            }
+
+
+            // Add end time options until 5:30 PM
+            while ((nextSuffix === "AM" && (nextHour <= 12 || suffix === "PM")) ||
+                (nextSuffix === "PM" && nextHour <= 5)) {
+
+                // Generate option for end time dropdown
+                const timeOption = `${nextHour}`;
+                var SlcedEtime;
+                if (timeOption < 7) {
+                    SlcedEtime = parseInt(timeOption) + 12;
+                }
+                else {
+                    SlcedEtime = timeOption;
+                }
+
+                modalETimeSelect.innerHTML += `<option value="${SlcedEtime + ":30"}">${timeOption + ":30" + nextSuffix}</option>`;
+
+                // Increment to next hour
+                nextHour++;
+
+                // Transition from 12 PM to 1 PM or 12 AM to 1 AM
+                if (nextHour > 12) {
+                    nextHour = 1;
+                    nextSuffix = nextSuffix === "AM" ? "PM" : "AM";
+                }
+            }
         }
-       
-        modalETimeSelect.innerHTML += `<option value="${SlcedEtime+":30"}">${timeOption+":30"+nextSuffix}</option>`;
-        
-        // Increment to next hour
-        nextHour++;
-        
-        // Transition from 12 PM to 1 PM or 12 AM to 1 AM
-        if (nextHour > 12) {
-            nextHour = 1;
-            nextSuffix = nextSuffix === "AM" ? "PM" : "AM";
-        }
-    }
-}
 
 
 
-// EDIT SCHEDULE
-document.getElementById('editButton').addEventListener('click', async function() {
-    // Gather values from the modal
-    const schedId = document.getElementById('modalSchedId').value;
-    const days = Array.from(document.querySelectorAll('input[name="days[]"]:checked')).map(cb => cb.value);
-    const startTime = document.getElementById('modalSTime').value;
-    const endTime = document.getElementById('modalETime').value;
-    const note = document.getElementById('modalNote').value;
+        // EDIT SCHEDULE
+        document.getElementById('editButton').addEventListener('click', async function () {
+            // Gather values from the modal
+            const schedId = document.getElementById('modalSchedId').value;
+            const days = Array.from(document.querySelectorAll('input[name="days[]"]:checked')).map(cb => cb.value);
+            const startTime = document.getElementById('modalSTime').value;
+            const endTime = document.getElementById('modalETime').value;
+            const note = document.getElementById('modalNote').value;
 
-    let EditErrors = "";
+            let EditErrors = "";
 
-    // Validation
-    if (days.length === 0) {
-        EditErrors += "Please select at least one day.\n";
-    }
-    if (startTime === "" || endTime === "") {
-        EditErrors += "Please select both a start and an end time.\n";
-    }
-    if (note === "") {
-        EditErrors += "Please enter a note.\n";
-    }
+            // Validation
+            if (days.length === 0) {
+                EditErrors += "Please select at least one day.\n";
+            }
+            if (startTime === "" || endTime === "") {
+                EditErrors += "Please select both a start and an end time.\n";
+            }
+            if (note === "") {
+                EditErrors += "Please enter a note.\n";
+            }
 
-    // Show error messages if any, and stop execution if there are errors
-    if (EditErrors) {
-        alert(EditErrors);
-        return;
-    }
+            // Show error messages if any, and stop execution if there are errors
+            if (EditErrors) {
+                alert(EditErrors);
+                return;
+            }
 
-    try {
-        // Ensure `therapists_id` is defined or replace with actual value
-        const therapists_ID = TherapID; // Replace with the correct value
+            try {
+                // Ensure `therapists_id` is defined or replace with actual value
+                const therapists_ID = TherapID; // Replace with the correct value
 
-        const Eres = await fetch("./SchedAPI/SchedCheckerAPI.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                day: days,
-                start_time: startTime,
-                therapists_id:therapists_ID
-            })
-        });
-
-        // Check for response
-        const Etext = await Eres.text();
-
-        // Handle different API responses
-        if (Etext === "1") {
-            alert("Schedule already exists.");
-        } else if (Etext === "2") {
-            alert("This time overlaps with an existing schedule.");
-        } else {
-            try{
-                const updte = await fetch("./SchedAPI/SchedUPDATE.php",{
-                    method:"POST",
+                const Eres = await fetch("./SchedAPI/SchedCheckerAPI.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
                     body: JSON.stringify({
                         day: days,
                         start_time: startTime,
-                        end_time: endTime,
-                        note: note,
-                        SchedID: schedId 
+                        therapists_id: therapists_ID
                     })
                 });
-                const updtres = await updte.text();
-                if(updtres =="1"){
-                    alert("Update successfull");
-                    window.location.href = "TherapistsHomePage.php"
-                }if(updtres =="0"){
-                    alert("Update failed");
 
+                // Check for response
+                const Etext = await Eres.text();
+
+                // Handle different API responses
+                if (Etext === "1") {
+                    alert("Schedule already exists.");
+                } else if (Etext === "2") {
+                    alert("This time overlaps with an existing schedule.");
+                } else {
+                    try {
+                        const updte = await fetch("./SchedAPI/SchedUPDATE.php", {
+                            method: "POST",
+                            body: JSON.stringify({
+                                day: days,
+                                start_time: startTime,
+                                end_time: endTime,
+                                note: note,
+                                SchedID: schedId
+                            })
+                        });
+                        const updtres = await updte.text();
+                        if (updtres == "1") {
+                            alert("Update successfull");
+                            window.location.href = "TherapistsHomePage.php"
+                        } if (updtres == "0") {
+                            alert("Update failed");
+
+                        }
+                    } catch (err) {
+                        console.error("Fetch error:", err.message);
+                    }
                 }
-            }catch (err) {
-            console.error("Fetch error:", err.message);
-        }
-        }
 
-    } catch (err) {
-        console.error("Fetch error:", err.message);
-    }
-});
-//DELETE
-document.getElementById("confirmDeleteButton").addEventListener("click",  async function () {
-  // Get the value of the hidden input field
-  const schedId = document.getElementById("modalSchedId").value;
-    
-    try{
-        const schedID = schedId;
-        
-        const delt = await fetch("./SchedAPI/SchedDELETE.php",{
-            method:"POST",
-            body: JSON.stringify({
-                DeleteID:schedID
-            })
+            } catch (err) {
+                console.error("Fetch error:", err.message);
+            }
         });
-        const delres = await delt.text();
-        if(delres === "1"){
-            alert("Schedule was deleted successfully");
-        }
-        else{
-            alert("Warning schedule was not deleted");
-        }
+        //DELETE
+        document.getElementById("confirmDeleteButton").addEventListener("click", async function () {
+            // Get the value of the hidden input field
+            const schedId = document.getElementById("modalSchedId").value;
 
-    }catch (err) {
-        console.error("Fetch error:", err.message);
-    }
+            try {
+                const schedID = schedId;
 
-});
+                const delt = await fetch("./SchedAPI/SchedDELETE.php", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        DeleteID: schedID
+                    })
+                });
+                const delres = await delt.text();
+                if (delres === "1") {
+                    alert("Schedule was deleted successfully");
+                }
+                else {
+                    alert("Warning schedule was not deleted");
+                }
+
+            } catch (err) {
+                console.error("Fetch error:", err.message);
+            }
+
+        });
 
 
 
     </script>
 
 </body>
+
 </html>
