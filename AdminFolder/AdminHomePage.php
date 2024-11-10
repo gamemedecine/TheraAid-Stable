@@ -64,7 +64,16 @@ if(mysqli_num_rows($var_transactionqry)>0){
     }
 }
 
+//INCOME
+$var_income = "SELECT * FROM tbl_income";
+$var_incomeqry = mysqli_query($var_conn,$var_income);
+$var_TtlIncome = 0;
 
+if(mysqli_num_rows($var_incomeqry)>0){
+    while($var_IncomeRec = mysqli_fetch_array($var_incomeqry)){
+        $var_TtlIncome += $var_IncomeRec["income"];
+    }
+}
 
 
 
@@ -194,6 +203,7 @@ if(mysqli_num_rows($var_transactionqry)>0){
                 <div class="card shadow p-5 rounded-5">
                     <h5 class="card-title fw-bold text-center">Profit</h5>
                     <img src="../Photos/profit.png" class="img-fluid img-thumbnail rounded" alt="New Users">
+                    <h4 class="text-center"><?php echo $var_TtlIncome;?></h4>
                 </div>
             </div>
         </div>

@@ -12,7 +12,7 @@ if ($filterType == 'therapists') {
                 CONCAT(u.Fname,' ',u.Mname,' ',u.Lname) AS 'Fullname',
                 u.Email, 
                 u.user_type,
-                s.status
+               GROUP_CONCAT(DISTINCT s.status) AS statuses
                 FROM tbl_user u
                 LEFT JOIN tbl_therapists t ON u.User_id = t.user_id
                 LEFT JOIN tbl_appointment a ON t.therapist_id = a.therapists_id
@@ -25,7 +25,7 @@ if ($filterType == 'therapists') {
                 CONCAT(u.Fname,' ',u.Mname,' ',u.Lname) AS 'Fullname',
                 u.Email, 
                 u.user_type,
-                s.status
+                GROUP_CONCAT(DISTINCT s.status) AS statuses
                 FROM tbl_user u
                 LEFT JOIN tbl_patient p ON u.User_id = p.user_id
                 LEFT JOIN tbl_appointment a ON p.patient_id = a.patient_id
@@ -37,14 +37,15 @@ if ($filterType == 'therapists') {
                 CONCAT(u.Fname,' ',u.Mname,' ',u.Lname) AS 'Fullname',
                 u.Email, 
                 u.user_type,
-                s.status
+                GROUP_CONCAT(DISTINCT s.status) AS statuses
                 FROM tbl_user u
                 LEFT JOIN tbl_patient p ON u.User_id = p.user_id
                 LEFT JOIN tbl_therapists t ON u.User_id = t.user_id
                 LEFT JOIN tbl_appointment a ON (p.patient_id = a.patient_id OR t.therapist_id = a.therapists_id)
                 LEFT JOIN tbl_session s ON a.appointment_id = s.appointment_id 
-                ORDER BY u.User_id ASC";
-}
+                GROUP BY u.User_id
+                ORDER BY u.User_id ASC;";
+    }
 
 $var_allqry = mysqli_query($var_conn, $var_all);
 ?>
@@ -157,7 +158,7 @@ $var_allqry = mysqli_query($var_conn, $var_all);
                                 <td><?php echo $var_allRec["Email"]; ?></td>
                                 <td><?php echo $var_allRec["user_type"]; ?></td>
                                 <td>
-                                    <?php if ($var_allRec["status"] == "On-Going") {
+                                    <?php if ($var_allRec["statuses"] == "On-Going") {
                                         echo "<p style='background-color:#90EE90;'>Active</p>";
                                     }else{
                                         echo "<p style='background-color:#A52A2A;'>In-active</p>";

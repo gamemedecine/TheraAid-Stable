@@ -93,6 +93,20 @@ session_start();
 
                 </div>
         </section>
+
+        <section class="main-section container py-5">
+            <!-- Wrap the entire cards section in a div for the background -->
+            <div class="bg-primary-subtle p-5 rounded-5">
+                <div class="row justify-content-center g-4">
+                    <h1 class="display-6 text-center fw-semibold mb-5">Income Reports</h1><br><br>
+
+
+                    <div>
+                        <canvas id="IncomeChart"></canvas>
+                    </div>
+
+                </div>
+        </section>
     </main>
 
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
@@ -103,8 +117,10 @@ session_start();
     <script>
        
 document.addEventListener("DOMContentLoaded", async function() {
-    await getData(); 
+    await getData();
+    await getIncome() 
     Generatecharts(labels, data18_25, data26_35, data36_45, data46);
+    GenerateIncomecharts(Monnths, monthName );
 });
 
 async function getData() {
@@ -132,6 +148,72 @@ async function getData() {
         console.error("Error fetching data:", error);
     }
 }
+
+async function getIncome() {
+    try {
+        const res = await fetch("./AdminApi/GetIncomeAPI.php", {
+            method: "GET"
+        });
+        const data = await res.json();
+
+        if (data.length === 0) {
+            alert("No data available");
+        } else {
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                                "July", "August", "September", "October", "November", "December"];
+            const transactionCounts = new Array(12).fill(0); // Initialize all months to 0
+
+            // Accumulate transaction counts for each month based on the data
+            data.forEach(item => {
+                const monthIndex = item.month - 1; // Adjust to 0-based index for array
+                transactionCounts[monthIndex] = item.transaction_count;
+            });
+
+            // Generate the chart with full 12 months and updated counts
+            GenerateIncomecharts(monthNames, transactionCounts);
+        }
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
+
+function GenerateIncomecharts(months, transactionCounts) {
+    const ctx = document.getElementById('IncomeChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: months, // Use all 12 month names
+            datasets: [{
+                label: 'Transaction Count',
+                data: transactionCounts, // Use the transaction count data for each month
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                },
+                x: {
+                    stacked: true
+                },
+                y: {
+                    stacked: true
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top' // Places the legend at the top
+                }
+            }
+        }
+    });
+}
+
 
 function Generatecharts(labels, data18_25, data26_35, data36_45, data46) {
     const ctx = document.getElementById('myChart');
