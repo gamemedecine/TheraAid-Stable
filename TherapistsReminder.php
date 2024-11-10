@@ -154,10 +154,9 @@ if (isset($_POST["BtnSession"])) {
                     <?php
 
                     if (mysqli_num_rows($var_rmndrqry) > 0) {
-                    
                         while ($var_Rget = mysqli_fetch_array($var_rmndrqry)) {
                             $var_listDate = explode(",", $var_Rget["reminder_date"]);
-                        
+                            
                             if (in_array($var_crrntDate, $var_listDate)) {
                                 $appointmentID = $var_Rget["appointment_id"];
                                 $profilePic = $var_Rget["profilePic"];
@@ -167,9 +166,7 @@ if (isset($_POST["BtnSession"])) {
                                 $endTime = $var_Rget["end_time"];
 
                                 echo "<div class='row w-100 bg-bg-secondary-subtle p-3 rounded-5 shadow border-5 gap-3 gap-sm-0'>
-
                                     <b class='mb-3'>Information:</b>
-
                                     <div class='col-sm d-flex justify-content-center align-items-center flex-column gap-3'>
                                         <img src='./UserFiles/ProfilePictures/$profilePic' alt='$profilePic' class='img-fluid rounded-5 shadow' style='object-fit: cover; height: 250px;'>
                                         <label class='text-center'><b>Full Name: </b>$fullName</label>
@@ -182,13 +179,11 @@ if (isset($_POST["BtnSession"])) {
                                         <hr>
                                         <button name='BtnSession' value='$appointmentID' class='btn btn-primary px-5 rounded-5 shadow'>View Appointment</button>
                                     </div>
-
                                 </div>";
                             }
-                           
-                        }else{
-                            $var_validate = 0;
                         }
+                    } else {
+                        $var_validate = 0;
                     }
                     
                     ?>
