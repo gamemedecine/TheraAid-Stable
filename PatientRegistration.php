@@ -140,9 +140,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 break;
             }
         }
+
+        $currentDate = date("Y-m-d");
         
         if ($newProfilePictureName[0] && !$newAssesmentImageNameErr && !$newMedicalHistoryImageNameErr) {
-            $userSql = "INSERT INTO `tbl_user`(`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`) VALUES ('[value-1]','$firstName','$lastName','$middleName','$birthDate','$username','$hashedPassword','$mobileNumber','$email','P','$newProfilePictureName[0]')";
+            $userSql = "INSERT INTO `tbl_user`(`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`, `E_wallet`, `date_created`) VALUES ('[value-1]','$firstName','$lastName','$middleName','$birthDate','$username','$hashedPassword','$mobileNumber','$email','P','$newProfilePictureName[0]', '0', '$currentDate')";
             $userQuery = mysqli_query($var_conn, $userSql);
 
             $userID = $var_conn->insert_id;
@@ -173,6 +175,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["statusTitle"] = "Your account has been created";
                 $_SESSION["statusText"] = 'Go to the <a href="./Login.php">login page</a>';
                 $_SESSION["sess_Utype"] = "P";
+
+                if (isset($_SESSION["oneTimePin"])) {
+                    unset($_SESSION["oneTimePin"]);
+                }
             } else {
                 $_SESSION["statusCode"] = 0;
                 $_SESSION["statusTitle"] = "Oops!";
@@ -369,6 +375,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <div class="invalid-feedback">
                             Please enter a valid Email.
                         </div>
+                        <small class="text-danger d-none mt-1" id="emailFeedback"></small>
                     </div>
                     <div class="mb-3">
                         <label for="mobileNumber" class="mb-1">Mobile Number <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 11)</small></label>
@@ -485,8 +492,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         </div>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="location" class="mb-1">One Time Pin <span class="text-danger">*</span></label>
+                        <input type="text" name="oneTimePin" id="oneTimePin" class="form-control" placeholder="TheraAid..." required>
+                        <div class="invalid-feedback">
+                            Please enter a valid PIN.
+                        </div>
+                        <small class="text-danger d-none mt-1" id="oneTimePinFeedback"></small>
+                    </div>
+
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-secondary px-5 rounded-5" id="sendPinButton">Send Pin</button>
+                    </div>
+
                     <div class="d-flex justify-content-center align-items-center">
-                        <button type="submit" class="btn btn-primary rounded-5 px-5 shadow">Register</button>
+                        <button type="submit" class="btn btn-primary rounded-5 px-5 shadow" id="registerButton" disabled>Register</button>
                     </div>
                 </form>
                 <div class="mt-3">
@@ -764,6 +784,75 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     }
                 }
             }
+
+            const sendPinButton = document.getElementById("sendPinButton");
+            const emailFeedback = document.getElementById("emailFeedback");
+
+            sendPinButton.addEventListener("click", async () => {
+                const email = registrationForm.email.value;
+                
+                const formData = new FormData();
+                formData.append("email", email);
+
+                const response = await fetch("./OTP/send_pin.php", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const responseText = await response.text();
+                const responseStatus = response.status;
+
+                if (responseStatus !== 200) {
+                    emailFeedback.innerHTML = responseText;
+                    emailFeedback.classList.replace("d-none", "d-block");
+                    emailFeedback.scrollIntoView({
+                      block: "center",
+                      inline: "center",
+                      behavior: "smooth"
+                    });
+                } else {
+                    emailFeedback.classList.replace("d-block", "d-none");
+                }
+
+                showToast(responseText);
+            });
+
+            const oneTimePin = document.getElementById("oneTimePin");
+            const oneTimePinFeedback = document.getElementById("oneTimePinFeedback");
+            const registerButton = document.getElementById("registerButton");
+
+            oneTimePin.addEventListener("change", async (e) => {
+                const value = e.target.value;
+
+                if (value.length < 1) {
+                    return registerButton.disabled = true;
+                }
+
+                const formData = new FormData();
+                formData.append("pin", value);
+
+                const response = await fetch("./OTP/verify.php", {
+                    method: "POST",
+                    body: formData
+                });
+            
+                const responseText = await response.text();
+                const responseStatus = response.status;
+
+                oneTimePinFeedback.classList.replace("d-none", "d-block");
+            
+                if (responseStatus !== 200) {
+                    oneTimePinFeedback.innerHTML = responseText;
+                    oneTimePinFeedback.classList.replace("text-success", "text-danger");
+                    return registerButton.disabled = true;
+                } else {
+                    oneTimePinFeedback.innerHTML = responseText;
+                    oneTimePinFeedback.classList.replace("text-danger", "text-success");
+                }
+            
+                showToast(responseText);
+                registerButton.disabled = false;
+            });
 
             <?php
 

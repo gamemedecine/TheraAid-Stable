@@ -109,10 +109,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $licenseImageSize = $licenseImage["size"];  
         $newLicensePictureName = uploadFile($licenseImageName, $licenseImageTmpName, $licenseImageSize, "./UserFiles/LicensePictures/");
 
-        $date_created = date("Y-m-d");
+        $currentDate = date("Y-m-d");
 
         if ($newProfilePictureName && $newLicensePictureName) {
-            $userSql = "INSERT INTO `tbl_user`(`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`, `E_wallet`, `date_created`) VALUES ('[value-1]','$firstName','$lastName','$middleName','$birthDate','$username','$hashedPassword','$mobileNumber','$email','T','$newProfilePictureName', '0', '$date_created')";
+            $userSql = "INSERT INTO `tbl_user`(`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`, `E_wallet`, `date_created`) VALUES ('[value-1]','$firstName','$lastName','$middleName','$birthDate','$username','$hashedPassword','$mobileNumber','$email','T','$newProfilePictureName', '0', '$currentDate')";
             $userQuery = mysqli_query($var_conn, $userSql);
 
             $userID = $var_conn->insert_id;
@@ -326,7 +326,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <div class="invalid-feedback">
                             Please enter a valid Email.
                         </div>
-                        <small class="text-danger d-none mt-1" id="emailFeedback">\</small>
+                        <small class="text-danger d-none mt-1" id="emailFeedback"></small>
                     </div>
                     <div class="mb-3">
                         <label for="mobileNumber" class="mb-1">Mobile Number <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 11)</small></label>
@@ -695,6 +695,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 if (responseStatus !== 200) {
                     emailFeedback.innerHTML = responseText;
                     emailFeedback.classList.replace("d-none", "d-block");
+                    emailFeedback.scrollIntoView({
+                      block: "center",
+                      inline: "center",
+                      behavior: "smooth"
+                    });
                 } else {
                     emailFeedback.classList.replace("d-block", "d-none");
                 }
