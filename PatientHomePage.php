@@ -6,12 +6,15 @@ session_start();
 
 $var_rrminder;
 
+
 $var_remind = "SELECT 
         TB.reminder_date, 
         TB.reminder_messsage,
-        TB.reminder_status
+        TB.reminder_status,
+        P.patient_id
     FROM tbl_reminder TB 
-    JOIN tbl_appointment AP ON AP.appointment_id = TB.appointment_id JOIN tbl_patient P ON P.patient_id = AP.patient_id 
+    JOIN tbl_appointment AP ON AP.appointment_id = TB.appointment_id 
+    JOIN tbl_patient P ON P.patient_id = AP.patient_id 
     JOIN tbl_user U ON U.User_id = P.user_id WHERE P.user_id=" . $_SESSION["sess_id"];
 
 $var_Rqry = mysqli_query($var_conn, $var_remind);
@@ -22,6 +25,7 @@ $var_currentDate = date($var_sampleDate); //date('Y-m-d');
 if (mysqli_num_rows($var_Rqry) > 0) {
     $var_Rrec = mysqli_fetch_array($var_Rqry);
     $var_Date = explode(",", $var_Rrec["reminder_date"]);
+  
 
     if (in_array($var_currentDate, $var_Date)) {
         $var_message = $var_Rrec["reminder_messsage"];
@@ -81,7 +85,13 @@ if (mysqli_num_rows($var_Rqry) > 0) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PatientSession.php">
+                                    <i class="bi bi-hospital fs-3"></i><br>
+                                    <small>Session</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PatientHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>

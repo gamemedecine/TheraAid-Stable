@@ -96,7 +96,7 @@ if (isset($_POST["BtnSubmit"])) {
 </head>
 
 <body>
-    <header>
+<header>
         <nav class="navbar navbar-expand-lg bg-primary-subtle">
             <div class="container">
                 <a class="navbar-brand" href="#">
@@ -120,7 +120,7 @@ if (isset($_POST["BtnSubmit"])) {
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsHomePage.php">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./TherapistsHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
@@ -138,9 +138,15 @@ if (isset($_POST["BtnSubmit"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="TherapistsHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PTReports.php">
+                                    <i class="bi bi-clock-history fs-3"></i><br>
+                                    <small>Reports</small>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -162,7 +168,7 @@ if (isset($_POST["BtnSubmit"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./TherapistsProfilePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>
@@ -179,7 +185,7 @@ if (isset($_POST["BtnSubmit"])) {
             </div>
         </nav>
     </header>
-
+    
     <div class="modal fade" tabindex="-1" id="map-modal">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">

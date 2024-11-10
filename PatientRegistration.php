@@ -4,6 +4,7 @@ include "./database.php";
 
 session_start();
 
+$var_currDate = date("Y-m-d");
 function uploadFiles($names, $tmp_names, $sizes, $target_dir) {
     $uploadedFiles = [];
     
@@ -142,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
         
         if ($newProfilePictureName[0] && !$newAssesmentImageNameErr && !$newMedicalHistoryImageNameErr) {
-            $userSql = "INSERT INTO `tbl_user`(`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`) VALUES ('[value-1]','$firstName','$lastName','$middleName','$birthDate','$username','$hashedPassword','$mobileNumber','$email','P','$newProfilePictureName[0]')";
+            $userSql = "INSERT INTO `tbl_user`(`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`,`date_created`) VALUES ('[value-1]','$firstName','$lastName','$middleName','$birthDate','$username','$hashedPassword','$mobileNumber','$email','P','$newProfilePictureName[0]','$var_currDate')";
             $userQuery = mysqli_query($var_conn, $userSql);
 
             $userID = $var_conn->insert_id;
@@ -372,7 +373,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </div>
                     <div class="mb-3">
                         <label for="mobileNumber" class="mb-1">Mobile Number <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 11)</small></label>
-                        <input type="text" name="mobileNumber" id="mobileNumber" class="form-control" required>
+                        <input type="text" name="mobileNumber" id="mobileNumber" maxlength="11" class="form-control" required>
                         <div class="invalid-feedback">
                             Please enter a valid Mobile Number.
                         </div>

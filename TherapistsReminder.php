@@ -6,7 +6,7 @@ session_start();
 
 $var_UserId = $_SESSION["sess_id"];
 $var_crrntDate = "2024-10-21";
-
+$var_validate = "";
 $var_Rmndr = "SELECT RM.reminder_date,
                     RM.reminder_messsage,
                     RM.reminder_status,
@@ -19,6 +19,7 @@ $var_Rmndr = "SELECT RM.reminder_date,
                     SC.day,
                     SC.end_time,
                     SC.note,
+                    PT.validate,
                     CONCAT(U.Fname,' ',U.Mname,' ',U.Lname) AS Pat_fllname,
                     U.profilePic,
                     P.patient_id,
@@ -29,7 +30,8 @@ $var_Rmndr = "SELECT RM.reminder_date,
 					JOIN tbl_therapists PT ON AP.therapists_id = PT.therapist_id
 					JOIN tbl_user U ON U.User_id = P.user_id
 					JOIN tbl_sched SC ON AP.schedle_id = SC.shed_id
-					WHERE  PT.user_id =$var_UserId";
+					WHERE  PT.user_id =$var_UserId 
+                    AND PT.validate = 1";
 $var_rmndrqry = mysqli_query($var_conn, $var_Rmndr);
 $var_data = "";
 $var_listDate = [];
@@ -168,6 +170,9 @@ if (isset($_POST["BtnSession"])) {
                                     </td>";
                                 }
                             }
+                           
+                        }else{
+                            $var_validate = 0;
                         }
                     
                         ?>
@@ -180,6 +185,12 @@ if (isset($_POST["BtnSession"])) {
     </main>
 
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script> 
+        var validate = <?php echo $var_validate;?>;
+        if(validate == 0){
+            alert("You are not validated");
+        }
+    </script>
 </body>
 
 </html>

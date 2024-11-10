@@ -3,7 +3,7 @@
 include "./database.php";
 
 session_start();
-
+$var_currentDate = date("Y-m-d");
 function uploadFile($name, $tmp_name, $size, $target_dir) {
     $fileExtension = explode(".", $name);
     $newFileName = basename(uniqid() . "." . end($fileExtension));
@@ -110,13 +110,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $newLicensePictureName = uploadFile($licenseImageName, $licenseImageTmpName, $licenseImageSize, "./UserFiles/LicensePictures/");
 
         if ($newProfilePictureName && $newLicensePictureName) {
-            $userSql = "INSERT INTO `tbl_user`(`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`) VALUES ('[value-1]','$firstName','$lastName','$middleName','$birthDate','$username','$hashedPassword','$mobileNumber','$email','T','$newProfilePictureName')";
+            $userSql = "INSERT INTO `tbl_user`(`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`,`date_created`) VALUES ('[value-1]','$firstName','$lastName','$middleName','$birthDate','$username','$hashedPassword','$mobileNumber','$email','T','$newProfilePictureName','$var_currentDate')";
             $userQuery = mysqli_query($var_conn, $userSql);
 
             $userID = $var_conn->insert_id;
             $_SESSION["sess_id"] = $userID;
 
-            $therapistSql = "INSERT INTO `tbl_therapists`(`therapist_id`, `user_id`, `case_handled`, `city`, `barangay`, `license_img`, `date_created`) VALUES ('[value-1]','$userID','$caseHandled','$city','$barangay','$newLicensePictureName','[value-7]')";
+            $therapistSql = "INSERT INTO `tbl_therapists`(`therapist_id`, `user_id`, `case_handled`, `city`, `barangay`, `license_img`) VALUES ('[value-1]','$userID','$caseHandled','$city','$barangay','$newLicensePictureName')";
             $therapistQuery = mysqli_query($var_conn, $therapistSql);
 
             if ($userQuery && $therapistQuery) {
@@ -323,7 +323,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </div>
                     <div class="mb-3">
                         <label for="mobileNumber" class="mb-1">Mobile Number <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 11)</small></label>
-                        <input type="text" name="mobileNumber" id="mobileNumber" class="form-control" required>
+                        <input type="text" name="mobileNumber" id="mobileNumber" class="form-control" maxlength="11" required>
                         <div class="invalid-feedback">
                             Please enter a valid Mobile Number.
                         </div>

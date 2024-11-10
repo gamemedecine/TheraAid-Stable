@@ -37,7 +37,8 @@ if (
                                     FROM tbl_therapists T
                                     JOIN tbl_user U
                                     ON U.User_id = T.user_id
-                                    WHERE T.city= '$var_city'";
+                                    WHERE T.city= '$var_city' 
+                                    AND T.validate = 1";
 
     $var_qry = mysqli_query($var_conn, $var_slctTherapists);
 

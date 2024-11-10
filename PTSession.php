@@ -16,7 +16,7 @@ $var_currntDate = "2024-10-18";
 
 echo $var_currntDate . "<br>";
 // echo $var_crrntTime;
-
+$var_validate="";
 $var_filter = "";
 $var_days= array();
 $var_sessionList = "SELECT *    
@@ -25,7 +25,9 @@ $var_sessionList = "SELECT *
                         JOIN tbl_patient PAT ON AP.patient_id =  PAT.patient_id 
                         JOIN tbl_user U ON PAT.user_id = U.User_id 
                         JOIN tbl_sched SC ON SC.shed_id = AP.schedle_id
-                    WHERE PT.therapist_id = $var_appid AND AP.status LIKE '%On-Going%'";
+                        WHERE PT.therapist_id = $var_appid
+                        AND AP.status LIKE '%On-Going%'
+                        ";
 $var_Slist = mysqli_query($var_conn, $var_sessionList);
 
 if(isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])){
@@ -161,35 +163,40 @@ if(isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])){
                                                 <tr>
                                                     <?php
                                                          if(mysqli_num_rows($var_Slist)>0){
-                                                            while($var_SSRec=mysqli_fetch_array($var_Slist)){
-                                                               $var_days= explode(",", $var_SSRec["day"]);
-                                                               
+                                                            $row = $var_Slist->fetch_assoc();
+                                                            $var_check = $row['validate'];
+                                                            if($var_check ==1){
 
-                                                                    if(in_array($var_filter,$var_days)){
-
-                                                           
-
-                                                    ?>
-                                                            <td><button style="width: 1100px; height: 100px; border-radius: 25px;"  
-                                                                type="submit" name="BtnsessID" value="<?php echo $var_SSRec["session_id"]; ?>"><?php echo $var_SSRec["Fname"]; ?></button></td>
-                                                </tr>
-                                                    <?php
-                                                             }else if($var_filter == "All"){
-                                                                ?>
-                                                                    <tr>
+                                                                while($var_SSRec=mysqli_fetch_array($var_Slist)){
+                                                                    $var_days= explode(",", $var_SSRec["day"]);
+                                                                    
+    
+                                                                        if(in_array($var_filter,$var_days)){
+                                                                        ?>
                                                                     <td><button style="width: 1100px; height: 100px; border-radius: 25px;"  
-                                                                    type="submit" name="BtnsessID" value="">yes</button></td>
+                                                                        type="submit" name="BtnsessID" value="<?php echo $var_SSRec["session_id"]; ?>"><?php echo $var_SSRec["Fname"]; ?></button></td>
                                                                     </tr>
-                                                                <?php
-                                                                
-                                                             }else{
-                                                                echo " <td><button style='width: 1100px; height: 100px; border-radius: 25px;'  
-                                                                  >No Data</button></td>";
-                                                                  break;
-                                                             }
-                                                            
-                                                         }
-                                                        }else{
+                                                                    <?php
+                                                                    }else if($var_filter == "All"){
+                                                                        ?>
+                                                                            <tr>
+                                                                            <td><button style="width: 1100px; height: 100px; border-radius: 25px;"  
+                                                                            type="submit" name="BtnsessID" value="">yes</button></td>
+                                                                            </tr>
+                                                                        <?php
+                                                                        
+                                                                    }else{
+                                                                        echo " <td><button style='width: 1100px; height: 100px; border-radius: 25px;'  
+                                                                        >No Data</button></td>";
+                                                                        break;
+                                                                    }
+                                                                    
+                                                                }
+                                                                }else{
+                                                                    $var_validate = 0;
+                                                                }
+
+                                                            }else{
                                                             ?>
                                                              <td><button style="width: 1100px; height: 100px; border-radius: 25px;"  
                                                              >No Data</button></td>
@@ -266,7 +273,11 @@ if(isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])){
 
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 
-
+    <script>
+        var validate = <?php echo $var_validate?>;
+        if(validate == 0){
+            alert("You Are not validated");
+        }
     </script>
 </body>
 

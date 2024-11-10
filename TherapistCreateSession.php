@@ -265,7 +265,7 @@ $var_sessID = "";
                 alert("No photos uploaded.");
             }
             // Check if any files were selected and alert their names
-            else (photos.length > 0) {
+            else {
                 var fileNames = [];
                 for (var i = 0; i < photos.length; i++) {
                     fileNames.push(photos[i].name);

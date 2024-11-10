@@ -17,7 +17,8 @@ if (isset($DcodeJSON["ID"])) {
                              T.case_handled,
                              T.city,
                              T.barangay,
-                             T.therapist_id 
+                             T.therapist_id,
+                             T.validate
                         FROM tbl_therapists T 
                         JOIN tbl_user U ON T.user_id = U.User_id 
                         WHERE T.user_id =" . $var_id;
@@ -33,7 +34,8 @@ if (isset($DcodeJSON["ID"])) {
             "case" => $var_rec["case_handled"],
             "city" => $var_rec["city"],
             "barangay" => $var_rec["barangay"],
-            "therapitst_id" => $var_rec["therapist_id"]
+            "therapitst_id" => $var_rec["therapist_id"],
+            "validate" => $var_rec["validate"]
         ]);
 
     } else {
