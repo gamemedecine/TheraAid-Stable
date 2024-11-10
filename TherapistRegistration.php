@@ -109,14 +109,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $licenseImageSize = $licenseImage["size"];  
         $newLicensePictureName = uploadFile($licenseImageName, $licenseImageTmpName, $licenseImageSize, "./UserFiles/LicensePictures/");
 
+        $date_created = date("Y-m-d");
+
         if ($newProfilePictureName && $newLicensePictureName) {
-            $userSql = "INSERT INTO `tbl_user`(`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`) VALUES ('[value-1]','$firstName','$lastName','$middleName','$birthDate','$username','$hashedPassword','$mobileNumber','$email','T','$newProfilePictureName')";
+            $userSql = "INSERT INTO `tbl_user`(`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`, `E_wallet`, `date_created`) VALUES ('[value-1]','$firstName','$lastName','$middleName','$birthDate','$username','$hashedPassword','$mobileNumber','$email','T','$newProfilePictureName', '0', '$date_created')";
             $userQuery = mysqli_query($var_conn, $userSql);
 
             $userID = $var_conn->insert_id;
             $_SESSION["sess_id"] = $userID;
 
-            $therapistSql = "INSERT INTO `tbl_therapists`(`therapist_id`, `user_id`, `case_handled`, `city`, `barangay`, `license_img`, `date_created`) VALUES ('[value-1]','$userID','$caseHandled','$city','$barangay','$newLicensePictureName','[value-7]')";
+            $therapistSql = "INSERT INTO `tbl_therapists`(`therapist_id`, `user_id`, `case_handled`, `city`, `barangay`, `license_img`) VALUES ('[value-1]','$userID','$caseHandled','$city','$barangay','$newLicensePictureName')";
             $therapistQuery = mysqli_query($var_conn, $therapistSql);
 
             if ($userQuery && $therapistQuery) {
@@ -124,6 +126,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["statusTitle"] = "Your account has been created";
                 $_SESSION["statusText"] = 'Go to the <a href="./Login.php">login page</a>';
                 $_SESSION["sess_Utype"] = "T";
+
+                if (isset($_SESSION["oneTimePin"])) {
+                    unset($_SESSION["oneTimePin"]);
+                }
             } else {
                 $_SESSION["statusCode"] = 0;
                 $_SESSION["statusTitle"] = "Oops!";
@@ -320,6 +326,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <div class="invalid-feedback">
                             Please enter a valid Email.
                         </div>
+                        <small class="text-danger d-none mt-1" id="emailFeedback">\</small>
                     </div>
                     <div class="mb-3">
                         <label for="mobileNumber" class="mb-1">Mobile Number <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 11)</small></label>
@@ -387,9 +394,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             Please enter a Case.
                         </div>
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-3">
                         <label for="location" class="mb-1">Address <span class="text-danger">*</span> <small class="fw-semibold">(Use comma to seperate your Barangay and City, E.g: Lahug, Cebu City or press the Choose Location button to choose locate your place)</small></label>
-                        <input type="text" name="location" id="location" class="form-control mb-3" placeholder="Barangay, City" required>
+                        <input type="text" name="location" id="location" class="form-control" placeholder="Barangay, City" required>
                         <div class="invalid-feedback">
                             Please enter a Location.
                         </div>
@@ -408,8 +415,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <small class="fw-semibold mb-2">License Image Preview</small>
                         <img src="#" id="licensePreview" class="img-thumbnail" style="height: 250px; width: auto; object-fit: cover;">
                     </div>
+
+                    <div class="mb-3">
+                        <label for="location" class="mb-1">One Time Pin <span class="text-danger">*</span></label>
+                        <input type="text" name="oneTimePin" id="oneTimePin" class="form-control" placeholder="TheraAid..." required>
+                        <div class="invalid-feedback">
+                            Please enter a valid PIN.
+                        </div>
+                        <small class="text-danger d-none mt-1" id="oneTimePinFeedback"></small>
+                    </div>
+
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-secondary px-5 rounded-5" id="sendPinButton">Send Pin</button>
+                    </div>
+
                     <div class="d-flex justify-content-center align-items-center">
-                        <button type="submit" class="btn btn-primary rounded-5 px-5 shadow">Register</button>
+                        <button type="submit" class="btn btn-primary rounded-5 px-5 shadow" id="registerButton" disabled>Register</button>
                     </div>
                     
                 </form>
@@ -600,6 +621,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     showToast("<span class='text-danger'>Password do not match.</span>");
                     e.preventDefault();
                     e.stopPropagation();
+                    return;
                 } else {
                     passwordConfirmationFeedback.classList.replace("d-block", "d-none");
                 }
@@ -616,6 +638,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     e.preventDefault();
                     e.stopPropagation();
                     showToast("<span class='text-danger'>Please follow the given max length of each inputs.</span>");
+                    return;
                 }
             });
 
@@ -651,6 +674,70 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     }
                 }
             }
+
+            const sendPinButton = document.getElementById("sendPinButton");
+            const emailFeedback = document.getElementById("emailFeedback");
+
+            sendPinButton.addEventListener("click", async () => {
+                const email = registrationForm.email.value;
+                
+                const formData = new FormData();
+                formData.append("email", email);
+
+                const response = await fetch("./OTP/send_pin.php", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const responseText = await response.text();
+                const responseStatus = response.status;
+
+                if (responseStatus !== 200) {
+                    emailFeedback.innerHTML = responseText;
+                    emailFeedback.classList.replace("d-none", "d-block");
+                } else {
+                    emailFeedback.classList.replace("d-block", "d-none");
+                }
+
+                showToast(responseText);
+            });
+
+            const oneTimePin = document.getElementById("oneTimePin");
+            const oneTimePinFeedback = document.getElementById("oneTimePinFeedback");
+            const registerButton = document.getElementById("registerButton");
+
+            oneTimePin.addEventListener("change", async (e) => {
+                const value = e.target.value;
+
+                if (value.length < 1) {
+                    return registerButton.disabled = true;
+                }
+
+                const formData = new FormData();
+                formData.append("pin", value);
+
+                const response = await fetch("./OTP/verify.php", {
+                    method: "POST",
+                    body: formData
+                });
+            
+                const responseText = await response.text();
+                const responseStatus = response.status;
+
+                oneTimePinFeedback.classList.replace("d-none", "d-block");
+            
+                if (responseStatus !== 200) {
+                    oneTimePinFeedback.innerHTML = responseText;
+                    oneTimePinFeedback.classList.replace("text-success", "text-danger");
+                    return registerButton.disabled = true;
+                } else {
+                    oneTimePinFeedback.innerHTML = responseText;
+                    oneTimePinFeedback.classList.replace("text-danger", "text-success");
+                }
+            
+                showToast(responseText);
+                registerButton.disabled = false;
+            });
 
             <?php
 
