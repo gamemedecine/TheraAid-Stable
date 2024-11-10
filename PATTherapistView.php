@@ -139,7 +139,8 @@ $statusCode = 0;
 
 if (isset($_POST["BtnSubmit"])) {
     $var_ammnt = floatval($_POST["TxtAmount"]);
-
+    $var_income = $var_ammnt * 0.10;
+    $var_newammnt = $var_ammnt - $var_income;
     if ($var_ammnt != $var_get["rate"]) {
         $statusCode = 1;
         // echo "Please enter the proper amount";
@@ -148,15 +149,20 @@ if (isset($_POST["BtnSubmit"])) {
         // echo "Insufficient balance Please Top-up";
     } else {
         $var_Payment = "INSERT INTO tbl_payment (appointment_id,amount,status)
-        VALUES ('$var_APid','$var_ammnt','Paid')";
+        VALUES ('$var_APid','$var_newammnt','Paid')";
         $var_Pqry = mysqli_query($var_conn, $var_Payment);
+        
 
         if ($var_Pqry) {
+            $last_id = mysqli_insert_id($var_conn);
             //update therapists E-wallet Account PtntID
-            $var_UpdtE_wallet = $var_ammnt + $var_PTE_wallet;
+            $var_UpdtE_wallet = $var_newammnt + $var_PTE_wallet;
             //echo $var_UpdtE_wallet;
             $var_Tupdate = "UPDATE tbl_user SET E_wallet=   $var_UpdtE_wallet WHERE User_id = $var_PTID";
             $var_TupdatePT = mysqli_query($var_conn, $var_Tupdate);
+            
+            $var_insertIncome = "INSERT INTO `tbl_income`(`payment_id`, `income`) VALUES ($last_id,$var_income)";
+            $var_incomeqry = mysqli_query($var_conn,$var_insertIncome);
 
             //UPDATE THE E WALLET OF THE PATIENT "DEDUCT"
             $var_deductE_wallet = $var_PtntE_wallet - $var_ammnt;
