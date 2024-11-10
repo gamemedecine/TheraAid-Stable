@@ -55,9 +55,17 @@ if (isset($_POST["BtnSubmit"])) {
         VALUES($var_UID,$last_APid,'$var_type')";
         mysqli_query($var_conn, $var_notif);
 
-        $_SESSION["statusTitle"] = "Success";
-        $_SESSION["statusText"] = "Your appointment has been created.";
-        $isSuccess = true;
+        $sql = "UPDATE `tbl_sched` SET status = '' WHERE shed_id = $var_SchedID";
+        $result = $var_conn->query($sql);
+
+        if ($result) {
+            $_SESSION["statusTitle"] = "Success";
+            $_SESSION["statusText"] = "Your appointment has been created.";
+            $isSuccess = true;
+        } else {
+            $_SESSION["statusTitle"] = "Oops!";
+            $_SESSION["statusText"] = "Something went wrong while creating an appointment, please try again.";
+        }
     } else {
         $_SESSION["statusTitle"] = "Oops!";
         $_SESSION["statusText"] = "Something went wrong while creating an appointment, please try again.";

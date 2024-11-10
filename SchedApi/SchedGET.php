@@ -2,7 +2,7 @@
 
 include "../database.php";
 
-$var_Items = $var_conn->query("SELECT * FROM `tbl_sched`");
+$var_Items = $var_conn->query("SELECT * FROM `tbl_sched` WHERE status = 'Available'");
 if ($var_Items) {
     $data = json_decode("[]");
 

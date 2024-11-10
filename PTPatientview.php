@@ -95,6 +95,15 @@ if (isset($_POST["BTNDecline"])) {
         $var_notif ="INSERT INTO tbl_notifications(user_id,appointment_id,type)
         VALUES($var_UID,$var_APID,'$var_type')";
         mysqli_query($var_conn,$var_notif);
+        
+        $sql = "SELECT schedle_id FROM tbl_appointment WHERE appointment_id = " . $_SESSION["sess_ApntmntId"];
+        $result = $var_conn->query($sql)->fetch_assoc();
+
+        $schedle_id = $result["schedle_id"];
+
+        $sql = "UPDATE tbl_sched SET status = 'Available' WHERE shed_id = $schedle_id";
+        $var_conn->query($sql);
+
         header("location: TherapistsAppointment.php");
     } else {
         echo "Error: Could not decline the appointment.";

@@ -15,7 +15,6 @@ if (
 $var_Tid = $_SESSION["sess_PTID"];
 $var_Etime = "";
 
-
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light">
@@ -44,7 +43,8 @@ $var_Etime = "";
 
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
-                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
+                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64"
+                                height="64">
                         </h5>
                         <button type="button" class="btn-close shadow" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
@@ -53,7 +53,8 @@ $var_Etime = "";
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./TherapistsHomePage.php">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page"
+                                    href="./TherapistsHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
@@ -65,7 +66,8 @@ $var_Etime = "";
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsAppointment.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page"
+                                    href="./TherapistsAppointment.php">
                                     <i class="bi bi-calendar-check fs-3"></i><br>
                                     <small>Appointment</small>
                                 </a>
@@ -95,13 +97,15 @@ $var_Etime = "";
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistChat.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page"
+                                    href="./TherapistChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
                                     <small>Chat</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsProfilePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page"
+                                    href="./TherapistsProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>
@@ -134,27 +138,33 @@ $var_Etime = "";
                         <div class="mb-3">
                             <label class="mb-1">Days <span class="text-danger">*</span></label><br>
                             <div class="form-check">
-                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Mon" id="monday">
+                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Mon"
+                                    id="monday">
                                 <label class="form-check-label" for="monday">Monday</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Tue" id="tuesday">
+                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Tue"
+                                    id="tuesday">
                                 <label class="form-check-label" for="tuesday">Tuesday</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Wed" id="wednesday">
+                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Wed"
+                                    id="wednesday">
                                 <label class="form-check-label" for="wednesday">Wednesday</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="THU" id="thursday">
+                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="THU"
+                                    id="thursday">
                                 <label class="form-check-label" for="thursday">Thursday</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Fri" id="friday">
+                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Fri"
+                                    id="friday">
                                 <label class="form-check-label" for="friday">Friday</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Sat" id="saturday">
+                                <input class="form-check-input" name="CheckBoxDay[]" type="checkbox" value="Sat"
+                                    id="saturday">
                                 <label class="form-check-label" for="saturday">Saturday</label>
                             </div>
                         </div>
@@ -165,7 +175,8 @@ $var_Etime = "";
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label for="startTime" class="mb-1">Start Time <span class="text-danger">*</span></label><br>
+                                <label for="startTime" class="mb-1">Start Time <span
+                                        class="text-danger">*</span></label><br>
                                 <select id="startTime" name="start_time" class="form-control" required>
                                     <option value="">Select a start time.</option>
                                     <?php
@@ -191,7 +202,8 @@ $var_Etime = "";
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary px-5 rounded-5" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary px-5 rounded-5"
+                        data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary px-5 rounded-5" form="InputSched">Add</button>
                 </div>
             </div>
@@ -279,7 +291,8 @@ $var_Etime = "";
                 <div class="col-lg-3">
 
                     <div class="mb-3 d-flex justify-content-center align-items-center">
-                        <img id="ProfPic" class="img-fluid rounded-5 shadow" style="height: 250px; width: auto;" src="#" alt="#">
+                        <img id="ProfPic" class="img-fluid rounded-5 shadow" style="height: 250px; width: auto;" src="#"
+                            alt="#">
                     </div>
                     <hr>
                     <div class="mb-3">
@@ -310,15 +323,20 @@ $var_Etime = "";
                         </div>
                         <div class="AM" id="AM-schedule">
                             <div class="SchedButton">
-                                <p id="AM" class="d-flex justify-content-start align-items-center flex-column shadow rounded p-3 gap-2" style="height: 250px; overflow-y: auto;"></p>
+                                <p id="AM"
+                                    class="d-flex justify-content-start align-items-center flex-column shadow rounded p-3 gap-2"
+                                    style="height: 250px; overflow-y: auto;"></p>
                             </div>
                         </div>
                         <div class="PM" id="PM-schedule" style="display: none;">
                             <div class="SchedButton">
-                                <p id="PM" class="d-flex justify-content-start align-items-center flex-column shadow rounded p-3 gap-2" style="height: 250px; overflow-y: auto;"></p>
+                                <p id="PM"
+                                    class="d-flex justify-content-start align-items-center flex-column shadow rounded p-3 gap-2"
+                                    style="height: 250px; overflow-y: auto;"></p>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary px-5 rounded-5 w-100" data-bs-target="#add-schedule-modal" data-bs-toggle="modal">Add Schedule</button>
+                        <button type="button" class="btn btn-primary px-5 rounded-5 w-100"
+                            data-bs-target="#add-schedule-modal" data-bs-toggle="modal">Add Schedule</button>
                     </div>
 
                 </div>
@@ -328,7 +346,9 @@ $var_Etime = "";
                     <h3>Near Me Patients</h3>
                     <hr>
 
-                    <div id="patients" class="d-flex justify-content-center justify-content-lg-start align-items-start flex-wrap p-3 gap-3 rounded shadow" style="height: 740px; overflow-y: auto;">
+                    <div id="patients"
+                        class="d-flex justify-content-center justify-content-lg-start align-items-start flex-wrap p-3 gap-3 rounded shadow"
+                        style="height: 740px; overflow-y: auto;">
 
                     </div>
 
@@ -383,8 +403,9 @@ $var_Etime = "";
             const form = document.getElementById("InputSched");
 
             form.addEventListener("submit", async (e) => {
-                const addScheduleModal = document.querySelector("#add-schedule-modal");
+                const alertPlaceholder = document.getElementById("alertPlaceHolder");
 
+                const addScheduleModal = document.querySelector("#add-schedule-modal");
 
                 const button = addScheduleModal.querySelector("button[type='submit']");
 
@@ -397,7 +418,7 @@ $var_Etime = "";
                         '</div>'
                     ].join('');
 
-                    alertPlaceholder.append(wrapper);
+                    alertPlaceholder.appendChild(wrapper);
                 }
 
                 e.preventDefault();
@@ -512,12 +533,7 @@ $var_Etime = "";
             });
 
         })();
-
-
-
-
-
-
+      
         async function suway() {
             try {
                 let response = await fetch("./HomePageAPI/TheraPistsAPI.php", {
@@ -735,14 +751,14 @@ $var_Etime = "";
                 modalTimeSelect.innerHTML += `<option value="${i}:30 AM">${i}:30 AM</option>`;
             }
             for (let j = 1; j <= 5; j++) {
-                modalTimeSelect.innerHTML += `<option value="${j+12}:30 PM">${j}:30 PM</option>`;
+                modalTimeSelect.innerHTML += `<option value="${j + 12}:30 PM">${j}:30 PM</option>`;
             }
 
             // Initialize the end time options based on the initial start time value
             setEndTimeOptions(modalTimeSelect.value);
 
             // Event listener to update end time options whenever the start time changes
-            modalTimeSelect.addEventListener('change', function(event) {
+            modalTimeSelect.addEventListener('change', function (event) {
                 const selectedValue = event.target.value;
                 console.log("Selected start time:", selectedValue);
 
@@ -814,7 +830,7 @@ $var_Etime = "";
 
 
         // EDIT SCHEDULE
-        document.getElementById('editButton').addEventListener('click', async function() {
+        document.getElementById('editButton').addEventListener('click', async function () {
             // Gather values from the modal
             const schedId = document.getElementById('modalSchedId').value;
             const days = Array.from(document.querySelectorAll('input[name="days[]"]:checked')).map(cb => cb.value);
@@ -840,7 +856,6 @@ $var_Etime = "";
                 alert(EditErrors);
                 return;
             }
-
             try {
                 // Ensure `therapists_id` is defined or replace with actual value
                 const therapists_ID = TherapID; // Replace with the correct value
@@ -896,7 +911,7 @@ $var_Etime = "";
             }
         });
         //DELETE
-        document.getElementById("confirmDeleteButton").addEventListener("click", async function() {
+        document.getElementById("confirmDeleteButton").addEventListener("click", async function () {
             // Get the value of the hidden input field
             const schedId = document.getElementById("modalSchedId").value;
 
@@ -912,7 +927,8 @@ $var_Etime = "";
                 const delres = await delt.text();
                 if (delres === "1") {
                     alert("Schedule was deleted successfully");
-                } else {
+                }
+                else {
                     alert("Warning schedule was not deleted");
                 }
 
