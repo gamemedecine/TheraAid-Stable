@@ -3,6 +3,7 @@ include "./database.php";
 session_start();
 $var_appid = $_SESSION["appointment_id"];
 date_default_timezone_set('Asia/Manila');
+
 $var_crrntTime = date("h:i:sa");
 $var_currntDate = date("Y-m-d");
 // $var_currntDate = "2024-11-09";
@@ -395,7 +396,6 @@ $var_sessID = "";
                             body: formData
                         });
                     }
-
                 } catch (err) {
                     console.log(err);
                 }

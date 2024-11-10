@@ -4,6 +4,7 @@ include "./database.php";
 
 session_start();
 
+$var_currDate = date("Y-m-d");
 function uploadFiles($names, $tmp_names, $sizes, $target_dir) {
     $uploadedFiles = [];
     
@@ -379,7 +380,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </div>
                     <div class="mb-3">
                         <label for="mobileNumber" class="mb-1">Mobile Number <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 11)</small></label>
-                        <input type="text" name="mobileNumber" id="mobileNumber" class="form-control" required>
+                        <input type="text" name="mobileNumber" id="mobileNumber" maxlength="11" class="form-control" required>
                         <div class="invalid-feedback">
                             Please enter a valid Mobile Number.
                         </div>

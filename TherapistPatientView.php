@@ -62,7 +62,7 @@ if (isset($_GET["userID"])) {
     <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/TherapistHomePage.css'>
 </head>
 <body>
-    <header>
+<header>
         <nav class="navbar navbar-expand-lg bg-primary-subtle">
             <div class="container">
                 <a class="navbar-brand" href="#">
@@ -86,13 +86,13 @@ if (isset($_GET["userID"])) {
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsHomePage.php">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./TherapistsHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
                                 </a>
@@ -104,13 +104,19 @@ if (isset($_GET["userID"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="TherapistsHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PTReports.php">
+                                    <i class="bi bi-clock-history fs-3"></i><br>
+                                    <small>Reports</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsReminder.php">
                                     <i class="bi bi-card-checklist fs-3"></i><br>
                                     <small>Reminder</small>
                                 </a>
@@ -134,9 +140,9 @@ if (isset($_GET["userID"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistHomePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./Logout.php">
                                     <i class="bi bi-box-arrow-right fs-3"></i><br>
-                                    <small>Go Back</small>
+                                    <small>Logout</small>
                                 </a>
                             </li>
                         </ul>

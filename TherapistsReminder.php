@@ -5,8 +5,9 @@ include "./database.php";
 session_start();
 
 $var_UserId = $_SESSION["sess_id"];
-$var_crrntDate = date("Y-m-d");
-// $var_crrntDate = "2024-11-09";
+
+$var_crrntDate = "2024-10-21";
+$var_validate = "";
 
 $var_Rmndr = "SELECT RM.reminder_date,
                     RM.reminder_messsage,
@@ -20,6 +21,7 @@ $var_Rmndr = "SELECT RM.reminder_date,
                     SC.day,
                     SC.end_time,
                     SC.note,
+                    PT.validate,
                     CONCAT(U.Fname,' ',U.Mname,' ',U.Lname) AS Pat_fllname,
                     U.profilePic,
                     P.patient_id,
@@ -183,6 +185,9 @@ if (isset($_POST["BtnSession"])) {
 
                                 </div>";
                             }
+                           
+                        }else{
+                            $var_validate = 0;
                         }
                     }
                     
@@ -196,6 +201,12 @@ if (isset($_POST["BtnSession"])) {
     </main>
 
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script> 
+        var validate = <?php echo $var_validate;?>;
+        if(validate == 0){
+            alert("You are not validated");
+        }
+    </script>
 </body>
 
 </html>

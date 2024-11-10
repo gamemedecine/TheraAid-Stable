@@ -12,6 +12,7 @@ $var_crrntTime = date("h:i:sa");
 $var_currntDate = date("Y-m-d");
 $var_currntDate = "2024-11-09";
 
+$var_validate="";
 $var_filter = "";
 $var_days = array();
 $var_sessionList = "SELECT *
@@ -20,7 +21,9 @@ $var_sessionList = "SELECT *
                         JOIN tbl_patient PAT ON AP.patient_id =  PAT.patient_id 
                         JOIN tbl_user U ON PAT.user_id = U.User_id 
                         JOIN tbl_sched SC ON SC.shed_id = AP.schedle_id
-                    WHERE PT.therapist_id = $var_appid AND AP.status LIKE '%On-Going%'";
+                        WHERE PT.therapist_id = $var_appid
+                        AND AP.status LIKE '%On-Going%'
+                        ";
 $var_Slist = mysqli_query($var_conn, $var_sessionList);
 
 if (isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])) {
@@ -136,8 +139,88 @@ if (isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])) {
 
         <section class="main-section bg-secondary-subtle py-3 py-sm-5 px-3 px-sm-5 shadow container">
 
-            <form method="POST" action="PTSession.php" class="overflow-x-auto">
 
+            <form method="POST" action="PTSession.php">
+                <input type="radio" name="RadDay" value="All"><label>All</label> 
+                <input type="radio" name="RadDay" value="Mon"><label>Mon</label> 
+                <input type="radio" name="RadDay" value="Tue"><label>Tue</label> 
+                <input type="radio" name="RadDay" value="Wed"><label>Wed</label> 
+                <input type="radio" name="RadDay" value="Thu"><label>Thu</label> 
+                <input type="radio" name="RadDay" value="Fri"><label>Fri</label> 
+                <input type="radio" name="RadDay" value="Sat"><label>Sat</label>
+                <button type="submit" name="BtnFilter">Filter</button> 
+                <div class="container-fluid full-height">
+                        <div class="flex-container">
+                            <div class="box">
+                                <div class="Details-box  rounded">
+                                    <div class="TherapistInfo">
+
+                                    </div>
+                                </div>
+                                <div class="hi">
+                                    <div id="Therapists" style="padding-left: 20px; padding-top: 50px;">
+                                        <div class="SessionList">
+                                            <table border="4px solid black" style="border-collapse:collpase; width: 1100px;">
+                                                <tr>
+                                                    <th style="text-align:center;">Sessions</th>
+                                                </tr>
+                                                <tr>
+                                                    <?php
+                                                         if(mysqli_num_rows($var_Slist)>0){
+                                                            $row = $var_Slist->fetch_assoc();
+                                                            $var_check = $row['validate'];
+                                                            if($var_check ==1){
+
+                                                                while($var_SSRec=mysqli_fetch_array($var_Slist)){
+                                                                    $var_days= explode(",", $var_SSRec["day"]);
+                                                                    
+    
+                                                                        if(in_array($var_filter,$var_days)){
+                                                                        ?>
+                                                                    <td><button style="width: 1100px; height: 100px; border-radius: 25px;"  
+                                                                        type="submit" name="BtnsessID" value="<?php echo $var_SSRec["session_id"]; ?>"><?php echo $var_SSRec["Fname"]; ?></button></td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    }else if($var_filter == "All"){
+                                                                        ?>
+                                                                            <tr>
+                                                                            <td><button style="width: 1100px; height: 100px; border-radius: 25px;"  
+                                                                            type="submit" name="BtnsessID" value="">yes</button></td>
+                                                                            </tr>
+                                                                        <?php
+                                                                        
+                                                                    }else{
+                                                                        echo " <td><button style='width: 1100px; height: 100px; border-radius: 25px;'  
+                                                                        >No Data</button></td>";
+                                                                        break;
+                                                                    }
+                                                                    
+                                                                }
+                                                                }else{
+                                                                    $var_validate = 0;
+                                                                }
+
+                                                            }else{
+                                                            ?>
+                                                             <td><button style="width: 1100px; height: 100px; border-radius: 25px;"  
+                                                             >No Data</button></td>
+                                                            <?php
+                                                        }
+                                                                
+                                                    ?>
+                                            </table>
+
+                                        </div>
+                                        <div id="sessions">
+                                            <p id="check"></p>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                 <div class="modal fade" id="Session" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -282,6 +365,12 @@ if (isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])) {
     </main>
 
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script>
+        var validate = <?php echo $var_validate?>;
+        if(validate == 0){
+            alert("You Are not validated");
+        }
+    </script>
 </body>
 
 </html>

@@ -42,7 +42,7 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
 </head>
 
 <body>
-    <header>
+<header>
         <nav class="navbar navbar-expand-lg bg-primary-subtle">
             <div class="container">
                 <a class="navbar-brand" href="#">
@@ -57,8 +57,7 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
 
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
-                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64"
-                                height="64">
+                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
                         </h5>
                         <button type="button" class="btn-close shadow" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
@@ -67,7 +66,7 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsHomePage.php">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./TherapistsHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
@@ -79,15 +78,21 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./TherapistsAppointment.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsAppointment.php">
                                     <i class="bi bi-calendar-check fs-3"></i><br>
                                     <small>Appointment</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="TherapistsHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PTReports.php">
+                                    <i class="bi bi-clock-history fs-3"></i><br>
+                                    <small>Reports</small>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -126,7 +131,6 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
             </div>
         </nav>
     </header>
-
     <main class="py-0 py-sm-3">
 
         <section class="main-section bg-secondary-subtle py-3 py-sm-5 px-3 px-sm-5 shadow container">

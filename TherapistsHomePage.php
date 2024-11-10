@@ -15,7 +15,6 @@ if (
 $var_Tid = $_SESSION["sess_PTID"];
 $var_Etime = "";
 
-
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light">
@@ -74,14 +73,19 @@ $var_Etime = "";
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="TherapistsHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistsReminder.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PTReports.php">
+                                    <i class="bi bi-clock-history fs-3"></i><br>
+                                    <small>Reports</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsReminder.php">
                                     <i class="bi bi-card-checklist fs-3"></i><br>
                                     <small>Reminder</small>
                                 </a>
@@ -246,8 +250,7 @@ $var_Etime = "";
     </div>
 
     <!-- DELETE MODAL -->
-    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -367,12 +370,12 @@ $var_Etime = "";
             const pmSchedule = document.getElementById('PM-schedule');
 
             if (btnAM && btnPM && amSchedule && pmSchedule) {
-                btnAM.addEventListener('click', function () {
+                btnAM.addEventListener('click', function() {
                     amSchedule.style.display = 'block';
                     pmSchedule.style.display = 'none';
                 });
 
-                btnPM.addEventListener('click', function () {
+                btnPM.addEventListener('click', function() {
                     amSchedule.style.display = 'none';
                     pmSchedule.style.display = 'block';
                 });
@@ -382,7 +385,7 @@ $var_Etime = "";
 
             // Add Schedule Function
 
-            document.getElementById("startTime").addEventListener("change", function () {
+            document.getElementById("startTime").addEventListener("change", function() {
                 const startTime = parseInt(this.value);
                 const endTimeSelect = document.getElementById("endTime");
 
@@ -530,7 +533,7 @@ $var_Etime = "";
             });
 
         })();
-
+      
         async function suway() {
             try {
                 let response = await fetch("./HomePageAPI/TheraPistsAPI.php", {
@@ -542,9 +545,8 @@ $var_Etime = "";
 
                 const data = await response.json();
                 const fullname = `${data.fname} ${data.mname.charAt(0)}. ${data.lname}`;
-
+                var validate = data.validate; //check the therapists if it has been validated
                 TherapID = data.therapitst_id;
-
                 document.getElementById("fllname").innerText = fullname;
                 document.getElementById("ProfPic").src = `./UserFiles/ProfilePictures/${data.ProfPic}`;
                 document.getElementById("ProfPic").alt = `./UserFiles/ProfilePictures/${data.ProfPic}`;
@@ -563,30 +565,35 @@ $var_Etime = "";
                 formData.append("barangay", data.barangay);
                 formData.append("case", data.case);
 
-                response = await fetch("./TherapistHomePageAPI/NearMePatients.php", {
-                    method: "POST",
-                    body: formData
-                });
+                if (validate == 1) {
+                    response = await fetch("./TherapistHomePageAPI/NearMePatients.php", {
+                        method: "POST",
+                        body: formData
+                    });
 
-                const results = await response.json();
+                    const results = await response.json();
 
-                const patientsListContainer = document.getElementById("patients");
+                    const patientsListContainer = document.getElementById("patients");
 
-                for (result of results) {
-                    const patientID = result.patientID;
-                    const userID = result.userID;
-                    const cases = result.cases;
-                    const caseDesc = result.caseDesc;
-                    const city = result.city;
-                    const barangay = result.barangay;
-                    const firstName = result.firstName;
-                    const middleName = result.middleName;
-                    const lastName = result.lastName;
-                    const fullName = `${firstName} ${middleName}, ${lastName}`;
-                    const profilePic = result.profilePic;
+                    for (result of results) {
+                        const patientID = result.patientID;
+                        const userID = result.userID;
+                        const cases = result.cases;
+                        const caseDesc = result.caseDesc;
+                        const city = result.city;
+                        const barangay = result.barangay;
+                        const firstName = result.firstName;
+                        const middleName = result.middleName;
+                        const lastName = result.lastName;
+                        const fullName = `${firstName} ${middleName}, ${lastName}`;
+                        const profilePic = result.profilePic;
 
-                    patientsListContainer.appendChild(createPatientCard(profilePic, fullName, cases, city, barangay, userID));
+                        patientsListContainer.appendChild(createPatientCard(profilePic, fullName, cases, city, barangay, userID));
+                    }
+                }else{
+                    alert("Therapist is not validated yet");
                 }
+
 
             } catch (error) {
                 console.error('Error:', error);
@@ -722,6 +729,7 @@ $var_Etime = "";
 
             toast.show();
         }
+
         function openScheduleModal(id, day, Stime, Etime, note) {
             // Populate modal content
             document.getElementById('modalSchedId').value = id;
@@ -802,12 +810,11 @@ $var_Etime = "";
                 var SlcedEtime;
                 if (timeOption < 7) {
                     SlcedEtime = parseInt(timeOption) + 12;
-                }
-                else {
+                } else {
                     SlcedEtime = timeOption;
                 }
 
-                modalETimeSelect.innerHTML += `<option value="${SlcedEtime + ":30"}">${timeOption + ":30" + nextSuffix}</option>`;
+                modalETimeSelect.innerHTML += `<option value="${SlcedEtime+":30"}">${timeOption+":30"+nextSuffix}</option>`;
 
                 // Increment to next hour
                 nextHour++;
@@ -849,7 +856,6 @@ $var_Etime = "";
                 alert(EditErrors);
                 return;
             }
-
             try {
                 // Ensure `therapists_id` is defined or replace with actual value
                 const therapists_ID = TherapID; // Replace with the correct value
@@ -890,7 +896,8 @@ $var_Etime = "";
                         if (updtres == "1") {
                             alert("Update successfull");
                             window.location.href = "TherapistsHomePage.php"
-                        } if (updtres == "0") {
+                        }
+                        if (updtres == "0") {
                             alert("Update failed");
 
                         }
@@ -930,9 +937,6 @@ $var_Etime = "";
             }
 
         });
-
-
-
     </script>
 
 </body>

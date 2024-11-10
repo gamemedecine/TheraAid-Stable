@@ -3,7 +3,7 @@
 include "./database.php";
 
 session_start();
-
+$var_currentDate = date("Y-m-d");
 function uploadFile($name, $tmp_name, $size, $target_dir) {
     $fileExtension = explode(".", $name);
     $newFileName = basename(uniqid() . "." . end($fileExtension));
@@ -113,6 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($newProfilePictureName && $newLicensePictureName) {
             $userSql = "INSERT INTO `tbl_user`(`User_id`, `Fname`, `Lname`, `Mname`, `Bday`, `UserName`, `Password`, `ContactNum`, `Email`, `user_type`, `profilePic`, `E_wallet`, `date_created`) VALUES ('[value-1]','$firstName','$lastName','$middleName','$birthDate','$username','$hashedPassword','$mobileNumber','$email','T','$newProfilePictureName', '0', '$currentDate')";
+          
             $userQuery = mysqli_query($var_conn, $userSql);
 
             $userID = $var_conn->insert_id;
@@ -330,7 +331,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </div>
                     <div class="mb-3">
                         <label for="mobileNumber" class="mb-1">Mobile Number <span class="text-danger">*</span> <small class="fw-semibold">(Max Length: 11)</small></label>
-                        <input type="text" name="mobileNumber" id="mobileNumber" class="form-control" required>
+                        <input type="text" name="mobileNumber" id="mobileNumber" class="form-control" maxlength="11" required>
                         <div class="invalid-feedback">
                             Please enter a valid Mobile Number.
                         </div>
