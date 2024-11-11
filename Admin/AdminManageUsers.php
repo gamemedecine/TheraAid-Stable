@@ -9,29 +9,33 @@ $filterType = isset($_GET['filter']) ? $_GET['filter'] : 'all';
 // Modify the SQL query based on the filter type
 if ($filterType == 'therapists') {
     $var_all = "SELECT u.User_id, 
-                CONCAT(u.Fname,' ',u.Mname,' ',u.Lname) AS 'Fullname',
-                u.Email, 
-                u.user_type,
-               GROUP_CONCAT(DISTINCT s.status) AS statuses
+                    CONCAT(u.Fname, ' ', u.Mname, ' ', u.Lname) AS 'Fullname',
+                    u.Email, 
+                    u.user_type,
+                    COALESCE(MAX(s.status), 'Inactive') AS statuses
                 FROM tbl_user u
                 LEFT JOIN tbl_therapists t ON u.User_id = t.user_id
                 LEFT JOIN tbl_appointment a ON t.therapist_id = a.therapists_id
                 LEFT JOIN tbl_session s ON a.appointment_id = s.appointment_id 
                 WHERE u.user_type = 'T'
                 AND t.validate = 1
-                ORDER BY u.User_id ASC";
+                GROUP BY u.User_id, u.Fname, u.Mname, u.Lname, u.Email, u.user_type
+                ORDER BY u.User_id ASC;
+";
 } elseif ($filterType == 'patients') {
-    $var_all = "SELECT u.User_id, 
-                CONCAT(u.Fname,' ',u.Mname,' ',u.Lname) AS 'Fullname',
+$var_all = "SELECT u.User_id, 
+                CONCAT(u.Fname, ' ', u.Mname, ' ', u.Lname) AS 'Fullname',
                 u.Email, 
                 u.user_type,
-                GROUP_CONCAT(DISTINCT s.status) AS statuses
-                FROM tbl_user u
-                LEFT JOIN tbl_patient p ON u.User_id = p.user_id
-                LEFT JOIN tbl_appointment a ON p.patient_id = a.patient_id
-                LEFT JOIN tbl_session s ON a.appointment_id = s.appointment_id 
-                WHERE u.user_type = 'P'
-                ORDER BY u.User_id ASC";
+                COALESCE(MAX(s.status), 'Inactive') AS statuses
+            FROM tbl_user u
+            LEFT JOIN tbl_patient p ON u.User_id = p.user_id
+            LEFT JOIN tbl_appointment a ON p.patient_id = a.patient_id
+            LEFT JOIN tbl_session s ON a.appointment_id = s.appointment_id 
+            WHERE u.user_type = 'P'
+            GROUP BY u.User_id, u.Fname, u.Mname, u.Lname, u.Email, u.user_type
+            ORDER BY u.User_id ASC
+            ";
 } else {
     $var_all = "SELECT u.User_id, 
                 CONCAT(u.Fname,' ',u.Mname,' ',u.Lname) AS 'Fullname',

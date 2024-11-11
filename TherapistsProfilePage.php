@@ -83,7 +83,7 @@ if (isset($_POST["BtnSubmit"])) {
 </head>
 
 <body>
-<header>
+    <header>
         <nav class="navbar navbar-expand-lg bg-primary-subtle">
             <div class="container">
                 <a class="navbar-brand" href="#">
@@ -98,7 +98,8 @@ if (isset($_POST["BtnSubmit"])) {
 
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
-                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
+                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64"
+                                height="64">
                         </h5>
                         <button type="button" class="btn-close shadow" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
@@ -107,7 +108,7 @@ if (isset($_POST["BtnSubmit"])) {
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./TherapistsHomePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
@@ -125,13 +126,13 @@ if (isset($_POST["BtnSubmit"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="TherapistsHistory.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PTReports.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>Reports</small>
                                 </a>
@@ -143,7 +144,7 @@ if (isset($_POST["BtnSubmit"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsNotification.php">
                                     <i class="bi bi-bell fs-3"></i><br>
                                     <small>Notification</small>
                                 </a>
@@ -155,7 +156,7 @@ if (isset($_POST["BtnSubmit"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsProfilePage.php">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./TherapistsProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>

@@ -177,6 +177,39 @@ $var_sessID = "";
         </div>
     </div>
 
+    <div class="modal fade" id="viewCertificateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Your Certificate!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?php
+
+                    $sql = "SELECT *
+                            FROM tbl_appointment appointment
+                            JOIN tbl_therapists therapist ON therapist.therapist_id = appointment.therapists_id
+                            WHERE appointment.appointment_id = $var_appid";
+                    $result = $var_conn->query($sql)->fetch_assoc();
+
+                    $certificate = $result["certificate"];
+
+                    if ($certificate !== null) {
+                        echo "<embed src='./UserFiles/Certificates/$certificate' class='border-0 w-100' style='height: 100vh;'/>";
+                    } else {
+                        echo "<b>This therapist has not yet uploaded a certificate. :(</b>";
+                    }
+
+                    ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary px-5 rounded-5 shadow" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <main class="py-0 py-sm-3">
         <section class="main-section bg-secondary-subtle py-3 py-sm-5 px-3 px-sm-5 shadow container">
             
@@ -212,7 +245,7 @@ $var_sessID = "";
                     <hr>
 
                     <div class="d-flex justify-content-center align-items-center gap-2">
-                        <button type="button" class="btn btn-outline-primary rounded-5 w-100 shadow" id="genCertificateBtn" disabled>Generate Certificate</button>
+                        <button type="button" class="btn btn-outline-primary rounded-5 w-100 shadow" id="genCertificateBtn" data-bs-target="#viewCertificateModal" data-bs-toggle="modal" disabled>Generate Certificate</button>
                         <button type="button" class="btn btn-outline-primary rounded-5 w-100 shadow" id="feedbackBtn">Feedback</button>
                     </div>
 

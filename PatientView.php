@@ -1,6 +1,6 @@
 <?php
 
-include"./database.php";
+include "./database.php";
 
 session_start();
 
@@ -10,6 +10,7 @@ $sess_PTID = $_SESSION["sess_PTID"];
 
 <!DOCTYPE html>
 <html data-bs-theme="light">
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -19,6 +20,7 @@ $sess_PTID = $_SESSION["sess_PTID"];
 </head>
 
 <body>
+
     <header>
         <nav class="navbar navbar-expand-lg bg-primary-subtle">
             <div class="container">
@@ -34,7 +36,8 @@ $sess_PTID = $_SESSION["sess_PTID"];
 
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
-                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
+                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64"
+                                height="64">
                         </h5>
                         <button type="button" class="btn-close shadow" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
@@ -43,19 +46,22 @@ $sess_PTID = $_SESSION["sess_PTID"];
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientHomePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page"
+                                    href="./PatientHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PATAppointmentList.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page"
+                                    href="./PATAppointmentList.php">
                                     <i class="bi bi-calendar-check fs-3"></i><br>
                                     <small>Appointment</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page"
+                                    href="PatientHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
@@ -67,19 +73,22 @@ $sess_PTID = $_SESSION["sess_PTID"];
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientChat.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page"
+                                    href="./PatientChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
                                     <small>Chat</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./ProfilePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page"
+                                    href="./ProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientHomePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page"
+                                    href="./PatientHomePage.php">
                                     <i class="bi bi-box-arrow-right fs-3"></i><br>
                                     <small>Go Back</small>
                                 </a>
@@ -101,6 +110,29 @@ $sess_PTID = $_SESSION["sess_PTID"];
         </div>
     </div>
 
+    <div class="modal modal-xl fade" id="feedbackModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Feedback</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="needs-validation" id="feedbackForm" novalidate>
+                        <div class="mb-3">
+                            <label class="mb-1"><b>Comment</b></label>
+                            <textarea class="form-control" name="comment" style="height: 150px;" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary px-5 rounded-5 shadow" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary px-5 rounded-5 shadow" form="feedbackForm">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <main class="py-0 py-sm-3">
 
         <section class="patient-view-section bg-secondary-subtle py-3 py-sm-5 px-3 px-sm-5 shadow container-fluid container-sm">
@@ -110,7 +142,8 @@ $sess_PTID = $_SESSION["sess_PTID"];
                 <div class="col-lg-3">
 
                     <div class="mb-3 d-flex justify-content-center align-items-center">
-                        <img id="ProfPic" class="img-fluid rounded-5 shadow" style="height: 250px; width: auto;" src="#" alt="#">
+                        <img id="ProfPic" class="img-fluid rounded-5 shadow" style="height: 250px; width: auto;" src="#"
+                            alt="#">
                     </div>
 
                     <hr>
@@ -138,28 +171,67 @@ $sess_PTID = $_SESSION["sess_PTID"];
                         </label>
                     </div>
 
-                    <button type="button" id="sendMessageButton" class="btn btn-primary rounded-5 w-100 mb-3 mb-lg-0">Send Message</button>
-
+                    <div class="row gap-1">
+                        <div class="col-lg p-0">
+                            <button type="button" id="sendMessageButton" class="btn btn-primary rounded-5 w-100 mb-2 mb-lg-0 btn-sm">Send Message</button>
+                        </div>
+                        <div class="col-lg p-0">
+                            <button type="button" class="btn btn-primary rounded-5 w-100 mb-3 mb-lg-0 btn-sm" data-bs-target="#feedbackModal" data-bs-toggle="modal">Send Feedback</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-lg">
 
-                    <div id="TimeBTN" class="TimeBTN mb-3">
-                        <button id="BtnAM" class="btn btn-primary px-5 rounded-5">AM</button>
-                        <button id="BtnPM" class="btn btn-primary px-5 rounded-5">PM</button>
-                    </div>
+                    <div class="mb-3">
+                        <div id="TimeBTN" class="TimeBTN mb-3">
+                            <button id="BtnAM" class="btn btn-primary px-5 rounded-5">AM</button>
+                            <button id="BtnPM" class="btn btn-primary px-5 rounded-5">PM</button>
+                        </div>
 
-                    <div class="AM shadow p-3 rounded" id="AM-schedule">
-                        <div class="SchedButton">
-                            <div id="AM" class="d-flex justify-content-center justify-content-sm-start align-items-start gap-2 flex-wrap">
-
+                        <div class="AM shadow p-3 rounded" id="AM-schedule">
+                            <div class="SchedButton">
+                                <div id="AM" class="d-flex justify-content-center justify-content-sm-start align-items-start gap-2 flex-wrap"></div>
                             </div>
                         </div>
+                        <div class="PM shadow p-3 rounded" id="PM-schedule" style="display: none;">
+                            <div class="SchedButton" id="PM" class="d-flex justify-content-center justify-content-sm-start align-items-start gap-2 flex-wrap"></div>
+                        </div>
                     </div>
-                    <div class="PM shadow p-3 rounded" id="PM-schedule" style="display: none;">
-                        <div class="SchedButton" id="PM" class="d-flex justify-content-center justify-content-sm-start align-items-start gap-2 flex-wrap">
+
+                    <div class="p-3">
+                        <h1>Feedbacks</h1>
+
+                        <hr>
+
+                        <div id="feedbackContainer">
 
                         </div>
+
+                        <!-- <div class="shadow bg-body-secondary rounded-5 p-3">
+
+                            <div class="mb-3">
+                                <img src="./UserFiles/ProfilePictures/67192e2117b9d.jpg" alt="67192e2117b9d.jpg" class="img-fluid rounded-pill shadow" style="height: 48px; width: 48px; object-fit: cover;">
+                                <label class="ms-2"><b>Charles Henry Tinoy</b></label>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-start align-items-start flex-row gap-2 fs-4">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="mb-1"><b>Comment:</b></label>
+                                <textarea class="form-control" style="height: 150px;" readonly>Comment here...</textarea>
+                            </div>
+
+                        </div> -->
+
                     </div>
 
                 </div>
@@ -175,24 +247,66 @@ $sess_PTID = $_SESSION["sess_PTID"];
         var TherapID;
 
         (() => {
+            const forms = document.getElementsByClassName("needs-validation");
+
+            Array.from(forms).forEach((form) => {
+                form.addEventListener("submit", (e) => {
+                    if (!form.checkValidity()) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+
+                    form.classList.add("was-validated");
+                });
+            });
+
             const btnAM = document.getElementById('BtnAM');
             const btnPM = document.getElementById('BtnPM');
             const amSchedule = document.getElementById('AM-schedule');
             const pmSchedule = document.getElementById('PM-schedule');
 
             if (btnAM && btnPM && amSchedule && pmSchedule) {
-                btnAM.addEventListener('click', function() {
+                btnAM.addEventListener('click', function () {
                     amSchedule.style.display = 'block';
                     pmSchedule.style.display = 'none';
                 });
 
-                btnPM.addEventListener('click', function() {
+                btnPM.addEventListener('click', function () {
                     amSchedule.style.display = 'none';
                     pmSchedule.style.display = 'block';
                 });
             }
 
             PTProf();
+
+            const feedbackForm = document.getElementById("feedbackForm");
+
+            feedbackForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            
+                const comment = feedbackForm.comment.value;
+            
+                if (comment.split(" ").length < 3) {
+                    return showToast("The comment must more than 3 words");
+                }
+            
+                const formData = new FormData();
+                formData.append("message", comment);
+                formData.append("targetID", TherapID);
+            
+                const response = await fetch("./FeedbackAPI/post_feedback.php", {
+                    method: "POST",
+                    body: formData
+                });
+            
+                const responseText = await response.text();
+                const responseStatus = response.status;
+            
+                console.log(responseStatus);
+            
+                showToast(responseText);
+            });
         })();
 
         async function PTProf() {
@@ -203,7 +317,7 @@ $sess_PTID = $_SESSION["sess_PTID"];
                         'ID': "<?php echo $sess_PTID; ?>"
                     })
                 });
-                
+
                 const data = await response.json();
                 const fullname = `${data.fname} ${data.mname.charAt(0)}. ${data.lname}`;
 
@@ -222,19 +336,36 @@ $sess_PTID = $_SESSION["sess_PTID"];
 
                 TherapID = data.therapitst_id;
                 GetSched(TherapID);
+                getFeedback(TherapID);
             } catch (error) {
                 console.error('Error:', error);
             }
         }
-        
+
+        async function getFeedback(ID) {
+            const formData = new FormData();
+            formData.append("therapist_id", ID);
+
+            const response = await fetch("./FeedbackAPI/get_feedback.php", {
+                method: "POST",
+                body: formData
+            });
+
+            const responseText = await response.text();
+
+            const feedbackContainer = document.getElementById("feedbackContainer");
+
+            feedbackContainer.innerHTML = responseText;
+        }
+
         async function GetSched(TherapID) {
             function convertTo12HourFormat(time24) {
                 const [hours, minutes] = time24.split(':');
                 let hour12 = hours % 12 || 12;
                 const period = hours >= 12 ? 'PM' : 'AM';
-                
+
                 hour12 = String(hour12).padStart(2, '0');
-                
+
                 return `${hour12}:${minutes} ${period}`;
             }
 
@@ -329,10 +460,10 @@ $sess_PTID = $_SESSION["sess_PTID"];
                     Array.from(pmElement.getElementsByClassName("schedule-btn")).forEach((button) => {
                         button.addEventListener("click", () => {
                             let SlctedID = button.getAttribute("value");
-                            CheckChed("<?php echo $_SESSION["sess_PtntID"]?>", SlctedID);
+                            CheckChed("<?php echo $_SESSION["sess_PtntID"] ?>", SlctedID);
                         });
                     });
-                    
+
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -352,14 +483,14 @@ $sess_PTID = $_SESSION["sess_PTID"];
                         'Content-Type': 'application/json'
                     }
                 });
-                    
+
                 const resSched = await schedRes.text();
 
                 if (resSched === "1") {
                     showToast("You have already booked an appointment and session");
                 }
                 if (resSched === "0") {
-                    SessionSched(SlctedID); 
+                    SessionSched(SlctedID);
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -376,12 +507,12 @@ $sess_PTID = $_SESSION["sess_PTID"];
                     'Content-Type': 'application/json'
                 }
             })
-            .then(() => {
-                window.location.href = "PatAppointment.php"; // Redirect to PatAppointment.php
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                .then(() => {
+                    window.location.href = "PatAppointment.php"; // Redirect to PatAppointment.php
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
 
         function showToast(message) {

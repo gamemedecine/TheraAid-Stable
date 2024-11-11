@@ -89,7 +89,7 @@ if (isset($_POST["BTNAPInfo"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PatientHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>

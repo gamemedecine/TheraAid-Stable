@@ -120,7 +120,7 @@ if (isset($_POST["BtnSubmit"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PatientHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
@@ -277,6 +277,30 @@ if (isset($_POST["BtnSubmit"])) {
                 </div>
 
                 <hr>
+
+                <h2 class="mb-3">Therapist Contract</h2>
+
+                <div class="mb-3">
+                <?php
+
+                $sql = "SELECT
+                        *
+                    FROM tbl_sched sched
+                    JOIN tbl_therapists therapist ON therapist.therapist_id = sched.therapists_id
+                    WHERE sched.shed_id = $var_SchedID";
+                $result = $var_conn->query($sql);
+
+                if ($result->num_rows > 0 && $rows = $result->fetch_assoc()) {
+                    $contract = $rows["contract"];
+                    if ($contract !== null) {
+                        echo "<embed src='./UserFiles/Contracts/$contract' class='border-0 w-100' style='height: 100vh;'/>";
+                    } else {
+                        echo "<b>This therapist has not yet uploaded a contract. :(</b>";
+                    }
+                }
+
+                ?>
+                </div>
 
                 <div class="mb-3">
                     <div class="form-check">

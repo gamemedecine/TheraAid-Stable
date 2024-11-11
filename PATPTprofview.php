@@ -84,8 +84,7 @@ if (mysqli_num_rows($var_chk) > 0) {
 
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
-                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64"
-                                height="64">
+                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
                         </h5>
                         <button type="button" class="btn-close shadow" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
@@ -106,7 +105,7 @@ if (mysqli_num_rows($var_chk) > 0) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PatientHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>

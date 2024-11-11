@@ -30,7 +30,6 @@ if (isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])) {
     $var_filter = $_POST["RadDay"];
 }
 
-
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light">
@@ -69,55 +68,55 @@ if (isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])) {
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistsHomePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center active" aria-current="page"
-                                    href="./PTSession.php">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistsAppointment.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsAppointment.php">
                                     <i class="bi bi-calendar-check fs-3"></i><br>
                                     <small>Appointment</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistsReminder.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
+                                    <i class="bi bi-clock-history fs-3"></i><br>
+                                    <small>Reports</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsReminder.php">
                                     <i class="bi bi-card-checklist fs-3"></i><br>
                                     <small>Reminder</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsNotification.php">
                                     <i class="bi bi-bell fs-3"></i><br>
                                     <small>Notification</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistChat.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
                                     <small>Chat</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistsProfilePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>
@@ -139,88 +138,6 @@ if (isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])) {
 
         <section class="main-section bg-secondary-subtle py-3 py-sm-5 px-3 px-sm-5 shadow container">
 
-
-            <form method="POST" action="PTSession.php">
-                <input type="radio" name="RadDay" value="All"><label>All</label> 
-                <input type="radio" name="RadDay" value="Mon"><label>Mon</label> 
-                <input type="radio" name="RadDay" value="Tue"><label>Tue</label> 
-                <input type="radio" name="RadDay" value="Wed"><label>Wed</label> 
-                <input type="radio" name="RadDay" value="Thu"><label>Thu</label> 
-                <input type="radio" name="RadDay" value="Fri"><label>Fri</label> 
-                <input type="radio" name="RadDay" value="Sat"><label>Sat</label>
-                <button type="submit" name="BtnFilter">Filter</button> 
-                <div class="container-fluid full-height">
-                        <div class="flex-container">
-                            <div class="box">
-                                <div class="Details-box  rounded">
-                                    <div class="TherapistInfo">
-
-                                    </div>
-                                </div>
-                                <div class="hi">
-                                    <div id="Therapists" style="padding-left: 20px; padding-top: 50px;">
-                                        <div class="SessionList">
-                                            <table border="4px solid black" style="border-collapse:collpase; width: 1100px;">
-                                                <tr>
-                                                    <th style="text-align:center;">Sessions</th>
-                                                </tr>
-                                                <tr>
-                                                    <?php
-                                                         if(mysqli_num_rows($var_Slist)>0){
-                                                            $row = $var_Slist->fetch_assoc();
-                                                            $var_check = $row['validate'];
-                                                            if($var_check ==1){
-
-                                                                while($var_SSRec=mysqli_fetch_array($var_Slist)){
-                                                                    $var_days= explode(",", $var_SSRec["day"]);
-                                                                    
-    
-                                                                        if(in_array($var_filter,$var_days)){
-                                                                        ?>
-                                                                    <td><button style="width: 1100px; height: 100px; border-radius: 25px;"  
-                                                                        type="submit" name="BtnsessID" value="<?php echo $var_SSRec["session_id"]; ?>"><?php echo $var_SSRec["Fname"]; ?></button></td>
-                                                                    </tr>
-                                                                    <?php
-                                                                    }else if($var_filter == "All"){
-                                                                        ?>
-                                                                            <tr>
-                                                                            <td><button style="width: 1100px; height: 100px; border-radius: 25px;"  
-                                                                            type="submit" name="BtnsessID" value="">yes</button></td>
-                                                                            </tr>
-                                                                        <?php
-                                                                        
-                                                                    }else{
-                                                                        echo " <td><button style='width: 1100px; height: 100px; border-radius: 25px;'  
-                                                                        >No Data</button></td>";
-                                                                        break;
-                                                                    }
-                                                                    
-                                                                }
-                                                                }else{
-                                                                    $var_validate = 0;
-                                                                }
-
-                                                            }else{
-                                                            ?>
-                                                             <td><button style="width: 1100px; height: 100px; border-radius: 25px;"  
-                                                             >No Data</button></td>
-                                                            <?php
-                                                        }
-                                                                
-                                                    ?>
-                                            </table>
-
-                                        </div>
-                                        <div id="sessions">
-                                            <p id="check"></p>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
                 <div class="modal fade" id="Session" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -335,13 +252,13 @@ if (isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])) {
                         ?>
                         <tr>
                             <td>
-                                <button class="btn btn-outline-primary w-100 rounded-5 px-5 shadow" type="submit" name="BtnsessID" value="">yes</button>
+                                <button class="btn btn-outline-primary w-100 rounded-5 px-5 shadow" type="submit" name="BtnsessID" value="">Yes</button>
                             </td>
                         </tr>
                         <?php
                                 } else {
                                     echo "<td>
-                                            <button class='btn btn-outline-primary w-100 rounded-5 px-5 shadow'>No Data</button>
+                                            <button class='btn btn-outline-primary w-100 rounded-5 px-5 shadow' disabled>No Data</button>
                                         </td>";
                                     break;
                                 }
@@ -350,7 +267,7 @@ if (isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])) {
                         ?>
                                 
                         <td>
-                            <button class="btn btn-outline-primary w-100 rounded-5 px-5 shadow">No Data</button>
+                            <button class="btn btn-outline-primary w-100 rounded-5 px-5 shadow" disabled>No Data</button>
                         </td>
                         <?php
                         }

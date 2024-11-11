@@ -53,8 +53,7 @@ $var_Etime = "";
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center active" aria-current="page"
-                                    href="./TherapistsHomePage.php">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./TherapistsHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
@@ -66,20 +65,19 @@ $var_Etime = "";
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistsAppointment.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsAppointment.php">
                                     <i class="bi bi-calendar-check fs-3"></i><br>
                                     <small>Appointment</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="TherapistsHistory.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PTReports.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>Reports</small>
                                 </a>
@@ -91,21 +89,19 @@ $var_Etime = "";
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsNotification.php">
                                     <i class="bi bi-bell fs-3"></i><br>
                                     <small>Notification</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistChat.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
                                     <small>Chat</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistsProfilePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>
@@ -269,9 +265,6 @@ $var_Etime = "";
             </div>
         </div>
     </div>
-
-
-
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="main-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">

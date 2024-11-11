@@ -49,6 +49,7 @@ if (mysqli_num_rows($var_Rqry) > 0) {
 </head>
 
 <body>
+    
     <header>
         <nav class="navbar navbar-expand-lg bg-primary-subtle">
             <div class="container">
@@ -82,12 +83,6 @@ if (mysqli_num_rows($var_Rqry) > 0) {
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PATAppointmentList.php">
                                     <i class="bi bi-calendar-check fs-3"></i><br>
                                     <small>Appointment</small>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PatientSession.php">
-                                    <i class="bi bi-hospital fs-3"></i><br>
-                                    <small>Session</small>
                                 </a>
                             </li>
                             <li class="nav-item">

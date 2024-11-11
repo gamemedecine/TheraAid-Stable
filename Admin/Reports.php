@@ -2,9 +2,9 @@
 include("../database.php");
 
 session_start();
+$_SESSION["Sess_AdminID"];
 
-
-
+$var_currentYear = date("Y");
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light">
@@ -89,7 +89,7 @@ session_start();
 
                     <div>
                         <canvas id="myChart"></canvas>
-                    </div>
+                    </div>  
 
                 </div>
         </section>
@@ -98,7 +98,8 @@ session_start();
             <!-- Wrap the entire cards section in a div for the background -->
             <div class="bg-primary-subtle p-5 rounded-5">
                 <div class="row justify-content-center g-4">
-                    <h1 class="display-6 text-center fw-semibold mb-5">Income Reports</h1><br><br>
+                    <h1 class="display-6 text-center fw-semibold mb-5">Income Reports</h1><br>
+                    <h1 class="display-6 text-center fw-semibold mb-5"><?php echo $var_currentYear;?></h1><br><br>
 
 
                     <div>

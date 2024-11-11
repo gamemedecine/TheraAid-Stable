@@ -198,6 +198,7 @@ if (isset($_POST["BtnSubmit"])) {
     <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/PatientHomePage.css'>
 </head>
 <body>
+
     <header>
         <nav class="navbar navbar-expand-lg bg-primary-subtle">
             <div class="container">
@@ -222,7 +223,7 @@ if (isset($_POST["BtnSubmit"])) {
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./PatientHomePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
@@ -234,7 +235,7 @@ if (isset($_POST["BtnSubmit"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PatientHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
