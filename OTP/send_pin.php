@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST["email"])) {
         $target = $_POST["email"];
 
-        $pin = sendPin($target, "charliezkiecharlzk@gmail.com", "Charles Henry Tinoy", "oaqp zfcb jalg fuyy");
+        $pin = sendPin($target, "fraggametag@gmail.com", "Fragg Gametag", "Jumpl3ader");
 
         if ($pin === "error") {
             http_response_code(400);

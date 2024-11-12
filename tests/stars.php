@@ -46,10 +46,10 @@ if (isset($_POST["BtnStars"])) {
                 <i class="bi bi-star-half"></i>
                 </div>
                  echo '<i class="bi bi-star"></i>';-->
-                <?php
+                 <?php
                 $full_stars = floor($var_TtlStars);
-                $has_half_star = $var_TtlStars - $full_stars >= 0.5;
-                $vacant_stars = 5 - ceil($var_TtlStars);
+                $has_half_star = $var_TtlStars - $full_stars >= 0.5;  
+                $vacant_stars = 5 - ceil($var_TtlStars);  
 
                 for ($i = 0; $i < $full_stars; $i++) {
                     echo '<i class="bi bi-star-fill text-warning"></i>';

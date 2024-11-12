@@ -2,18 +2,15 @@
 include "./database.php";
 session_start();
 
-if(isset($_GET["record"])){
-    $var_appid= $_GET["record"];
-}
-if(isset($_SESSION["appointment_id"])){
-    $var_appid = $_SESSION["appointment_id"];
-}
+
+$var_appid = $_GET["record"];
+
 
 date_default_timezone_set('Asia/Manila');
 
 $var_crrntTime = date("h:i:sa");
 $var_currntDate = date("Y-m-d");
-$var_currntDate = "2024-11-13";
+// $var_currntDate = "2024-11-09";
 
 $var_sessionList = "SELECT 
                     	*,
@@ -54,8 +51,7 @@ $var_sessID = "";
 
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
-                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64"
-                                height="64">
+                            <img src="./assets/img/Logo.jpg" class="rounded-pill shadow" alt="Logo.jpg" width="64" height="64">
                         </h5>
                         <button type="button" class="btn-close shadow" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
@@ -64,69 +60,46 @@ $var_sessID = "";
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsHomePage.php">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./PatientHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistFeedback.php">
-                                    <i class="bi bi-chat-left-text fs-3"></i><br>
-                                    <small>Feedbacks</small>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
-                                    <i class="bi bi-hospital fs-3"></i><br>
-                                    <small>Session</small>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsAppointment.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PATAppointmentList.php">
                                     <i class="bi bi-calendar-check fs-3"></i><br>
                                     <small>Appointment</small>
                                 </a>
                             </li>
+
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsHistory.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="PatientHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
-                                    <i class="bi bi-file-earmark-text fs-3"></i><br>
-                                    <small>Reports</small>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsReminder.php">
-                                    <i class="bi bi-card-checklist fs-3"></i><br>
-                                    <small>Reminder</small>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsNotification.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PATnotif.php">
                                     <i class="bi bi-bell fs-3"></i><br>
                                     <small>Notification</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistChat.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PatientChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
                                     <small>Chat</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsProfilePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./ProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="<?php echo $_SERVER["HTTP_REFERER"] ?>">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./Logout.php">
                                     <i class="bi bi-box-arrow-right fs-3"></i><br>
-                                    <small>Go Back</small>
+                                    <small>Logout</small>
                                 </a>
                             </li>
                         </ul>
@@ -226,7 +199,7 @@ $var_sessID = "";
 
     <main class="py-0 py-sm-3">
         <section class="main-section bg-secondary-subtle py-3 py-sm-5 px-3 px-sm-5 shadow container">
-            
+
             <div class="row gap-3 gap-lg-0">
 
                 <div class="col-lg">
@@ -269,49 +242,49 @@ $var_sessID = "";
 
                 <div class="col-lg">
 
-                <button type="button" class="btn btn-primary rounded-5 px-5 shadow w-100" data-bs-toggle="modal" data-bs-target="#Session">Create Session</button>
 
-                <hr>
 
-                <h3 class="text-center mb-3">Sessions</h3>
-                <label class="fw-semibold mb-3">Click a session to edit</label>
+                    <hr>
 
-                <div class="d-flex justify-content-center align-items-center flex-column gap-2">
+                    <h3 class="text-center mb-3">Sessions</h3>
+                    <label class="fw-semibold mb-3">Click a session to edit</label>
 
-                    <?php
+                    <div class="d-flex justify-content-center align-items-center flex-column gap-2">
 
-                    $index = 0;
-                    $isDisabled = false;
-                    $num_of_session = null;
+                        <?php
 
-                    foreach ($var_Slist->fetch_all(MYSQLI_ASSOC) as $var_Sesget) {
-                        $index++;
-                    
-                        $var_note = $var_Sesget["note"];
-                        $var_sessID = $var_Sesget["session_id"];
-                        $num_of_session = intval($var_Sesget["num_of_session"]);
-                        $formatted_date_created = $var_Sesget["formatted_date_created"];
-                        $status = $var_Sesget["status"];
-                    
-                        if ($var_note == "") {
-                            $var_note = "No Note";
-                        }
-                    
-                        echo "<input name='TxtsessId' value='$var_sessID' hidden>";
-                        echo "<button type='button' class='btn btn-outline-primary p-3 w-100 shadow text-start' data-bs-target='#SessionModal' data-bs-toggle='modal' onclick='openSessionModal(`$var_sessID`, `$var_note`)'>
+                        $index = 0;
+                        $isDisabled = false;
+                        $num_of_session = null;
+
+                        foreach ($var_Slist->fetch_all(MYSQLI_ASSOC) as $var_Sesget) {
+                            $index++;
+
+                            $var_note = $var_Sesget["note"];
+                            $var_sessID = $var_Sesget["session_id"];
+                            $num_of_session = intval($var_Sesget["num_of_session"]);
+                            $formatted_date_created = $var_Sesget["formatted_date_created"];
+                            $status = $var_Sesget["status"];
+
+                            if ($var_note == "") {
+                                $var_note = "No Note";
+                            }
+
+                            echo "<input name='TxtsessId' value='$var_sessID' hidden>";
+                            echo "<button type='button' class='btn btn-outline-primary p-3 w-100 shadow text-start' data-bs-target='#SessionModal' data-bs-toggle='modal' onclick='openSessionModal(`$var_sessID`, `$var_note`)'>
                             <label><b>Date: </b>$formatted_date_created</label><br>
                             <label><b>Note: </b>$var_note</label><br>
                             <label><b>Status: </b>$status</label><br>
                         </button>";
-                    }
+                        }
 
-                    if ($index >= $num_of_session) {
-                        $isDisabled = true;
-                    }
+                        if ($index == $num_of_session) {
+                            $isDisabled = true;
+                        }
 
-                    ?>
+                        ?>
 
-                </div>
+                    </div>
 
                 </div>
 
@@ -322,16 +295,15 @@ $var_sessID = "";
 
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script>
-         window.addEventListener("DOMContentLoaded", () => {
+        window.addEventListener("DOMContentLoaded", () => {
+
 
             const genCertificateBtn = document.getElementById('genCertificateBtn');
 
             <?php
-
             if ($isDisabled) {
-                echo "genCertificateBtn.disabled = false";
+                echo "genCertificateBtn.disabled = false;";
             }
-
             ?>
 
             const forms = document.getElementsByClassName("needs-validation");
@@ -390,9 +362,9 @@ $var_sessID = "";
             let PtntID;
             let AppntmntId;
 
-            async function GETPatient() {
+            async function GETTherapists() {
                 try {
-                    const response = await fetch("./PTSESSIONAPI/PTsessionAPI.php", {
+                    const response = await fetch("./PTSESSIONAPI/PATtherpists.php", {
                         method: "POST",
                         body: JSON.stringify({
                             "PTID": "<?php echo $var_appid; ?>"
@@ -403,7 +375,7 @@ $var_sessID = "";
                     document.getElementById("fllname").innerText = fullname;
                     document.getElementById("ProfPic").src = `./UserFiles/ProfilePictures/${data.profPic}`;
                     document.getElementById("case").innerText = data.case;
-                    document.getElementById("City").innerText =  data.city;
+                    document.getElementById("City").innerText = data.city;
                     document.getElementById("sess").innerText = data.Session;
                     AppntmntId = data.APID;
                     city = data.city;
@@ -415,8 +387,7 @@ $var_sessID = "";
                     console.error('Error:', error);
                 }
             }
-
-            GETPatient();
+            GETTherapists()
             document.getElementById("StartSession").addEventListener("click", () => {
                 checkSession(AppntmntId);
             });
@@ -453,7 +424,7 @@ $var_sessID = "";
             editSessionForm.sessionID.value = sessionId;
             editSessionForm.TxtNote.value = note;
         }
-    
+
         function showToast(message) {
             const toastElement = document.getElementById("toast");
             const toast = new bootstrap.Toast(toastElement);
@@ -464,4 +435,5 @@ $var_sessID = "";
         }
     </script>
 </body>
+
 </html>

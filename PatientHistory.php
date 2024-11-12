@@ -14,6 +14,7 @@ $var_TransactionHistory = "SELECT PM.payment_id,
                             PT.case_handled,
                             AP.Date_creadted,
                             PAT.P_case,
+                            AP.appointment_id,
                             CONCAT(U.Fname,' ', U.Mname,' ',U.Lname) AS fullname
                         FROM tbl_payment PM
                         JOIN tbl_appointment  AP ON PM.appointment_id = ap.appointment_id
@@ -142,8 +143,9 @@ $var_Historyqry = mysqli_query($var_conn, $var_TransactionHistory);
                         <td><?php echo "₱" . $var_HstryRec["amount"] . "<br>"; ?></td>
                         <td><?php echo $var_HstryRec["status"] . "<br>"; ?></td>
                         <td><?php echo $var_HstryRec["date_paid"] . "<br>"; ?></td>
-                        <td><button type="button" id="Btndelete"
-                                class="btn btn-danger px-5 rounded-5 shadow">Delete</button></td>
+                        <td>
+                            <a href="./PatientSessionView.php?record=<?php echo $var_HstryRec["appointment_id"] ?>">Check Session</a>
+                            </td>
                     </tr>
                 <?php
 

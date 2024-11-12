@@ -6,8 +6,8 @@ session_start();
 
 $var_UserId = $_SESSION["sess_id"];
 
-$var_crrntDate = "2024-11-13";
-// $var_validate = 0;
+$var_crrntDate = date("Y-m-d");
+$var_validate = "";
 
 $var_Rmndr = "SELECT RM.reminder_date,
                     RM.reminder_messsage,
@@ -171,6 +171,7 @@ if (isset($_POST["BtnSession"])) {
                             $var_listDate = explode(",", $var_Rget["reminder_date"]);
                             
                             if (in_array($var_crrntDate, $var_listDate)) {
+                                $var_PatientID = $var_Rget["patient_id"];
                                 $appointmentID = $var_Rget["appointment_id"];
                                 $profilePic = $var_Rget["profilePic"];
                                 $fullName = $var_Rget["Pat_fllname"];

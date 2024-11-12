@@ -4,8 +4,8 @@ include "./database.php";
 
 session_start();
 
-$var_appid = $_SESSION["sess_PTID"];
-
+$var_therapistsId = $_SESSION["sess_PTID"];
+echo $var_therapistsId ;
 date_default_timezone_set('Asia/Manila');
 
 $var_crrntTime = date("h:i:sa");
@@ -15,14 +15,16 @@ $var_currntDate = "2024-11-13";
 $var_validate="";
 $var_filter = "";
 $var_days = array();
-$var_sessionList = "SELECT *
+$var_sessionList = "SELECT *, 
+						CONCAT(U.Fname,' ',U.Mname,' ',U.Lname)AS 'FULLNAME',
+                        GROUP_CONCAT(DISTINCT AP.status)
                         FROM tbl_session SS JOIN tbl_appointment AP ON AP.appointment_id = SS.appointment_id
                         JOIN tbl_therapists PT ON PT.therapist_id = AP.therapists_id 
                         JOIN tbl_patient PAT ON AP.patient_id =  PAT.patient_id 
                         JOIN tbl_user U ON PAT.user_id = U.User_id 
                         JOIN tbl_sched SC ON SC.shed_id = AP.schedle_id
-                        WHERE PT.therapist_id = $var_appid
-                        AND AP.status LIKE '%On-Going%'
+                        WHERE PT.therapist_id = $var_therapistsId
+                        AND AP.status = 'On-Going'
                         ";
 $var_Slist = mysqli_query($var_conn, $var_sessionList);
 
@@ -185,7 +187,7 @@ if (isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])) {
                         </div>
                     </div>
                 </div>
-
+                <form method="POST" action="PTsession.php">
                 <div class="d-flex justify-content-start align-items-center flex-row gap-2 mb-3">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="RadDay" id="All">
@@ -238,45 +240,25 @@ if (isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])) {
 
                     <button type="submit" name="BtnFilter" class="btn btn-primary px-4 rounded-5 shadow btn-sm">Filter</button>
                 </div>
+                </form>
 
                 <div>
                     <h3 class="text-center">Sessions</h3>
-                    <table class="table table-primary table-striped shadow">
+                    <table class="table table-striped shadow">
                         <?php
-                        if (mysqli_num_rows($var_Slist) > 0) {
+                       
                             while ($var_SSRec = mysqli_fetch_array($var_Slist)) {
-                                $var_days = explode(",", $var_SSRec["day"]);
-                                if (in_array($var_filter, $var_days)) {
-                        ?>
-                        <td>
-                            <button class="btn btn-outline-primary w-100 rounded-5 px-5 shadow" type="submit" name="BtnsessID" value="<?php echo $var_SSRec["session_id"]; ?>"><?php echo $var_SSRec["Fname"]; ?></button>
-                        </td>
-                        <?php
-                            
-                        } else if ($var_filter == "All") {
-                            
-                        ?>
-                        <tr>
-                            <td>
-                                <button class="btn btn-outline-primary w-100 rounded-5 px-5 shadow" type="submit" name="BtnsessID" value="">Yes</button>
-                            </td>
-                        </tr>
-                        <?php
-                                } else {
-                                    echo "<td>
-                                            <button class='btn btn-outline-primary w-100 rounded-5 px-5 shadow' disabled>No Data</button>
-                                        </td>";
-                                    break;
-                                }
+                                // $var_days = explode(",", $var_SSRec["day"]);
+                                ?>
+                                    <tr>
+                                        <td><?php echo $var_SSRec["FULLNAME"]."<br>".
+                                         $var_SSRec["P_case"]."<br>".$var_SSRec["day"]."<br>"
+                                         .$var_SSRec["Date_creadted"]."<br>";?>
+                                         <a href="./TherapistCreateSession.php?record=<?php echo $var_SSRec["appointment_id"]; ?>">check Session</a></td>
+                                    </tr>
+                                <?php
                             }
-                        } else {
-                        ?>
-                                
-                        <td>
-                            <button class="btn btn-outline-primary w-100 rounded-5 px-5 shadow" disabled>No Data</button>
-                        </td>
-                        <?php
-                        }
+                       
                         ?>
                     </table>
                 </div>
