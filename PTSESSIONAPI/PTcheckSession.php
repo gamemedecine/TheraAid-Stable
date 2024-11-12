@@ -10,8 +10,8 @@ $DcodeJSON = json_decode($JSONDATA, true);
 date_default_timezone_set('Asia/Manila');
 $var_crrntTime = date("h:i:sa");
 $var_currntDate = date("Y-m-d");
-// $var_currntDate = "2024-11-09";
-$var_status = "ongoing";
+$var_currntDate = "2024-11-13";
+// $var_status = "ongoing";
 
 if (isset($DcodeJSON["appId"])) {
     $appointment_id = $DcodeJSON["appId"];

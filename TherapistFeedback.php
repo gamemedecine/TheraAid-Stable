@@ -2,58 +2,14 @@
 
 include "./database.php";
 
-function calculateAge($birthdate) {
-    $birthdateYear = explode("-", $birthdate)[0];
-    $currentYear = explode("-", date("Y-m-d"))[0];
+session_start();
 
-    return $currentYear - $birthdateYear;
-}
-
-if (isset($_GET["userID"])) {
-
-    $targetUserID = $_GET["userID"];
-
-    $sql = "SELECT
-            user.User_id,
-            CONCAT(user.Fname, ' ', user.Mname, ' ', user.Lname) as fullName,
-            user.Bday,
-            user.ContactNum,
-            user.Email,
-            user.profilePic,
-
-            patient.patient_id,
-            patient.P_case,
-            patient.case_desc,
-            patient.City,
-            patient.barangay,
-            CONCAT(patient.barangay, ', ', patient.City) as fullAddress
-        FROM tbl_user user
-        JOIN tbl_patient patient
-        ON patient.user_id = user.User_id
-        WHERE user.User_id = $targetUserID";
-    $result = $var_conn->query($sql)->fetch_assoc();
-
-    $userID = $result["User_id"];
-    $fullName = $result["fullName"];
-    $age = calculateAge($result["Bday"]);
-    $contactNum = $result["ContactNum"];
-    $email = $result["Email"];
-    $profilePic = $result["profilePic"];
-    
-    $patientID = $result["patient_id"];
-    $case = implode(", ", explode(",", $result["P_case"]));
-    $caseDesc = $result["case_desc"];
-    $city = $result["City"];
-    $barangay = $result["barangay"];
-    $fullAddress = $result["fullAddress"];
-} else {
-    echo "Missing variable, please try again.";
-    exit;
-}
+$therapist_id = $_SESSION["sess_PTID"];
 
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light">
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -61,6 +17,7 @@ if (isset($_GET["userID"])) {
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/TherapistHomePage.css'>
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-primary-subtle">
@@ -93,7 +50,7 @@ if (isset($_GET["userID"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistFeedback.php">
+                                <a class="nav-link fw-semibold text-center active" aria-current="page" href="./TherapistFeedback.php">
                                     <i class="bi bi-chat-left-text fs-3"></i><br>
                                     <small>Feedbacks</small>
                                 </a>
@@ -147,9 +104,9 @@ if (isset($_GET["userID"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="<?php echo $_SERVER["HTTP_REFERER"] ?>">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./Logout.php">
                                     <i class="bi bi-box-arrow-right fs-3"></i><br>
-                                    <small>Go Back</small>
+                                    <small>Logout</small>
                                 </a>
                             </li>
                         </ul>
@@ -163,80 +120,9 @@ if (isset($_GET["userID"])) {
 
         <section class="main-section bg-secondary-subtle py-3 py-sm-5 px-3 px-sm-5 shadow container">
 
-            <div class="row">
+            <h1 class="text-center mb-3">Feedbacks</h1>
 
-                <div class="col-lg">
-                    <h3 class="fw-semibold">User Information</h3>
-
-                    <hr>
-
-                    <div class="mb-3 d-flex justify-content-center align-items-center">
-                        <img id="ProfPic" class="img-fluid rounded-5 shadow" style="height: 250px; width: auto;" src="./UserFiles/ProfilePictures/<?php echo $profilePic; ?>" alt="<?php echo $profilePic; ?>">
-                    </div>
-                    <hr>
-
-                    <div>
-                        <label class="mb-1">
-                            <b>Full Name:</b>
-                            <span><?php echo $fullName; ?></span>
-                        </label><br>
-                        <label class="mb-1">
-                            <b>Age:</b>
-                            <span><?php echo $age; ?></span>
-                        </label><br>
-                        <label class="mb-1">
-                            <b>Mobile Number:</b>
-                            <span><?php echo $contactNum; ?></span>
-                        </label><br>
-                        <label class="mb-1">
-                            <b>Email:</b>
-                            <span><?php echo $email; ?></span>
-                        </label><br>
-                        <label class="mb-1">
-                            <b>User ID:</b>
-                            <span><?php echo $userID; ?></span>
-                        </label><br>
-                    </div>
-                </div>
-                
-                <div class="col-lg">
-                    
-                    <h3 class="fw-semibold">Patient Information</h3>
-
-                    <hr>
-
-                    <div class="mb-3">
-                        <label class="mb-1">
-                            <b>Patient Case:</b>
-                            <span><?php echo $case; ?></span>
-                        </label><br>
-                        <label class="mb-1">
-                            <b>Case Description:</b>
-                            <span><?php echo $caseDesc; ?></span>
-                        </label><br>
-                        <label class="mb-1">
-                            <b>Full Address:</b>
-                            <span><?php echo $fullAddress; ?></span>
-                        </label><br>
-                        <label class="mb-1">
-                            <b>Barangay:</b>
-                            <span><?php echo $barangay; ?></span>
-                        </label><br>
-                        <label class="mb-1">
-                            <b>City:</b>
-                            <span><?php echo $city; ?></span>
-                        </label><br>
-                        <label class="mb-1">
-                            <b>Patient ID:</b>
-                            <span><?php echo $patientID; ?></span>
-                        </label><br>
-                    </div>
-
-                    <button class="btn btn-primary px-5 rounded-5" id="sendMessageButton">Send Message</button>
-                
-                </div>
-
-            </div>
+            <div id="feedbacksContainer"></div>
 
         </section>
 
@@ -244,16 +130,22 @@ if (isset($_GET["userID"])) {
 
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script>
-        (() => {
+        (async () => {
+            const formData = new FormData();
+            formData.append("therapist_id", "<?php echo $therapist_id ?>");
 
-            const sendMessageButton = document.getElementById("sendMessageButton");
+            const response = await fetch("./FeedbackAPI/get_feedback.php", {
+                method: "POST",
+                body: formData
+            });
 
-            sendMessageButton.onclick = () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                window.location.href = `./TherapistChat.php?newChat=${urlParams.get('userID')}`;
-            }
+            const feedbacks = await response.text();
 
+            const feedbacksContainer = document.getElementById("feedbacksContainer");
+
+            feedbacksContainer.innerHTML = feedbacks;
         })();
     </script>
 </body>
+
 </html>

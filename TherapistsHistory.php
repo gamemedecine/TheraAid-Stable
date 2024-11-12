@@ -68,6 +68,12 @@ $var_Historyqry = mysqli_query($var_conn, $var_TransactionHistory);
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistFeedback.php">
+                                    <i class="bi bi-chat-left-text fs-3"></i><br>
+                                    <small>Feedbacks</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
@@ -87,7 +93,7 @@ $var_Historyqry = mysqli_query($var_conn, $var_TransactionHistory);
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
-                                    <i class="bi bi-clock-history fs-3"></i><br>
+                                    <i class="bi bi-file-earmark-text fs-3"></i><br>
                                     <small>Reports</small>
                                 </a>
                             </li>
@@ -133,7 +139,7 @@ $var_Historyqry = mysqli_query($var_conn, $var_TransactionHistory);
 
             <h1 class="text-center mb-3">History</h1>
 
-            <table class="table tabled-striped shadow">
+            <table class="table table-primary tabled-striped shadow">
                 <tr>
                     <th>Date Created</th>
                     <th>Patient</th>

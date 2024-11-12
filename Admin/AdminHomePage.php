@@ -162,7 +162,7 @@ if(mysqli_num_rows($var_incomeqry)>0){
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="card shadow p-5 rounded-5">
                     <h5 class="card-title fw-bold text-center">Active User</h5>
-                    <img src="../Photos/active-user.png" class="img-fluid img-thumbnail rounded" alt="Active Users">
+                    <img src="../assets/img/admin/active-user.png" class="img-fluid img-thumbnail rounded" alt="Active Users">
                     <h4 class="text-center"><?php echo $var_totalUsers;?></h4>
                 </div>
             </div>
@@ -171,7 +171,7 @@ if(mysqli_num_rows($var_incomeqry)>0){
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="card shadow p-5 rounded-5">
                     <h5 class="card-title fw-bold text-center">New Users</h5>
-                    <img src="../Photos/profile.jpg" class="img-fluid img-thumbnail rounded" alt="New Users">
+                    <img src="../assets/img/admin/profile.jpg" class="img-fluid img-thumbnail rounded" alt="New Users">
                     <h4 class="text-center"><?php echo $var_NewUSer;?></h4>
 
                 </div>
@@ -181,7 +181,7 @@ if(mysqli_num_rows($var_incomeqry)>0){
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="card shadow p-5 rounded-5">
                     <h5 class="card-title fw-bold text-center">Total Users</h5>
-                    <img src="../Photos/group.png" class="img-fluid img-thumbnail rounded" alt="New Users">
+                    <img src="../assets/img/admin/group.png" class="img-fluid img-thumbnail rounded" alt="New Users">
                     <h4 class="text-center"><?php echo $var_TtlUsers;?></h4>
 
                     
@@ -192,7 +192,7 @@ if(mysqli_num_rows($var_incomeqry)>0){
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="card shadow p-5 rounded-5">
                     <h5 class="card-title fw-bold text-center">Transactions</h5>
-                    <img src="../Photos/transactions.png" class="img-fluid img-thumbnail rounded" alt="New Users">
+                    <img src="../assets/img/admin/transactions.png" class="img-fluid img-thumbnail rounded" alt="New Users">
                     <h4 class="text-center"><?php echo $var_TootalTransaction;?></h4>
 
                 </div>
@@ -202,7 +202,7 @@ if(mysqli_num_rows($var_incomeqry)>0){
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="card shadow p-5 rounded-5">
                     <h5 class="card-title fw-bold text-center">Profit</h5>
-                    <img src="../Photos/profit.png" class="img-fluid img-thumbnail rounded" alt="New Users">
+                    <img src="../assets/img/admin/profit.png" class="img-fluid img-thumbnail rounded" alt="New Users">
                     <h4 class="text-center"><?php echo $var_TtlIncome;?></h4>
                 </div>
             </div>

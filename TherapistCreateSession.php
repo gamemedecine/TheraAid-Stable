@@ -6,7 +6,7 @@ date_default_timezone_set('Asia/Manila');
 
 $var_crrntTime = date("h:i:sa");
 $var_currntDate = date("Y-m-d");
-// $var_currntDate = "2024-11-09";
+$var_currntDate = "2024-11-13";
 
 $var_sessionList = "SELECT 
                     	*,
@@ -57,10 +57,15 @@ $var_sessID = "";
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-0 gap-0 gap-lg-4">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistsHomePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsHomePage.php">
                                     <i class="bi bi-house fs-3"></i><br>
                                     <small>Home</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistFeedback.php">
+                                    <i class="bi bi-chat-left-text fs-3"></i><br>
+                                    <small>Feedbacks</small>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -70,47 +75,49 @@ $var_sessID = "";
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistsAppointment.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsAppointment.php">
                                     <i class="bi bi-calendar-check fs-3"></i><br>
                                     <small>Appointment</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>History</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistsReminder.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
+                                    <i class="bi bi-file-earmark-text fs-3"></i><br>
+                                    <small>Reports</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsReminder.php">
                                     <i class="bi bi-card-checklist fs-3"></i><br>
                                     <small>Reminder</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="#">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsNotification.php">
                                     <i class="bi bi-bell fs-3"></i><br>
                                     <small>Notification</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistChat.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistChat.php">
                                     <i class="bi bi-chat-dots fs-3 chat-badge"></i><br>
                                     <small>Chat</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page"
-                                    href="./TherapistsProfilePage.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsProfilePage.php">
                                     <i class="bi bi-person fs-3"></i><br>
                                     <small>Profile</small>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistsReminder.php">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="<?php echo $_SERVER["HTTP_REFERER"] ?>">
                                     <i class="bi bi-box-arrow-right fs-3"></i><br>
                                     <small>Go Back</small>
                                 </a>

@@ -80,6 +80,12 @@ function getChatHistory($userID) {
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistFeedback.php">
+                                    <i class="bi bi-chat-left-text fs-3"></i><br>
+                                    <small>Feedbacks</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
@@ -99,7 +105,7 @@ function getChatHistory($userID) {
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
-                                    <i class="bi bi-clock-history fs-3"></i><br>
+                                    <i class="bi bi-file-earmark-text fs-3"></i><br>
                                     <small>Reports</small>
                                 </a>
                             </li>

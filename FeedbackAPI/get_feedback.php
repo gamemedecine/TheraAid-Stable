@@ -23,11 +23,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $profilePicture = $result["profilePic"];
                 $fullName = $result["fullName"];
                 $message = $result["message"];
+                $formatted_date_created = $result["formatted_date_created"];
 
                 echo "<div class='shadow bg-body-secondary rounded-5 p-3 mb-3'>
                         <div class='mb-3'>
-                            <img src='./UserFiles/ProfilePictures/$profilePicture' alt='$profilePicture' class='img-fluid rounded-pill shadow' style='height: 48px; width: 48px; object-fit: cover;'>
-                            <label class='ms-2'><b>$fullName</b></label>
+                            <div class='row'>
+                                <div class='col-lg mb-2 mb-lg-0 d-flex justify-content-start align-items-center flex-row'>
+                                    <img src='./UserFiles/ProfilePictures/$profilePicture' alt='$profilePicture' class='img-fluid rounded-pill shadow' style='height: 48px; width: 48px; object-fit: cover;'>
+                                    <label class='ms-2'><b>$fullName</b></label>
+                                </div>
+                                <div class='col-lg d-flex justify-content-start justify-content-lg-end align-items-center'>
+                                    <small>$formatted_date_created</small>
+                                </div>
+                            </div>
                         </div>
                         <div class='mb-3'>
                             <div class='d-flex justify-content-start align-items-start flex-row gap-2 fs-4'>
@@ -45,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </div>";
             }
         } else {
-            echo "Something went wrong while fetching the therapist feedback, please try again.";
+            echo "This therapist has not received any feedback yet.";
         }
     } else {
         echo "Missing variable, please try again.";

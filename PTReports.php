@@ -51,6 +51,12 @@ $_SESSION["sess_PTID"];
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistFeedback.php">
+                                    <i class="bi bi-chat-left-text fs-3"></i><br>
+                                    <small>Feedbacks</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
@@ -70,7 +76,7 @@ $_SESSION["sess_PTID"];
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center active" aria-current="page" href="./PTReports.php">
-                                    <i class="bi bi-clock-history fs-3"></i><br>
+                                    <i class="bi bi-file-earmark-text fs-3"></i><br>
                                     <small>Reports</small>
                                 </a>
                             </li>
@@ -111,9 +117,9 @@ $_SESSION["sess_PTID"];
         </nav>
     </header>
 
-    <main>
-        <section class="main-section container py-5">
-            <div class="bg-primary-subtle p-5 rounded-5">
+    <main class="py-0 py-sm-3">
+        <section>
+            <div class="main-section bg-secondary-subtle py-3 py-sm-5 px-3 px-sm-5 shadow container">
                 <div class="row justify-content-center g-4">
                     <h1 class="display-6 text-center fw-semibold mb-5">Reports</h1><br><br>
                     <div>
@@ -125,8 +131,6 @@ $_SESSION["sess_PTID"];
 
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script src="./node_modules/chart.js/dist/chart.umd.js"></script>
-
-
 
     <script>
         let labels = [];

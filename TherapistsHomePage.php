@@ -59,6 +59,12 @@ $var_Etime = "";
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistFeedback.php">
+                                    <i class="bi bi-chat-left-text fs-3"></i><br>
+                                    <small>Feedbacks</small>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
@@ -78,7 +84,7 @@ $var_Etime = "";
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
-                                    <i class="bi bi-clock-history fs-3"></i><br>
+                                    <i class="bi bi-file-earmark-text fs-3"></i><br>
                                     <small>Reports</small>
                                 </a>
                             </li>
@@ -665,8 +671,9 @@ $var_Etime = "";
             img.className = 'card-img-top';
             img.alt = imageSrc;
             img.style.height = '250px';
-            img.style.width = 'auto';
+            img.style.width = '100%';
             img.style.objectFit = 'cover';
+            img.style.objectPosition = 'top';
 
             cardDiv.appendChild(img);
 
