@@ -292,10 +292,9 @@ if (mysqli_num_rows($var_Rqry) > 0) {
             img.src = `./UserFiles/ProfilePictures/${profilePicture}`;
             img.classList.add('card-img-top');
             img.style.height = '250px';
-            img.style.width = '100%';
+            img.style.width = 'auto';
             img.style.objectFit = 'cover';
-            img.style.objectPosition = 'top';
-            img.alt = profilePicture;
+            img.alt = '#';
 
             card.appendChild(img);
 

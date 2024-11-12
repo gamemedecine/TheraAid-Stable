@@ -10,7 +10,7 @@ date_default_timezone_set('Asia/Manila');
 
 $var_crrntTime = date("h:i:sa");
 $var_currntDate = date("Y-m-d");
-$var_currntDate = "2024-11-13";
+$var_currntDate = "2024-11-09";
 
 $var_validate="";
 $var_filter = "";
@@ -76,12 +76,6 @@ if (isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistFeedback.php">
-                                    <i class="bi bi-chat-left-text fs-3"></i><br>
-                                    <small>Feedbacks</small>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center active" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
@@ -101,7 +95,7 @@ if (isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])) {
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
-                                    <i class="bi bi-file-earmark-text fs-3"></i><br>
+                                    <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>Reports</small>
                                 </a>
                             </li>
@@ -244,7 +238,7 @@ if (isset($_POST["BtnFilter"]) && isset($_POST["RadDay"])) {
 
                 <div>
                     <h3 class="text-center">Sessions</h3>
-                    <table class="table table-striped shadow">
+                    <table class="table table-striped shadow" style="text-align:center;">
                         <?php
                        
                             while ($var_SSRec = mysqli_fetch_array($var_Slist)) {

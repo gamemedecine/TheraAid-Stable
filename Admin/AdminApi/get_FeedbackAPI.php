@@ -1,6 +1,6 @@
 <?php
 
-include "../database.php";
+include "../../database.php";
 
 session_start();
 
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 echo "<div class='shadow bg-body-secondary rounded-5 p-3 mb-3'>
                         <div class='mb-3'>
-                            <img src='./UserFiles/ProfilePictures/$profilePicture' alt='$profilePicture' class='img-fluid rounded-pill shadow' style='height: 48px; width: 48px; object-fit: cover;'>
+                            <img src='../UserFiles/ProfilePictures/$profilePicture' alt='$profilePicture' class='img-fluid rounded-pill shadow' style='height: 48px; width: 48px; object-fit: cover;'>
                             <label class='ms-2'><b>$fullName</b></label>
                         </div>
                         <div class='mb-3'>

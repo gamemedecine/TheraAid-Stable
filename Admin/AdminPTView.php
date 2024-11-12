@@ -164,8 +164,20 @@ if(isset($_POST["BtnDisable"])){
                     </div>
                     <div class="PM shadow p-3 rounded" id="PM-schedule" style="display: none;">
                         <div class="SchedButton" id="PM" class="d-flex justify-content-center justify-content-sm-start align-items-start gap-2 flex-wrap">
+                            
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <h1>Feedbacks</h1>
+
+                        <hr>
+
+                        <div id="feedbackContainer">
 
                         </div>
+
+                       
+
                     </div>
 
                 </div>
@@ -230,8 +242,23 @@ if(isset($_POST["BtnDisable"])){
             }
 
             PTProf();
+            
         })();
+        async function getFeedback(ID) {
+            const formData = new FormData();
+            formData.append("therapist_id", ID);
 
+            const response = await fetch("./FeedbackAPI/get_feedback.php", {
+                method: "POST",
+                body: formData
+            });
+
+            const responseText = await response.text();
+
+            const feedbackContainer = document.getElementById("feedbackContainer");
+
+            feedbackContainer.innerHTML = responseText;
+        }
         async function PTProf() {
             try {
                 const response = await fetch("../PatientViewAPI/TherapistsProfAPI.php", {
@@ -259,9 +286,25 @@ if(isset($_POST["BtnDisable"])){
 
                 TherapID = data.therapitst_id;
                 GetSched(TherapID);
+                getFeedback(TherapID);
             } catch (error) {
                 console.error('Error:', error);
             }
+        }
+        async function getFeedback(ID) {
+            const formData = new FormData();
+            formData.append("therapist_id", ID);
+
+            const response = await fetch("./AdminAPI/get_FeedbackAPI.php", {
+                method: "POST",
+                body: formData
+            });
+
+            const responseText = await response.text();
+
+            const feedbackContainer = document.getElementById("feedbackContainer");
+
+            feedbackContainer.innerHTML = responseText;
         }
 
         async function GetSched(TherapID) {

@@ -53,12 +53,6 @@ $var_slctdID = "";
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistFeedback.php">
-                                    <i class="bi bi-chat-left-text fs-3"></i><br>
-                                    <small>Feedbacks</small>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
@@ -78,7 +72,7 @@ $var_slctdID = "";
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
-                                    <i class="bi bi-file-earmark-text fs-3"></i><br>
+                                    <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>Reports</small>
                                 </a>
                             </li>
@@ -145,7 +139,8 @@ $var_slctdID = "";
                                     
                                     echo "
                                     <input type='text' name='response' value='R' style='display: none;'>
-                                    <button type='submit' name='BtnFilter' class='btn btn-primary px-5 w-100 rounded-5'>$type</button>
+                                    <button type='submit' name='BtnFilter' class='btn btn-primary px-5 w-100 rounded-5'>".$type
+                                    ."<br>".$var_rec['created_at']."</button>
                                     ";
                                 ?>
                             </td>

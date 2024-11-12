@@ -42,7 +42,7 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
 </head>
 
 <body>
-    <header>
+<header>
         <nav class="navbar navbar-expand-lg bg-primary-subtle">
             <div class="container">
                 <a class="navbar-brand" href="#">
@@ -73,12 +73,6 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistFeedback.php">
-                                    <i class="bi bi-chat-left-text fs-3"></i><br>
-                                    <small>Feedbacks</small>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
@@ -98,7 +92,7 @@ $var_qry = mysqli_query($var_conn, $var_sclt);
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
-                                    <i class="bi bi-file-earmark-text fs-3"></i><br>
+                                    <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>Reports</small>
                                 </a>
                             </li>

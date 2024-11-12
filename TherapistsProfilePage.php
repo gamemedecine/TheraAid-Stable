@@ -37,7 +37,7 @@ if (mysqli_num_rows($var_chk) > 0) {
 
     $username = $var_get["UserName"];
     $var_City = $var_get["city"];
-    $var_Radius = $var_get["Radius"];
+    $var_Radius = $var_get["barangay"];
     $var_LicenseIMG = $var_get["license_img"];
     $var_Fname = $var_get["Fname"];
     $var_Lname = $var_get["Lname"];
@@ -114,12 +114,6 @@ if (isset($_POST["BtnSubmit"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistFeedback.php">
-                                    <i class="bi bi-chat-left-text fs-3"></i><br>
-                                    <small>Feedbacks</small>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
@@ -139,7 +133,7 @@ if (isset($_POST["BtnSubmit"])) {
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
-                                    <i class="bi bi-file-earmark-text fs-3"></i><br>
+                                    <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>Reports</small>
                                 </a>
                             </li>

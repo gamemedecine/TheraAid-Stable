@@ -68,12 +68,6 @@ $var_Historyqry = mysqli_query($var_conn, $var_TransactionHistory);
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistFeedback.php">
-                                    <i class="bi bi-chat-left-text fs-3"></i><br>
-                                    <small>Feedbacks</small>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
@@ -93,7 +87,7 @@ $var_Historyqry = mysqli_query($var_conn, $var_TransactionHistory);
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
-                                    <i class="bi bi-file-earmark-text fs-3"></i><br>
+                                    <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>Reports</small>
                                 </a>
                             </li>
@@ -139,7 +133,7 @@ $var_Historyqry = mysqli_query($var_conn, $var_TransactionHistory);
 
             <h1 class="text-center mb-3">History</h1>
 
-            <table class="table table-primary tabled-striped shadow">
+            <table class="table tabled-striped shadow">
                 <tr>
                     <th>Date Created</th>
                     <th>Patient</th>
@@ -160,7 +154,7 @@ $var_Historyqry = mysqli_query($var_conn, $var_TransactionHistory);
                             <td><?php echo "₱" . $var_HstryRec["amount"] . "<br>"; ?></td>
                             <td><?php echo $var_HstryRec["status"] . "<br>"; ?></td>
                             <td><?php echo $var_HstryRec["date_paid"] . "<br>"; ?></td>
-                            <td><button type="button" id="Btndelete" class="btn btn-danger px-5 rounded-5 shadow">Delete</button></td>
+                            <td><a href="./TherapistCreateSession.php?record=<?php echo $var_HstryRec["appointment_id"]?>">Check Session</a></td>
                         </tr>
                         <?php
                     }

@@ -5,8 +5,8 @@ include "./database.php";
 session_start();
 
 $var_UserId = $_SESSION["sess_id"];
-
-$var_crrntDate = date("Y-m-d");
+echo $var_UserId ;
+$var_crrntDate = "2024-11-18";
 $var_validate = "";
 
 $var_Rmndr = "SELECT RM.reminder_date,
@@ -35,7 +35,7 @@ $var_Rmndr = "SELECT RM.reminder_date,
 					WHERE  PT.user_id = $var_UserId";
 $var_rmndrqry = mysqli_query($var_conn, $var_Rmndr);
 $var_data = "";
-// $var_validate = $var_rmndrqry->fetch_assoc()["validate"];
+$var_listDate = [];
 // $_SESSION["sess_PATID"] = "";
 
 if (isset($_POST["BtnSession"])) {
@@ -86,12 +86,6 @@ if (isset($_POST["BtnSession"])) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold text-center" aria-current="page" href="./TherapistFeedback.php">
-                                    <i class="bi bi-chat-left-text fs-3"></i><br>
-                                    <small>Feedbacks</small>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTSession.php">
                                     <i class="bi bi-hospital fs-3"></i><br>
                                     <small>Session</small>
@@ -111,7 +105,7 @@ if (isset($_POST["BtnSession"])) {
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="./PTReports.php">
-                                    <i class="bi bi-file-earmark-text fs-3"></i><br>
+                                    <i class="bi bi-clock-history fs-3"></i><br>
                                     <small>Reports</small>
                                 </a>
                             </li>
