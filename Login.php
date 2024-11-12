@@ -4,6 +4,13 @@ include "./database.php";
 
 session_start();
 
+if(isset($_SESSION["sess_id"])){
+    header("location: PatientHomePage.php");
+}
+if(isset($_SESSION["sess_PTID"])){
+    header("location: TherapistsHomePage.php");
+}
+
 if (isset($_POST["BtnSubmit"])) {
     $var_Username = $_POST["TxtUsername"];
     $var_Password = $_POST["TxtPassword"];
