@@ -44,7 +44,7 @@ if(isset($_POST["BtnStars"])){
                 </div>
                  echo '<i class="bi bi-star"></i>';-->
                  <?php
-                $full_stars = floor($var_TtlStars);  /
+                $full_stars = floor($var_TtlStars);  
                 $has_half_star = $var_TtlStars - $full_stars >= 0.5;  
                 $vacant_stars = 5 - ceil($var_TtlStars);  
 

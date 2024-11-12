@@ -5,21 +5,25 @@ include "./database.php";
 session_start();
 
 $var_rrminder;
-
-
-$var_remind = "SELECT 
-        TB.reminder_date, 
+if(!isset($_SESSION["sess_id"])){
+    header("Location: Login.php");
+    exit();
+}
+$var_remind = "SELECT TB.reminder_date, 
         TB.reminder_messsage,
         TB.reminder_status,
-        P.patient_id
+        P.patient_id,
+        SC.start_time,
+        SC.end_time
     FROM tbl_reminder TB 
     JOIN tbl_appointment AP ON AP.appointment_id = TB.appointment_id 
     JOIN tbl_patient P ON P.patient_id = AP.patient_id 
+    JOIN tbl_sched SC ON SC.shed_id = AP.schedle_id
     JOIN tbl_user U ON U.User_id = P.user_id WHERE P.user_id=" . $_SESSION["sess_id"];
 
 $var_Rqry = mysqli_query($var_conn, $var_remind);
 $var_message = "";
-$var_sampleDate = "2024-10-12"; // EXAMPLE
+$var_sampleDate = "2024-11-13"; // EXAMPLE
 $var_currentDate = date($var_sampleDate); //date('Y-m-d');
 
 if (mysqli_num_rows($var_Rqry) > 0) {
@@ -85,6 +89,7 @@ if (mysqli_num_rows($var_Rqry) > 0) {
                                     <small>Appointment</small>
                                 </a>
                             </li>
+                            
                             <li class="nav-item">
                                 <a class="nav-link fw-semibold text-center" aria-current="page" href="PatientHistory.php">
                                     <i class="bi bi-clock-history fs-3"></i><br>
@@ -151,7 +156,10 @@ if (mysqli_num_rows($var_Rqry) > 0) {
                     <hr>
                     <h3 class="text-lg-center">Reminder</h3>
                     <div class="reminder d-flex justify-content-start align-items-center flex-column shadow rounded p-3 gap-2" style="height: 250px; overflow-y: auto;">
-    
+                        <div class="bg-primary text-center">
+                            <p><?php echo $var_message."<br>".$var_Rrec["start_time"]."-".$var_Rrec["end_time"];?></p>
+                        </div>
+                        
                     </div>
                             
                 </div>
